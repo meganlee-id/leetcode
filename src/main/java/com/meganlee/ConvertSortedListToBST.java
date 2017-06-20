@@ -6,13 +6,15 @@ import java.util.List;
 public class ConvertSortedListToBST {
     //------------------- Solution 1 --------------------//
     // List --> Array, then binary recursion
+    // S=O(N), T=O(N)
     public TreeNode sortedListToBST(ListNode head) {
+        // input checking
         if (head == null) {
             return null;
         }
 
         // first convert the List into an Array
-        List<Integer> vals = new ArrayList<Integer>();
+        List<Integer> vals = new ArrayList<>();
         while (head != null) {
             vals.add(head.val);
             head = head.next;
@@ -28,17 +30,22 @@ public class ConvertSortedListToBST {
 
         // general case
         int mid = start + (end - start) / 2;
-        TreeNode root = new TreeNode(vals.get(mid));
-        root.left = helper(vals, start, mid - 1);
-        root.right = helper(vals, mid + 1, end);
-        return root;
+        TreeNode node = new TreeNode(vals.get(mid));
+        node.left = helper(vals, start, mid - 1);
+        node.right = helper(vals, mid + 1, end);
+        return node;
     }
 
     //------------------- Solution 2 --------------------//
-    // List --> Array, then binary recursion
-    private ListNode cur; // points to the next value to be filled
+    // Inorder traversal: O(1) Space, O(n) Time
+    private ListNode cur; // *** ATTENTION: points to the next val to be converted
     public TreeNode sortedListToBST2(ListNode head) {
-        cur = head;
+        // input checking
+        if (head == null) {
+            return null;
+        }
+
+        // get the size of the List
         int size = 0;
         while (head != null) {
             size++;
@@ -55,25 +62,16 @@ public class ConvertSortedListToBST {
 
         // general case
         // step 1: recursively build left tree
-        TreeNode leftRoot = buildBST(size / 2);
+        TreeNode left = buildBST(size / 2);
 
         // step 2: construct current node
-        TreeNode root = new TreeNode(cur.val);
-        root.left = leftRoot;
+        TreeNode node = new TreeNode(cur.val); // order is important! has to be placed here
         cur = cur.next;
+        node.left = left;
 
         // step 3: recursively build right tree
-        root.right = buildBST(size - size / 2 - 1);
-        return root;
+        node.right = buildBST(size - size / 2 - 1);
+        return node;
     }
 }
-
-
-// 1. ERROR: TreeNode rightRoot = buildBST(numOfLeft)
-//                   ===>       = buildBST(numOfRight)
-//
-// 2. ERROR: if you use a instance variable, do not pass it in
-//          private TreeNode buildBST(ListNode cur, int numOfNodes) {...}
-//                   ===>    buildBST(int numOfNodes)
-
 

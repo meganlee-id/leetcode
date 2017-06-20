@@ -9,7 +9,7 @@ public class BinaryTreeInorderTraversal {
     //----------------- Solution 1 ------------------//
     // recursion
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
+        List<Integer> res = new ArrayList<>();
         helper(root, res);
         return res;
     }
@@ -28,65 +28,30 @@ public class BinaryTreeInorderTraversal {
 
 
     //----------------- Solution 2 ------------------//
-    // Stack + two pointers (prev, curr)
-    // it's like a call stack, stack.push(node) --> recursive call
-    // pop() means return, push() means recursive call
-    // Another solution : change TreeNode structure to contain a visit flag
-    public List<Integer> inorderTraversal2(TreeNode root) {
-        List<Integer> result = new ArrayList<Integer>();
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.push(root);
-        TreeNode pre = new TreeNode(0); // use a dummy pre initially
-        while (!stack.isEmpty()) {
-            TreeNode cur = stack.peek();
-            //--- base cases:
-            if (cur == null) {
-                stack.pop();
-            } else if (cur.left == null && cur.right == null) {
-                result.add(cur.val);
-                stack.pop();
-            //--- general cases:
-            } else if (pre == cur.left) {   // case 1: return from left child
-                result.add(cur.val);
-                stack.push(cur.right);
-            } else if (pre == cur.right) {  // case 2: return from right child
-                stack.pop();
-            } else {                        // case 3: call from parent node
-                stack.push(cur.left);
-            }
-            // remember to update pre
-            pre = cur;
-        }
-        return result;
-    }
-
-
-    //----------------- Solution 3 ------------------//
     // Classic Stack: stack + cur pointer
-    // iterative
-    // if (cur == null) means reaching leftmost
-    public List<Integer> inorderTraversal3(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
-        Stack<TreeNode> stack = new Stack<TreeNode>();
+    // post
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
         TreeNode cur = root;
-        while (cur != null || !stack.isEmpty()) {
-            if (cur != null) {
-                stack.push(cur);
+        while (cur != null || !s.isEmpty()) {
+            while (cur != null) { // travel to each node's left child, till reach the left leaf
+                s.push(cur);
                 cur = cur.left;
-            } else {
-                TreeNode node = stack.pop();
-                res.add(node.val);  // visit
-                cur = node.right;
-            }
+            } 
+            cur = s.pop();        // backtrack to higher level node A
+            res.add(cur.val);     // add the node to the result list
+            cur = cur.right;      // switch to A'right branch
         }
         return res;
     }
 
     
-    //----------------- Solution 4 ------------------//
+    //----------------- Solution 3 ------------------//
     // Morris traversal
-    public List<Integer> inorderTraversal4(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
+    // pre: rightmost child of my left sub tree
+    public List<Integer> inorderTraversal3(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
         TreeNode cur = root;
         while (cur != null) {
             TreeNode pre = cur.left;

@@ -1,10 +1,10 @@
 package com.meganlee;
 
-/*  Created by meganlee on 9/14/14. */
 public class ConvertSortedArrayToBST {
     //--------------------- Solution 1 ------------------------//
     // binary recursion: preorder
     public TreeNode sortedArrayToBST(int[] num) {
+        // input checking
         if (num == null || num.length == 0) {
             return null;
         }
@@ -20,14 +20,15 @@ public class ConvertSortedArrayToBST {
 
         // general case
         int mid = start + (end - start) / 2;
-        TreeNode root = new TreeNode(num[mid]);
-        root.left = buildBST(num, start, mid - 1);
-        root.right = buildBST(num, mid + 1, end);
-        return root;
+        TreeNode node = new TreeNode(num[mid]);
+        node.left = buildBST(num, start, mid - 1);
+        node.right = buildBST(num, mid + 1, end);
+        return node;
     }
 
     //--------------------- Solution 2 ------------------------//
-    // inorder traversal
+    // Inorder traversal
+    private int cur; // *** ATTENTION: points to the next val to be converted
     public TreeNode sortedArrayToBST2(int[] num) {
         // input checking
         if (num == null || num.length == 0) {
@@ -38,24 +39,24 @@ public class ConvertSortedArrayToBST {
         return buildBST(num, num.length);
     }
 
-    private int cur; // ATTENTION: use a field here!!
-    private TreeNode buildBST(int[] num, int count) {
+    private TreeNode buildBST(int[] num, int size) {
         // base case
-        if (count == 0) {
+        if (size == 0) {
             return null;
         }
 
         // general case
         // step 1: traverse left
-        TreeNode left = buildBST(num, count / 2);
+        TreeNode left = buildBST(num, size / 2);
 
-        // step 2: build root
-        TreeNode root = new TreeNode(num[cur++]);
-        root.left = left;
+        // step 2: build tree with cur as root
+        TreeNode node = new TreeNode(num[cur]);  // order is important! has to be placed here
+        cur++;
+        node.left = left;
 
         // step 3: traverse right
-        root.right = buildBST(num, count - count / 2 - 1);
-        return root;
+        node.right = buildBST(num, size - size / 2 - 1);
+        return node;
     }
 }
 

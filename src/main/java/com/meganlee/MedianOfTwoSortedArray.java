@@ -1,3 +1,5 @@
+package com.meganlee;
+
 public class MedianOfTwoSortedArray {
     // assume A and B are not null
     // assume m + n >= 1

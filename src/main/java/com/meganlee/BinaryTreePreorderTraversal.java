@@ -9,82 +9,54 @@ public class BinaryTreePreorderTraversal {
     //----------------- Solution 1 --------------------//
     // recursion
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
+        List<Integer> res = new ArrayList<>();
         helper(root, res);
         return res;
     }
 
-    private void helper(TreeNode root, List<Integer> res) {
+    private void helper(TreeNode node, List<Integer> res) {
         // base case
-        if (root == null) {
+        if (node == null) {
             return;
         }
 
         // general case
-        res.add(root.val);
-        helper(root.left, res);
-        helper(root.right, res);
+        res.add(node.val);       // 1. visit current node
+        helper(node.left, res);  // 2. visit left subtree
+        helper(node.right, res); // 3. visit right subtree
     }
 
 
     //----------------- Solution 2 --------------------//
-    // call stack
+    // Classic Stack: stack + cur pointer
+    // DFS
     public List<Integer> preorderTraversal2(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
-        Stack<TreeNode> s = new Stack<TreeNode>();
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        if (root == null) {
+            return res;
+        }
         s.push(root);
-        TreeNode pre = new TreeNode(0);  // use a dummy previous at the beginning
+        
         while (!s.isEmpty()) {
-            TreeNode cur = s.peek();
-            //--- base cases:
-            if (cur == null) {
-                s.pop();  // pop mean return
-            } else if (cur.left == null && cur.right == null) {
-                res.add(cur.val);
-                s.pop();
-            //--- general cases:
-            } else if (pre == cur.left){    // 1) return from left subtree
-                s.push(cur.right);  // push means recursive call
-            } else if (pre == cur.right) {  // 2) return from right subtree
-                s.pop();
-            } else {                        // 3) called by parent
-                res.add(cur.val);
+            TreeNode cur = s.pop();
+            res.add(cur.val);
+            if (cur.right != null) {
+                s.push(cur.right);
+            }
+            if (cur.left != null) {
                 s.push(cur.left);
             }
-            // remember to update pre
-            pre = cur;
         }
         return res;
     }
 
 
     //----------------- Solution 3 --------------------//
-    // Classic Stack: stack + cur pointer
-    // iterative
-    // if (cur == null) means reaching leftmost, { pop / update cur} 
-    public List<Integer> preorderTraversal3(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-        TreeNode cur = root;
-        while (cur != null || !stack.isEmpty()) {
-            if (cur != null) {
-                res.add(cur.val);   // visit
-                if (cur.right != null) {
-                    stack.push(cur.right);
-                }
-                cur = cur.left;
-            } else {
-                cur = stack.pop();
-            }
-        }
-        return res;
-    }
-
-
-    //----------------- Solution 4 --------------------//
     // Morris traversal
-    public List<Integer> preorderTraversal4(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
+    // pre: rightmost child of my left sub tree
+    public List<Integer> preorderTraversal3(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
         TreeNode cur = root;
         while (cur != null) {
             TreeNode pre = cur.left;
