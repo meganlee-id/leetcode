@@ -14,13 +14,11 @@ public class BinaryTreePostorderTraversal {
         helper(root, res);
         return res;
     }
-
     private void helper(TreeNode node, List<Integer> res) {
         // base case
         if (node == null) {
             return;
         }
-
         // general case
         helper(node.left, res);  // 1. visit left subtree
         helper(node.right, res); // 2. visit right subtree
@@ -29,9 +27,33 @@ public class BinaryTreePostorderTraversal {
 
 
     //--------------------- Solution 2 ----------------------//
-    // Classic Stack: stack + cur pointer
-    // DFS (Reverse of preorder traversal of mirrored original tree)
+    // Classic Stack: stack + cur + lastVisited
     public List<Integer> postorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode cur = root, lastVisited = null;
+        while (cur != null || !s.isEmpty()) {
+            if (cur != null) {  //--- GOING DOWN ---
+                s.push(cur);        // add to call stack
+                cur = cur.left;     // travel to each node's left child, till reach the left leaf
+            } else {            //--- GOING UP   ---
+                TreeNode node = s.peek();
+                // case 1: haven't visited right part
+                if (node.right != null && node.right != lastVisited) {
+                    cur = node.right;          // switch to right branch
+                // case 2: right subtree visited already
+                } else {
+                    lastVisited = s.pop();    // backtrack to higher level
+                    res.add(lastVisited.val); // visit
+                }
+            }
+        }
+        return res;
+    }
+
+    //--------------------- Solution 3 ----------------------//
+    // DFS (Reverse of preorder traversal of mirrored original tree)
+    public List<Integer> postorderTraversal3(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Stack<TreeNode> s = new Stack<>();
         if (root == null) {
@@ -56,7 +78,7 @@ public class BinaryTreePostorderTraversal {
     }
 
 
-    //--------------------- Solution 3 ----------------------//
+    //--------------------- Solution 4 ----------------------//
     // Morris traversal
     // Reverse of preorder traversal of mirrored original tree
     public List<Integer> postorderTraversal4(TreeNode root) {

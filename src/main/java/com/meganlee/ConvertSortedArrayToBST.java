@@ -8,7 +8,7 @@ public class ConvertSortedArrayToBST {
         if (num == null || num.length == 0) {
             return null;
         }
-
+        
         return buildBST(num, 0, num.length - 1);
     }
 
@@ -40,12 +40,12 @@ public class ConvertSortedArrayToBST {
     }
 
     private TreeNode buildBST(int[] num, int size) {
-        // base case
+        // Base Case
         if (size == 0) {
             return null;
         }
 
-        // general case
+        // General Case
         // step 1: traverse left
         TreeNode left = buildBST(num, size / 2);
 

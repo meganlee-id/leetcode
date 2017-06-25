@@ -9,10 +9,6 @@ import org.junit.Test;
 
 public class PermutationTest {
 	Permutation solution = new Permutation();
-	int[] a0 = {};
-	int[] a1 = {1, 2, 3};
-    int[] a2 = {4, 3, 2, 1};
-    int[] a3 = {5, 3, 9};
 	private String calculate(int[] num) {
 		List<List<Integer>> res = solution.permute(num);
 		// sort for better comparison
@@ -20,6 +16,11 @@ public class PermutationTest {
 		return res.toString();
 	}
 
+	int[] a0 = {};
+	int[] a1 = {1, 2, 3};
+    int[] a2 = {4, 3, 2, 1};
+    int[] a3 = {5, 3, 9};
+    
 	@Test
 	public void testEmptyArray() {
 		Assert.assertEquals(calculate(a0), "[]");

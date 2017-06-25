@@ -39,6 +39,8 @@ public class PrettyPrinter {
         }
     }
 
+    /*
+    */
     private static void print1DArrayFormat(int[] row) {
         for (int cell: row) {
             System.out.format("%7d", cell);

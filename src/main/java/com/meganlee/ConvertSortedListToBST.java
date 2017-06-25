@@ -6,7 +6,7 @@ import java.util.List;
 public class ConvertSortedListToBST {
     //------------------- Solution 1 --------------------//
     // List --> Array, then binary recursion
-    // S=O(N), T=O(N)
+    // S=O(N), T=O(N) Time Limit Exceeded
     public TreeNode sortedListToBST(ListNode head) {
         // input checking
         if (head == null) {
@@ -43,14 +43,16 @@ public class ConvertSortedListToBST {
         // input checking
         if (head == null) {
             return null;
-        }
-
+        }  
+        cur = head; // initialize cur 
+            
         // get the size of the List
         int size = 0;
         while (head != null) {
             size++;
             head = head.next;
         }
+
         return buildBST(size); // cur must either be a instance variable or a ListNode[1]
     }
 

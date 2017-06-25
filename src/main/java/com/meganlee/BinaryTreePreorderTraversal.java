@@ -13,24 +13,40 @@ public class BinaryTreePreorderTraversal {
         helper(root, res);
         return res;
     }
-
     private void helper(TreeNode node, List<Integer> res) {
         // base case
         if (node == null) {
             return;
         }
-
         // general case
         res.add(node.val);       // 1. visit current node
         helper(node.left, res);  // 2. visit left subtree
         helper(node.right, res); // 3. visit right subtree
     }
 
-
     //----------------- Solution 2 --------------------//
-    // Classic Stack: stack + cur pointer
-    // DFS
+    // Classic Stack: stack + cur
     public List<Integer> preorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode cur = root;
+        while (cur != null || !s.isEmpty()) {
+            if (cur != null) {  //--- GOING DOWN ---
+                s.push(cur);        // add to call stack
+                res.add(cur.val);   // VISIT
+                cur = cur.left;     // travel to each node's left child, till reach the left leaf
+            } else {            //--- GOING UP   ---
+                cur = s.pop();      // backtrack to higher level
+                cur = cur.right;    // switch to right branch
+            }
+        }
+        return res;
+    }
+
+
+    //----------------- Solution 3 --------------------//
+    // DFS
+    public List<Integer> preorderTraversal3(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Stack<TreeNode> s = new Stack<>();
         if (root == null) {
@@ -52,10 +68,10 @@ public class BinaryTreePreorderTraversal {
     }
 
 
-    //----------------- Solution 3 --------------------//
+    //----------------- Solution 4 --------------------//
     // Morris traversal
     // pre: rightmost child of my left sub tree
-    public List<Integer> preorderTraversal3(TreeNode root) {
+    public List<Integer> preorderTraversal4(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         TreeNode cur = root;
         while (cur != null) {

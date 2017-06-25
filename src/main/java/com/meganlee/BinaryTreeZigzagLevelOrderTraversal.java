@@ -1,26 +1,28 @@
 package com.meganlee;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class BinaryTreeZigzagLevelOrderTraversal {
+    //------------------- Solution 1 -------------------//
+    // BFS: level + nextLevel
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         // input validation
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
             return res;
         }
-
-        // add result level by level
-        List<TreeNode> level = new ArrayList<TreeNode>();
-        level.add(root);
-        int curLevel = 0;
+        // define the first level
+        List<TreeNode> level = Arrays.asList(root);
+        int curLevel = 0; //------ see which level it is
+        // level by level traversal
         while (!level.isEmpty()) {
-            List<Integer> item = new ArrayList<Integer>();
-            List<TreeNode> nextLevel = new ArrayList<TreeNode>();
+            List<Integer> vals = new ArrayList<>();
+            List<TreeNode> nextLevel = new ArrayList<>();
             for (TreeNode n : level) {
-                item.add(n.val);
+                vals.add(n.val);
                 if (n.left != null) {
                     nextLevel.add(n.left);
                 }
@@ -29,24 +31,12 @@ public class BinaryTreeZigzagLevelOrderTraversal {
                 }
             }
             if (curLevel % 2 == 1) {
-                Collections.reverse(item);
+                Collections.reverse(vals);
             }
             curLevel++;
-            res.add(item);
+            res.add(vals);
             level = nextLevel;
         }
         return res;
     }
-    
-    //////////////////////   TEST  ////////////////////////
-    public static void main(String[] args) {
-        BinaryTreeZigzagLevelOrderTraversal solution = new BinaryTreeZigzagLevelOrderTraversal();
-        String[] s = {"1", "2", "3", "4", "5", "6", "7", "8", "#", "9", "10"};
-        TreeNode root = TreeNode.buildTree(s);
-        List<List<Integer>> result = solution.zigzagLevelOrder(root);
-        PrettyPrinter.print2DList(result);
-    }
 }
-
-// ERROR 1: line 30 reversed != reversed ---> reversed = !reversed
-// NOTE  2: DO USE A CONCREATE EAXAMPLE !!! DRAW THE PICTURE!!

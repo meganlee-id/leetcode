@@ -13,13 +13,11 @@ public class BinaryTreeInorderTraversal {
         helper(root, res);
         return res;
     }
-    
     private void helper(TreeNode node, List<Integer> res) {
         // base case
         if (node == null) {
             return;
         }
-
         // general case
         helper(node.left, res);  // 1. visit left subtree
         res.add(node.val);       // 2. visit current node
@@ -29,24 +27,27 @@ public class BinaryTreeInorderTraversal {
 
     //----------------- Solution 2 ------------------//
     // Classic Stack: stack + cur pointer
-    // post
     public List<Integer> inorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         Stack<TreeNode> s = new Stack<>();
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
-            while (cur != null) { // travel to each node's left child, till reach the left leaf
-                s.push(cur);
-                cur = cur.left;
-            } 
-            cur = s.pop();        // backtrack to higher level node A
-            res.add(cur.val);     // add the node to the result list
-            cur = cur.right;      // switch to A'right branch
+            if (cur != null) {  //--- GOING DOWN ---
+                s.push(cur);        // add to call stack
+                cur = cur.left;     // travel to each node's left child, till reach the left leaf
+            } else {            //--- GOING UP   ---
+                cur = s.pop();      // backtrack to higher level
+                res.add(cur.val);   // VISIT
+                cur = cur.right;    // switch to right branch
+            }
         }
         return res;
     }
 
+    //------------------------------------------------//
+    //-- NO DFS SOLUTION FOR IN-ORDER TRAVERSAL
     
+
     //----------------- Solution 3 ------------------//
     // Morris traversal
     // pre: rightmost child of my left sub tree
@@ -84,7 +85,7 @@ public class BinaryTreeInorderTraversal {
     public static void main(String[] args) {
         BinaryTreeInorderTraversal solution = new BinaryTreeInorderTraversal();
         String[] s = {"1", "2", "3", "#", "#", "4", "#", "#", "5"};
-        TreeNode root = TreeNode.buildTree(s);
+        TreeNode root = TreeNode.buildTreeFromLevelOrder(s);
         List<Integer> result = solution.inorderTraversal3(root);
         PrettyPrinter.print1DList(result);
     }

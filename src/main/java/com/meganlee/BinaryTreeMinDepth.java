@@ -1,40 +1,42 @@
 package com.meganlee;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BinaryTreeMinDepth {
     //-------------------  Solution 1 --------------------------//
     // Use classic recursion
-    // ATTENTION: PATH, MUSH END WITH A LEAF !!!
     public int minDepth(TreeNode root) {
+        // base case
         if (root == null) {
-            return 0; // null pointer
+            return 0;
         }
-        if (root.left == null)  {
-            return 1 + minDepth(root.right);
-        }
-        if (root.right == null) {
-            return 1 + minDepth(root.left);
-        }
-        return 1 + Math.min(minDepth(root.right), minDepth(root.left));
+        // general case
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);
+        return (left == 0 || right == 0) ? Math.max(left, right) + 1 : Math.min(left,right) + 1;
     }
     
 
     //-------------------  Solution 2 --------------------------//
-    // Level-by-level traversal
+    // Level-by-level traversal (BFS)
     public int minDepth2(TreeNode root) {
-        if (root == null) return 0;
-
-        List<TreeNode> level = new ArrayList<TreeNode>();
-        level.add(root);    // level only contains non-null nodes
+        // input validation
+        if (root == null) {
+            return 0;
+        }
+        // first level, only hold non-null TreeNodes
+        List<TreeNode> level = Arrays.asList(root);
         int min = 0;
         while (!level.isEmpty()) {
             List<TreeNode> nextLevel = new ArrayList<TreeNode>();
             for (TreeNode node: level) {
+                // first leaf encountered, return
                 if (node.left == null && node.right == null) {
-                    return min + 1;  // leaf encountered, return result
+                    return min + 1;
                 }
+                // add next level non-null nodes
                 if (node.left != null)  {
                     nextLevel.add(node.left);
                 }

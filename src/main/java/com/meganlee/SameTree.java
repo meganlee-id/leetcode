@@ -1,5 +1,6 @@
 package com.meganlee;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,15 +8,14 @@ public class SameTree {
     //----------------  Solution 1 --------------------//
     // classic recursion
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        // base case
+        // base case: deal with nulls
         if (p == null && q == null) {
             return true;
         }
         if (p == null || q == null) {
             return false;
         }
-
-        // general case
+        // general case: both non-null
         if (p.val != q.val) {
             return false;
         }
@@ -24,34 +24,31 @@ public class SameTree {
     
 
     //----------------  Solution 2 --------------------//
-    // serialization comparison
     // BFS: level-by-level with "#" indicating a null node
-    public boolean isSameTree3(TreeNode p, TreeNode q) {
-        Queue<TreeNode> levelP = new LinkedList<TreeNode>();
-        Queue<TreeNode> levelQ = new LinkedList<TreeNode>();
-        levelP.offer(p); 
-        levelQ.offer(q);
+    public boolean isSameTree2(TreeNode p, TreeNode q) {
+        Queue<TreeNode> levelP = new LinkedList<TreeNode>(Arrays.asList(p));
+        Queue<TreeNode> levelQ = new LinkedList<TreeNode>(Arrays.asList(q));
         while (levelP.size() == levelQ.size() && !levelP.isEmpty()) {
-            int N = levelP.size();
-            for (int i = 0; i < N; i++) {
-                TreeNode pNode = levelP.poll();
-                TreeNode qNode = levelQ.poll();
-                String pNodeStr = pNode == null ? "#" : pNode.val + "";
-                String qNodeStr = qNode == null ? "#" : qNode.val + "";
-                if (!pNodeStr.equals(qNodeStr)) {
-                    return false;
-                }
-                if (pNode != null) {
-                    levelP.offer(pNode.left);
-                    levelP.offer(pNode.right);
-                }
-                if (qNode != null) {
-                    levelQ.offer(qNode.left);
-                    levelQ.offer(qNode.right);
-                }
+            // pull one node
+            TreeNode pNode = levelP.poll();
+            TreeNode qNode = levelQ.poll();
+            // compare
+            String pNodeStr = (pNode == null) ? "#" : String.valueOf(pNode.val);
+            String qNodeStr = (qNode == null) ? "#" : String.valueOf(qNode.val);
+            if (!pNodeStr.equals(qNodeStr)) {
+                return false;
+            }
+            // add next level
+            if (pNode != null) {
+                levelP.offer(pNode.left);
+                levelP.offer(pNode.right);
+            }
+            if (qNode != null) {
+                levelQ.offer(qNode.left);
+                levelQ.offer(qNode.right);
             }
         }
-        return (levelP.isEmpty() && levelQ.isEmpty());
+        return levelP.isEmpty() && levelQ.isEmpty();
     }
 
 }

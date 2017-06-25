@@ -1,51 +1,55 @@
 package com.meganlee;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class SymmetricTree {
 	//----------------  Solution 1 --------------------//
-	// classic recursion = very similar to SameTree solution
+    // classic recursion
     public boolean isSymmetric(TreeNode root) {
         if (root  == null) {
             return true;
         }
-        return sameTree(root.left, root.right);
+        return mirrorTree(root.left, root.right);
     }
     
-    private boolean sameTree(TreeNode n1, TreeNode n2) {
+    private boolean mirrorTree(TreeNode n1, TreeNode n2) {
+        // base case: deal with nulls
         if (n1 == null && n2 == null) {
             return true;
         }
         if (n1 == null || n2 == null) {
             return false;
         }
+        // general case: both non-null
         if (n1.val != n2.val) {
             return false;
         }
-        return sameTree(n1.left, n2.right) && sameTree(n1.right, n2.left);
+        return mirrorTree(n1.left, n2.right) && mirrorTree(n1.right, n2.left);
     }
 
     //-------------------- Solution 2 -----------------------//
-    // use level order traversal
+    // BFS: level-by-level with "#" indicating a null node
     public boolean isSymmetric2(TreeNode root) {
         // input validation
         if (root == null) {
             return true;
         }
 
-        Queue<TreeNode> left = new LinkedList<TreeNode>();
-        Queue<TreeNode> right = new LinkedList<TreeNode>();
-        left.offer(root.left);
-        right.offer(root.right);
+        Queue<TreeNode> left = new LinkedList<TreeNode>(Arrays.asList(root.left));
+        Queue<TreeNode> right = new LinkedList<TreeNode>(Arrays.asList(root.right));
         while (left.size() == right.size() && !left.isEmpty()) {
+            // pull one node
             TreeNode l = left.poll();
             TreeNode r = right.poll();
-            String lval = (l == null) ? "#" : (l.val + "");
-            String rval = (r == null) ? "#" : (r.val + "");
+            // compare
+            String lval = (l == null) ? "#" : String.valueOf(l.val);
+            String rval = (r == null) ? "#" : String.valueOf(r.val);
             if (!lval.equals(rval)) {
                 return false;
             }
+            // add next level
             if (l != null) {
                 left.offer(l.left);
                 left.offer(l.right);

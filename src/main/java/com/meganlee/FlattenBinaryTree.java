@@ -1,53 +1,46 @@
 package com.meganlee;
 
-/* Created by meganlee on 9/14/14. */
-
 public class FlattenBinaryTree {
     //--------------- Solution 1 ---------------//
-    //
-    private TreeNode pre;
+    // Pre-Order recursion
+    private TreeNode pre = null;  // if we need to call flattern multiple times, need to clear this
     public void flatten(TreeNode root) {
-        // base case
+        // Base Case
         if (root == null) {
             return;
         }
-
-        // connect previous node to this node
-        if (pre != null) {
+        // General Case
+        // 1. visit cur
+        if (pre != null) {  // connect previous node to this node
             pre.left = null;
             pre.right = root;
         }
-
-        // update pre
-        pre = root;
-
-        // recursively flatten left and right tree
+        pre = root; // update pre
+        // save right node otherwise it'll change
         TreeNode right = root.right;
+        // 2. visit left
         flatten(root.left);
+        // 3. visit right
         flatten(right);
     }
 
     //--------------- Solution 1 ---------------//
-    //
+    // Mirror-Tree Post-Order recursion
+    private TreeNode post = null;  // if we need to call flattern multiple times, need to clear this
     public void flatten2(TreeNode root) {
-        TreeNode[] pre = new TreeNode[1];
-        helper(root, pre);
-    }
-
-    private void helper(TreeNode root, TreeNode[] pre) {
+        // Base Case
         if (root == null) {
             return;
         }
-
-        if (pre[0] != null) {
-            pre[0].left = null;
-            pre[0].right = root;
-        }
-        pre[0] = root;  // update pre!!
-
-        TreeNode right = root.right;
-        helper(root.left, pre);
-        helper(right, pre);
+        // General Case
+        // 1. visit right
+        flatten(root.right);
+        // 2. visit left
+        flatten(root.left);
+        // 3. visit cur
+        root.left = null;
+        root.right = post;
+        post = root;
     }
 }
 

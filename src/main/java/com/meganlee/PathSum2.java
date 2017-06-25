@@ -8,14 +8,10 @@ public class PathSum2 {
     //-------------------- Solution 1 --------------------//
     // use classic backtrace
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        if (root == null) {
-            return res;
-        }
+        List<List<Integer>> res = new ArrayList<>();
         helper(res, new ArrayList<Integer>(), root, sum);
         return res;
     }
-
     private void helper(List<List<Integer>> result, List<Integer> path, TreeNode root, int sum) {
         // base cases
         if (root == null) {
@@ -24,46 +20,39 @@ public class PathSum2 {
         // leaf node: path has to end with a leaf node
         if (root.left == null && root.right == null) {
             if (root.val == sum) {
-                List<Integer> newPath = new ArrayList<Integer>(path);
+                List<Integer> newPath = new ArrayList<>(path);
                 newPath.add(root.val);
                 result.add(newPath);
             }
             return;  // remember to return here
         }
-
         // general case
-        path.add(root.val); // add current value
+        path.add(root.val);             // add current value
         helper(result, path, root.left, sum - root.val);
         helper(result, path, root.right, sum - root.val);
-        path.remove(path.size() - 1);   // remove current value
+        path.remove(path.size() - 1);   // remove current value  
     }
 
     //-------------------- Solution 2 --------------------//
     // stack - postorder traversal
     public List<List<Integer>> pathSum2(TreeNode root, int sum) {
-        // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        if (root == null) {
-            return res;
-        }
-
-        Stack<TreeNode> s = new Stack<TreeNode>();
-        TreeNode cur = root, pre = null;
+        List<List<Integer>> res = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode cur = root, lastVisited = null;
         int curSum = 0;
         while (cur != null || !s.isEmpty()) {
-            if (cur != null) {
-                s.push(cur);
+            if (cur != null) {  //--- GOING DOWN ---
+                s.push(cur);        // add to call stack && + cur.val
                 curSum += cur.val;
                 cur = cur.left;
-            } else {
+            } else {            //--- GOING UP   ---
                 TreeNode node = s.peek();
-                // 1. haven't visited right subtree yet
-                if (node.right != null && node.right != pre) {
+                // case 1: haven't visited right part
+                if (node.right != null && node.right != lastVisited) {
                     cur = node.right;
-
-                // 2. visited right subtree already, visit cur
+                // case 2. leaf node || returned from right subtree
                 } else {
-                    // for each leaf, if it's valid, collect it
+                    // leaf, mark the end of a path, see if it's a valid path
                     if (node.left == null && node.right == null && curSum == sum) {
                         List<Integer> item = new ArrayList<Integer>();
                         for (TreeNode n : s) {
@@ -71,8 +60,9 @@ public class PathSum2 {
                         }
                         res.add(item);
                     }
-                    pre = s.pop();
-                    curSum -= pre.val;
+                    // return from right sub tree
+                    lastVisited = s.pop();       // pop && -cur.val
+                    curSum -= lastVisited.val;
                 }
             }
         }
@@ -80,7 +70,3 @@ public class PathSum2 {
     }
 }
 
-// NOTE : test case, the value could be negative!!
-//    Input:    {-2,#,-3}, -5
-//    Output:   []
-//    Expected: [[-2,-3]]
