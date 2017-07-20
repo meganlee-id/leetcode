@@ -34,8 +34,8 @@ public class FullBinaryTreePostPre {
             // assume no duplicate values in pre[]
             int leftIdxInPost = Arrays.stream(post).boxed().collect(Collectors.toList()).indexOf(leftVal);
             int rightIdxInPre = Arrays.stream(pre).boxed().collect(Collectors.toList()).indexOf(rightVal);
-            // int leftIdxInPost = indexOf(post, leftVal);
-            // int rightIdxInPre = indexOf(pre, rightVal);
+            // int leftIdxInPost = indexOf(post, leftVal); // use a util fuction indexOf()
+            // int rightIdxInPre = indexOf(pre, rightVal); // use a util fuction indexOf()
 
             root.left = constructTreeUtil(pre, pr1 + 1, rightIdxInPre - 1, post, po1, leftIdxInPost);
             root.right = constructTreeUtil(pre, rightIdxInPre, pr2, post, leftIdxInPost + 1, po2 - 1);

@@ -1,7 +1,5 @@
 package com.meganlee;
 
-/* Created by meganlee on 11/15/14.*/
-
 import java.util.ArrayList;
 import java.util.List;
 
