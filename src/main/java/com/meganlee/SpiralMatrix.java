@@ -5,55 +5,26 @@ import java.util.List;
 
 public class SpiralMatrix {
     //--------------------  Solution 1 -------------------//
-    // the most intuitive solution
-    // need to consider when 1 row or 1 col
+    // directions, steps and start point
     public List<Integer> spiralOrder(int[][] matrix) {
-        // input checking
-        List<Integer> res = new ArrayList<Integer>();
+        // input validation
+        List<Integer> res = new ArrayList<>();
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
-            // also needs to check all rows int matrix have the same length
             return res;
         }
-
-        int x1 = 0, x2 = matrix.length - 1;
-        int y1 = 0, y2 = matrix[0].length - 1;
-        while (x1 <= x2 && y1 <= y2) {
-            // one row or one col is special
-            if (x1 == x2) {
-                for (int i = y1; i <= y2; i++) {
-                    res.add(matrix[x1][i]);
-                }
-                break;
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  // {right, down, left, up}
+        int[] steps = {matrix[0].length, matrix.length - 1};      // {numCols, numRows-1}
+        int go = 0;        // index of directions
+        int r = 0, c = -1; // start point
+        while (steps[go % 2] != 0) {
+            for (int i = 0; i < steps[go % 2]; i++) {
+                r += directions[go][0];
+                c += directions[go][1];
+                res.add(matrix[r][c]);
             }
-            if (y1 == y2) {
-                for (int i = x1; i <= x2; i++) {
-                    res.add(matrix[i][y1]);
-                }
-                break;
-            }
-
-            // top
-            for (int i = y1; i < y2; i++) {
-                res.add(matrix[x1][i]);
-            }
-            // right
-            for (int i = x1; i < x2; i++) {
-                res.add(matrix[i][y2]);
-            }
-            // bottom
-            for (int i = y2; i > y1; i--) {
-                res.add(matrix[x2][i]);
-            }
-            // left
-            for (int i = x2; i > x1; i--) {
-                res.add(matrix[i][y1]);
-            }
-
-            // update layer indicators
-            x1++; x2--;
-            y1++; y2--;
-
-        }  // end of while
+            steps[go % 2]--;
+            go = (go + 1) % 4;
+        }
         return res;
     }
     
@@ -61,59 +32,37 @@ public class SpiralMatrix {
     // don't have to deal with 1 row specific
     public List<Integer> spiralOrder2(int[][] matrix) {
         // input checking
-        List<Integer> order = new ArrayList<Integer>();
+        List<Integer> res = new ArrayList<Integer>();
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
-            // also needs to check all rows int matrix have the same length
-            return order;
+            return res;
         }
-        int x1 = 0, x2 = matrix.length - 1;
-        int y1 = 0, y2 = matrix[0].length - 1;
 
-        while (true) {
-            for(int i = y1; i <= y2; i++) {
-                order.add(matrix[x1][i]);
+        int r1 = 0, r2 = matrix.length - 1;
+        int c1 = 0, c2 = matrix[0].length - 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for(int i = c1; i <= c2; i++) {
+                res.add(matrix[r1][i]);
             }
-            x1++;
-            for(int i = x1; i <= x2; i++) {
-                order.add(matrix[i][y2]);
-            }
-            y2--;
-            if (x1 > x2 || y1 > y2) {
-                break;
-            }
+            r1++;
 
-            for(int i = y2; i >= y1; i--) {
-                order.add(matrix[x2][i]);
+            for(int i = r1; i <= r2; i++) {
+                res.add(matrix[i][c2]);
             }
-            x2--;
-            for(int i = x2; i >= x1; i--) {
-                order.add(matrix[i][y1]);
+            c2--;
+
+            for(int i = c2; i >= c1; i--) {
+                if (r1 <= r2) {
+                    res.add(matrix[r2][i]);
+                }
             }
-            y1++;
-            if (x1 > x2 || y1 > y2) {
-                break;
+            r2--;
+            for(int i = r2; i >= r1; i--) {
+                if (c1 <= c2) {
+                    res.add(matrix[i][c1]);
+                }
             }
+            c1++;
         }
-        return order;
-    }
-    
-    
-    /////////////////////////     TEST    ////////////////////////
-    private static void test(SpiralMatrix sp, int[][] matrix) {
-        PrettyPrinter.print1DList(sp.spiralOrder(matrix));
-    }
-
-    public static void main(String[] args) {
-        SpiralMatrix sp = new SpiralMatrix();
-        // test case:
-        // m > n; m < n; m == n; m == 1; n == 1
-        int[][] matrix1 = {{1,2,3}, {4,5,6}, {7,8,9}};
-        int[][] matrix2 = {{1,2,3}, {4,5,6}};
-        int[][] matrix3 = {{1,2,3,4,5,6}};
-        int[][] matrix4 = {{1},{2},{3},{4}};
-        test(sp, matrix1);
-        test(sp, matrix2);
-        test(sp, matrix3);
-        test(sp, matrix4);
+        return res;
     }
 }

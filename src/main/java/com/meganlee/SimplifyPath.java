@@ -45,8 +45,8 @@ public class SimplifyPath {
         System.out.println("--------- HOW string.split() works ---------");
         String[] strs1 = "///./../a///b/k///".split("/");
         String[] strs2 = "///./../a///b/k///".split("/+");
-        PrettyPrinter.print1DStrArray(strs1);
-        PrettyPrinter.print1DStrArray(strs2);
+        PrettyPrinter.str1DStrArray(strs1);
+        PrettyPrinter.str1DStrArray(strs2);
 
         System.out.println("--------- Test for this problem ---------");
         SimplifyPath sp = new SimplifyPath();

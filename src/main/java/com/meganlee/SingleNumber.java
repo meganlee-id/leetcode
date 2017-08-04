@@ -1,31 +1,41 @@
 package com.meganlee;
 
-/* Created by meganlee on 11/15/14. */
+import java.util.*;
 
 public class SingleNumber {
-    public int singleNumber(int[] A) {
-        if (A == null || A.length == 0) {
-            return 0;  // discuss this
+    //------------------- Solution 1 -----------------------//
+    // Brute-force
+    public int singleNumber(int[] nums) {
+        // input validation: discuss this
+        if (nums == null || nums.length == 0) {
+            return 0;
         }
 
-        int res = A[0];
-        for (int i = 1; i < A.length; i++) {
-            res ^= A[i];
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for (int n : nums) {
+            int currentCount = countMap.containsKey(n) ? countMap.get(n) : 0;
+            countMap.put(n, currentCount + 1);
+        }
+        for (int n : countMap.keySet()) {
+            if (countMap.get(n) == 1) {
+                return n;
+            }
+        }
+        return 0;
+    }
+
+    //------------------- Solution 2 -----------------------//
+    // 2-based XOR
+    public int singleNumber2(int[] nums) {
+        // input validation: discuss this
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int res = 0;
+        for (int n : nums) {
+            res ^= n;
         }
         return res;
-    }
-
-    ///////////////////// TEST  ///////////////////////
-    private static void test(SingleNumber solution, int[] a) {
-        System.out.println(solution.singleNumber(a));
-    }
-
-    public static void main(String[] args) {
-        SingleNumber solution = new SingleNumber();
-        int[] a1 = {3, 3, Integer.MAX_VALUE, Integer.MAX_VALUE, 0};
-        int[] a2 = {1, 1, 2, 2, 0, 0, 3435};
-
-        test(solution, a1);
-        test(solution, a2);
     }
 }
