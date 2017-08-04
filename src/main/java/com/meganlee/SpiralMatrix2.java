@@ -1,59 +1,70 @@
 package com.meganlee;
 
 public class SpiralMatrix2 {
-    //------------------ Solution ----------------------//
-    // classic algorithm: use 4 bounds (for square, using 2 lo, hi)
+    //--------------------  Solution 1 -------------------//
+    // directions, steps and start point
     public int[][] generateMatrix(int n) {
         // input checking
         if (n < 0) {
             return null;
         }
 
-        // start fill in the matrix (consider what happen when n == 0)
-        // test case: input == 0; expect [];
-        int[][] matrix = new int[n][n];
-        int lo = 0, hi = matrix.length - 1;
-        int num = 1;
-        while (lo <= hi) {
-            // pay attention to when lo == hi
-            if (lo == hi) {
-                matrix[lo][lo] = num;
-                break;
+        int[][] matrix = new int[n][n]; // test case: input == 0; expect [];
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  // {right, down, left, up}
+        int[] steps = {n, n - 1}; // {numCols, numRows-1}
+        int go = 0;               // index of directions
+        int r = 0, c = -1;        // start point
+        int num = 1;              // start number
+        while (steps[go % 2] != 0) {
+            for (int i = 0; i < steps[go % 2]; i++) {
+                r += directions[go][0];
+                c += directions[go][1];
+                matrix[r][c] = num++;
             }
-            // otherwise, fill this layer
-            for (int i = lo; i < hi; i++) { // attention i < hi not i <= hi
-                matrix[lo][i] = num++;
-            }
-            for (int i = lo; i < hi; i++) {
-                matrix[i][hi] = num++;
-            }
-            for (int i = hi; i > lo; i--) {
-                matrix[hi][i] = num++;
-            }
-            for (int i = hi; i > lo; i--) {
-                matrix[i][lo] = num++;
-            }
-            lo++;
-            hi--;
+            steps[go % 2]--;
+            go = (go + 1) % 4;
         }
         return matrix;
     }
 
-    ///////////////////////  TEST  //////////////////////
-    public static void test(SpiralMatrix2 solution, int n) {
-        System.out.println("For n = " + n);
-        PrettyPrinter.print2DArray(solution.generateMatrix(n));
-        System.out.println();
-    }
+    //------------------ Solution ----------------------//
+    // classic algorithm: use 4 bounds (for square, using 2 lo, hi)
+    public int[][] generateMatrix2(int n) {        
+        // input checking
+        if (n < 0) {
+            return null;
+        }
 
-    public static void main(String[] args) {
-        SpiralMatrix2 solution = new SpiralMatrix2();
-        test(solution, -1);
-        test(solution, 0);
-        test(solution, 1);
-        test(solution, 2);
-        test(solution, 3);
-        test(solution, 4);
-        test(solution, 5);
+        int[][] matrix = new int[n][n];
+        int r1 = 0, r2 = n-1;
+        int c1 = 0, c2 = n-1;
+        int num = 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for (int i = c1; i <= c2; i++) {
+                matrix[r1][i] = num++;
+            }
+            r1++;
+            
+            for (int i = r1; i <= r2; i++) {
+                matrix[i][c2] = num++;
+            }
+            c2--;
+            
+            for (int i = c2; i >= c1; i--) {
+                if (r1 <= r2) {
+                    matrix[r2][i] = num++;
+                }
+            }
+            r2--;
+            
+            for (int i = r2; i >= r1; i--) {
+                if (c1 <= c2) {
+                    matrix[i][c1] = num++;
+                }
+            }
+            c1 ++;
+        }
+        
+        return matrix;
     }
 }

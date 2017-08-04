@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PrettyPrinter {
-    //------ Print 1D List/Array --------//
+    //------ Build 1D List/Array String --------//
     /*
         java> List<Integer> l = Arrays.asList(1, 2, 3);
         java.util.List<java.lang.Integer> l = [1, 2, 3]
@@ -12,13 +12,18 @@ public class PrettyPrinter {
         java> l.toString();
         java.lang.String res6 = "[1, 2, 3]"
     */
-    public static void print1DList(List<Integer> l ) {
+    public static String str1DList(List<Integer> l ) {
         if (l == null) {
-            System.out.println("null");
+            return "null";
         } else {
-            System.out.println(l.toString());
+            return l.toString();
         }
     }
+
+    public static void print1DList(List<Integer> l ) {
+        System.out.println(str1DList(l));
+    }
+
 
     /*
         java> int[] x = {1,2,3};
@@ -30,52 +35,68 @@ public class PrettyPrinter {
         java> Arrays.toString(x);
         java.lang.String res4 = "[1, 2, 3]"
     */
+    public static String str1DArray(int[] a) {
+        if (a == null) {
+            return "null";
+        } else {
+            return Arrays.toString(a);
+        }
+    }
+
+    public static String str1DStrArray(String[] a) {
+        if (a == null) {
+            return "null";
+        } else {
+            return Arrays.toString(a);
+        }
+    }
 
     public static void print1DArray(int[] a) {
-        if (a == null) {
-            System.out.println("null");
-        } else {
-            System.out.println(Arrays.toString(a));
-        }
+        System.out.println(str1DArray(a));
     }
 
-    /*
-    */
-    private static void print1DArrayFormat(int[] row) {
-        for (int cell: row) {
-            System.out.format("%7d", cell);
-        }
-        System.out.println();
-    }
 
-    public static void print1DStrArray(String[] strs) {
-        System.out.print("[");
-        for (int i = 0; i < strs.length; i++) {
-            System.out.print("\"" + strs[i] +"\"");
-            if (i < strs.length - 1) System.out.print(", ");
-        }
-        System.out.println("]\n");
-    }
-
-    public static void print2DList(List<List<Integer>> list ) {
+    //------ Print 2D List/Array --------//
+    public static String str2DList(List<List<Integer>> list) {
         if (list == null) {
-            System.out.println("null");
+            return "null";
+        } else if (list.size() == 0) {
+            return "[]";
         } else {
-            for (List<Integer> l : list) {
-                print1DList(l);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < list.size(); i++) {
+                sb.append(str1DList(list.get(i)));
+                if (i != list.size() - 1) {
+                    sb.append('\n');
+                }
+
             }
+            return sb.toString();
         }
     }
+    public static void print2DList(List<List<Integer>> list) {
+        System.out.println(str2DList(list));
+    }
 
-    public static void print2DArray(int[][] matrix) {
+
+    public static String str2DArray(int[][] matrix) {
         if (matrix == null) {
-            System.out.println("null");
+            return "null";
+        } else if (matrix.length == 0) {
+            return "[]";
         } else {
-            for (int[] arr : matrix) {
-                print1DArrayFormat(arr);
-                // print1DArray(arr);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < matrix.length; i++) {
+                sb.append(str1DArray(matrix[i]));
+                if (i != matrix.length - 1) {
+                    sb.append('\n');
+                }
             }
+            return sb.toString();
         }
+    }
+    public static void print2DArray(int[][] matrix) {
+        System.out.println(str2DArray(matrix));
     }
 
     public static void main(String[] args) {
