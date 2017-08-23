@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ConvertSortedListToBST {
     //------------------- Solution 1 --------------------//
@@ -14,7 +13,7 @@ public class ConvertSortedListToBST {
         }
 
         // first convert the List into an Array
-        List<Integer> vals = new ArrayList<>();
+        List<Integer> vals = new ArrayList();
         while (head != null) {
             vals.add(head.val);
             head = head.next;

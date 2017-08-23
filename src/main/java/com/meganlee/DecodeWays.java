@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class DecodeWays {
     //------------------  Solution 1 ----------------//
     // dp, use N space

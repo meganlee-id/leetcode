@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class MinimumPathSum {
     //------------------   Solution 1   ----------------------//
@@ -97,7 +97,7 @@ public class MinimumPathSum {
 
     ///////////////////  TEST //////////////////////
     private static void test(MinimumPathSum solution, int[][] grids) {
-        PrettyPrinter.print2DArray(grids);
+        PrettyPrinter.print2DIntArray(grids);
         System.out.println(solution.minPathSum4(grids));
     }
 

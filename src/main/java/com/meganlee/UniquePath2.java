@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class UniquePath2 {
     /**
@@ -126,14 +126,14 @@ public class UniquePath2 {
                     }
                 }
             }
-            PrettyPrinter.print1DArray(dp);
+            PrettyPrinter.print1DIntArray(dp);
         }
         return dp[n];
     }
     
     ///////////////////  TEST //////////////////////
     private static void test(UniquePath2 solution, int[][] grids) {
-        PrettyPrinter.print2DArray(grids);
+        PrettyPrinter.print2DIntArray(grids);
         System.out.println(solution.uniquePathsWithObstacles4(grids));
     }
 

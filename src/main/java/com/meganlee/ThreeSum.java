@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ThreeSum {
     public List<List<Integer>> threeSum(int[] num) {
-        List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length < 3) {
             return res;
         }

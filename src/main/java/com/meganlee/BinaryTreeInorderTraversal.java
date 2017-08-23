@@ -1,15 +1,13 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreeInorderTraversal {
 
     //----------------- Solution 1 ------------------//
     // recursion
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         helper(root, res);
         return res;
     }
@@ -28,8 +26,8 @@ public class BinaryTreeInorderTraversal {
     //----------------- Solution 2 ------------------//
     // Classic Stack: stack + cur pointer
     public List<Integer> inorderTraversal2(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
+        List<Integer> res = new ArrayList();
+        Stack<TreeNode> s = new Stack();
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
@@ -52,7 +50,7 @@ public class BinaryTreeInorderTraversal {
     // Morris traversal
     // pre: rightmost child of my left sub tree
     public List<Integer> inorderTraversal3(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         TreeNode cur = root;
         while (cur != null) {
             TreeNode pre = cur.left;
@@ -87,6 +85,6 @@ public class BinaryTreeInorderTraversal {
         String[] s = {"1", "2", "3", "#", "#", "4", "#", "#", "5"};
         TreeNode root = TreeNode.buildTreeFromLevelOrder(s);
         List<Integer> result = solution.inorderTraversal3(root);
-        PrettyPrinter.print1DList(result);
+        PrettyPrinter.print1DIntList(result);
     }
 }

@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class SearchInsertPositionTest {
     SearchInsertPosition solution = new SearchInsertPosition();

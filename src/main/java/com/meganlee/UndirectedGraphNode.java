@@ -8,6 +8,6 @@ public class UndirectedGraphNode {
     List<UndirectedGraphNode> neighbors;
     public UndirectedGraphNode(int val) {
         label = val;
-        neighbors = new ArrayList<UndirectedGraphNode>();
+        neighbors = new ArrayList();
     }
 }

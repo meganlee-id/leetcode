@@ -1,92 +1,77 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TextJustification {
     public List<String> fullJustify(String[] words, int L) {
-        // input checking
-        List<String> lines = new ArrayList<String>();
-        if (L == 0 || words == null || words.length == 0) {
-            lines.add("");
-            return lines;
+        // input checking: we need to assume L is larger than any words in text!
+        List<String> res = new ArrayList();
+        if (L <= 0 || words == null || words.length == 0) {
+            res.add("");
+            return res;
         }
 
-        int curLen = 0; // len of all words determined to be in the same line
-        int lo = 0, hi = 0;
-        while (hi < words.length) {
-            int nextLen = curLen + words[hi].length() + hi - lo;
-            if (nextLen > L) {  // hi - lo is the least number of spaces needed
-                addLine(lines, words, lo, hi - 1, curLen, L);
-                lo = hi;
+        int curLen = 0; // cur line's all so far picked up words'len sum
+        List<String> line = new ArrayList(); // cur line all words accumulated so far
+        for (int i = 0; i < words.length; i++) {
+            curLen += words[i].length();
+            line.add(words[i]);
+            //  ---- last word ----   || ----- line terminates at current word ------
+            if (i == words.length - 1 || curLen + words[i + 1].length() + line.size() > L) {
+                // add the current line
+                addLine2(res, line, L, curLen, i == words.length - 1);
+                // reset for next line
                 curLen = 0;
-            } else {
-                curLen += words[hi].length();
-                hi++;
+                line.clear();
             }
         }
-        addLine(lines, words, lo, hi - 1, curLen, L);
-        return lines;
+        return res;
     }
 
-    private void addLine(List<String> lines, String[] words, int lo, int hi, int curlen, int L) {
-        // only one word (regular line || last line)
-        if (lo == hi) {
-            lines.add(String.format("%-" + L + "s", words[lo]));
-            return;
+    private void addLine(List<String> res, List<String> line, int L, int curLen, boolean lastLine) {
+        if (line.size() == 1) { // one word
+            res.add(String.format("%-" + L + "s", line.get(0))); // String.format("%-10s", "hello") => "hello     "
+        } else { // >= 2 words
+            int spaces = (L - curLen) / (line.size() - 1); // spaces
+            int extra  = (L - curLen) % (line.size() - 1); // # of extra spaces
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < line.size(); i++) {
+                sb.append(line.get(i));
+                if (i != line.size() - 1) { // add spaces between words
+                    String s = String.format("%" + spaces + "s", "") + ((extra-- > 0) ? " " : ""); // space between each words
+                    sb.append(lastLine ? " " : s);
+                } else if (lastLine) {      // add trailing spaces for last line
+                    sb.append(String.format("%" + (L - sb.length()) + "s", ""));
+                }
+            }
+            res.add(sb.toString());
         }
+    }
 
-        // >= 2 words
-        int num = (L - curlen) / (hi - lo);
-        int extra = (L - curlen) % (hi - lo);
+    // a 2nd way to: this is faster than String.format()
+    private void addLine2(List<String> res, List<String> line, int L, int curLen, boolean lastLine) {
         StringBuilder sb = new StringBuilder();
-        for (int i = lo; i < hi; i++) {
-            sb.append(words[i] + String.format("%-" + num + "s", ""));
-            if (i - lo < extra) {
-                sb.append(' ');
+        char[] paddings = new char[L];
+        Arrays.fill(paddings, ' ');
+        if (lastLine || line.size() == 1) { // last line or only one word
+            for (String w : line) {
+                sb.append(w + " "); // add only one space between words
+            }
+            sb.append(paddings); // paddings will be trimed at line 74
+        } else { // >= 2 words, and NOT last line
+            int spaces = (L - curLen) / (line.size() - 1);
+            int extra  = (L - curLen) % (line.size() - 1); // # of extra spaces
+            for (int i = 0; i < line.size(); i++) {
+                sb.append(line.get(i));
+                if (i != line.size() - 1) {
+                    int numSpaces = spaces + ((extra-- > 0) ? 1 : 0); // do add a () around ternary operator!!
+                    for (int j = 0; j < numSpaces; j++) {
+                        sb.append(" ");
+                    }
+                }
             }
         }
-        sb.append(words[hi]);   // append last word
-
-        // regular line or last line
-        String line = sb.toString();   // case 1: regular line
-        if (hi == words.length - 1) {  // case 2: last line
-            line = String.format("%-" + L + "s", line.replaceAll("[ ]+", " "));
-        }
-        lines.add(line);
+        res.add(sb.substring(0, L)); // could also manipulate sb.delete(start, end)
     }
 
-    ////////////////// TEST ///////////////////
-    private static void test(TextJustification solution, String[] words, int L) {
-        List<String> lines = solution.fullJustify(words, L);
-        System.out.println("12345678901234567890");  // ruler
-        for (String line: lines) {
-            System.out.println(line + "#");
-        }
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-        TextJustification solution = new TextJustification();
-        String[] words1 = {"What","must","be","shall","be."};
-        String[] words2 = {"This", "is", "an", "example", "of", "text", "justification."};
-        String[] words3 = {""};
-
-        test(solution, words1, 6);
-        test(solution, words1, 10);
-        test(solution, words1, 12);
-        test(solution, words1, 18);
-
-        test(solution, words2, 15);
-        test(solution, words3, 0);
-    }
 }
-
-//-------- WRONG ANSWERS --------------//
-// Input:       [""], 0
-// Output:      []
-// Expected:    [""]
-
-// Input:       ["What","must","be","shall","be."], 12
-// Output:      ["What must be","shall    be."]
-// Expected:    ["What must be","shall be.   "]

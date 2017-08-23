@@ -1,17 +1,14 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StringConcatenationOfAllWords {
     //-------------------  Solution 1 --------------------//
     // Brute Force: check all substring with length of (numWords * wordLen)
     public List<Integer> findSubstring(String S, String[] L) {
         // assume S and L are non-null and non-empty, L doesn't contain empty string
-        List<Integer> res = new ArrayList<Integer>();
-        Map<String, Integer> needs = new HashMap<String, Integer>();
+        List<Integer> res = new ArrayList();
+        Map<String, Integer> needs = new HashMap();
         for (String word: L) {
             needs.put(word, needs.containsKey(word) ? needs.get(word) + 1 : 1);
         }
@@ -25,7 +22,7 @@ public class StringConcatenationOfAllWords {
     }
 
     private boolean isValid(String S, int start, Map<String, Integer> needs, int numWords, int wordLen) {
-        Map<String, Integer> found = new HashMap<String, Integer>();
+        Map<String, Integer> found = new HashMap();
         for (int i = 0; i < numWords; i++) {
             int left = start + i * wordLen;
             String word = S.substring(left, left + wordLen);
@@ -47,8 +44,8 @@ public class StringConcatenationOfAllWords {
     // sliding window: no backwards, reuse pre-computed results
     public List<Integer> findSubstring2(String S, String[] L) {
         // assume S and L are non-null and non-empty, L doesn't contain empty string
-        List<Integer> res = new ArrayList<Integer>();
-        Map<String, Integer> needs = new HashMap<String, Integer>();
+        List<Integer> res = new ArrayList();
+        Map<String, Integer> needs = new HashMap();
         for (String word: L) {
             needs.put(word, needs.containsKey(word) ? needs.get(word) + 1 : 1);
         }
@@ -61,7 +58,7 @@ public class StringConcatenationOfAllWords {
     }
 
     private void populateResult(String S, int i, Map<String, Integer> needs, int numWords, int wordLen, List<Integer> res) {
-        Map<String, Integer> found = new HashMap<String, Integer>();
+        Map<String, Integer> found = new HashMap();
         for (int start = i, end = start; end <= S.length() - wordLen; end += wordLen) {
             String word = S.substring(end, end + wordLen);
             // adjust start to satisfy the invariant

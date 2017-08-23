@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UniqueBST2 {
     //--------------------  Solution 1 ---------------------//
@@ -9,7 +8,7 @@ public class UniqueBST2 {
     public List<TreeNode> generateTrees(int n) {
         // input checking
         if (n <= 0) {
-            return new ArrayList<TreeNode>();
+            return new ArrayList();
         }
 
         return helper(1, n);   // pay attention to the range 1 - n
@@ -17,7 +16,7 @@ public class UniqueBST2 {
     
     private List<TreeNode> helper(int start, int end) {
         // base case
-        List<TreeNode> trees = new ArrayList<TreeNode>();
+        List<TreeNode> trees = new ArrayList();
         if (start > end) {
             trees.add(null); // ATTENTION! must have this!
             return trees;
@@ -44,7 +43,7 @@ public class UniqueBST2 {
     public List<TreeNode> generateTrees2(int n) {
         // input checking
         if (n <= 0) {
-            return new ArrayList<TreeNode>();
+            return new ArrayList();
         }
 
         List[][] cache = new List[n + 1][n + 1]; // each cell restore a list, refered as cache[start][end]
@@ -52,7 +51,7 @@ public class UniqueBST2 {
     }
 
     private List<TreeNode> helper(int start, int end, List[][] cache) {
-        List<TreeNode> trees = new ArrayList<TreeNode>();
+        List<TreeNode> trees = new ArrayList();
 
         // base case
         if (start > end) {
@@ -87,7 +86,7 @@ public class UniqueBST2 {
     // dp[start][len] --> really tricky, not recommended, but good practice for dp thoughts
     public List<TreeNode> generateTrees3(int n) {
         // input validation
-        List<TreeNode> trees = new ArrayList<TreeNode>();
+        List<TreeNode> trees = new ArrayList();
         if (n <= 0) {
             return trees;
         }
@@ -98,14 +97,14 @@ public class UniqueBST2 {
 
         // 1) create all 1-len trees
         for (int i = 1; i <= n; i++) {
-            dp[i][i] = new ArrayList<TreeNode>();
+            dp[i][i] = new ArrayList();
             dp[i][i].add(new TreeNode(i));
         }
         // 2) create all 2, 3, ... n-len trees
         for (int len = 2; len <= n; len++) {
             for (int start = 1; start <= n - len + 1; start++) {
                 int end = start + len - 1;
-                dp[start][end] = new ArrayList<TreeNode>();
+                dp[start][end] = new ArrayList();
                 for (int val = start; val <= end; val++) {
                     List<TreeNode> leftTrees = (val == start) ? trees : dp[start][val - 1];
                     List<TreeNode> rightTrees = (val == end)  ? trees : dp[val + 1][end];

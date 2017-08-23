@@ -1,16 +1,13 @@
 package com.meganlee;
 
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreePostorderTraversal {
 
     //--------------------- Solution 1 ----------------------//
     // recursion
     public List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         helper(root, res);
         return res;
     }
@@ -29,8 +26,8 @@ public class BinaryTreePostorderTraversal {
     //--------------------- Solution 2 ----------------------//
     // Classic Stack: stack + cur + lastVisited
     public List<Integer> postorderTraversal2(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
+        List<Integer> res = new ArrayList();
+        Stack<TreeNode> s = new Stack();
         TreeNode cur = root, lastVisited = null;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
@@ -54,8 +51,8 @@ public class BinaryTreePostorderTraversal {
     //--------------------- Solution 3 ----------------------//
     // DFS (Reverse of preorder traversal of mirrored original tree)
     public List<Integer> postorderTraversal3(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
+        List<Integer> res = new ArrayList();
+        Stack<TreeNode> s = new Stack();
         if (root == null) {
             return res;
         }
@@ -71,7 +68,7 @@ public class BinaryTreePostorderTraversal {
                 s.push(cur.right);
             } 
         }
-        // if we define res as LinkedList: LinkedList<Integer> res = new LinkedList<>();
+        // if we define res as LinkedList: LinkedList<Integer> res = new LinkedList();
         // and use res.addFirst(cur.val) at line 43, we culd skip this reverse operation
         Collections.reverse(res);
         return res;
@@ -82,7 +79,7 @@ public class BinaryTreePostorderTraversal {
     // Morris traversal
     // Reverse of preorder traversal of mirrored original tree
     public List<Integer> postorderTraversal4(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         TreeNode cur = root;
         while (cur != null) {
             TreeNode pre = cur.right;

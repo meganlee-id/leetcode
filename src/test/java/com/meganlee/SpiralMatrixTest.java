@@ -1,12 +1,17 @@
 package com.meganlee;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class SpiralMatrixTest {
     SpiralMatrix solution = new SpiralMatrix();
     private String calculate(int[][] array) {
-        return solution.spiralOrder(array).toString();
+        System.out.println("------- Matrix ------");
+        PrettyPrinter.print2DIntArray(array);
+        System.out.println("------- Spiral ------");
+        String res = solution.spiralOrder(array).toString();
+        System.out.println(res);
+        System.out.println("");
+        return res;
     }
 
     // test cases:

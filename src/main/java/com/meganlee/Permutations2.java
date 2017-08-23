@@ -2,15 +2,14 @@ package com.meganlee;
 
 import java.util.*;
 
-
-public class Permutation2 {
+public class Permutations2 {
     //----------------- Solution 1 ------------------//
     // use int[] as solution builder
     // use swap smartly
     // permutations returned is not in a natural order because of swap
     public List<List<Integer>> permuteUnique(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
@@ -23,7 +22,7 @@ public class Permutation2 {
     private void helper(List<List<Integer>> res, int[] num, int start) {
         // base case
         if (start == num.length) {
-            List<Integer> perm = new ArrayList<Integer>();
+            List<Integer> perm = new ArrayList();
             for (int i : num) {
                 perm.add(i);
             }
@@ -32,7 +31,7 @@ public class Permutation2 {
         }
 
         // general case
-        Set<Integer> visited = new HashSet<Integer>();
+        Set<Integer> visited = new HashSet();
         for (int i = start; i < num.length; i++) {
             if (visited.contains(num[i])) {
                 continue;
@@ -55,29 +54,29 @@ public class Permutation2 {
     // the classic solution
     public List<List<Integer>> permuteUnique2(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
 
         // use a helper to populate res
-        List<Integer> nums = new ArrayList<Integer>();
+        List<Integer> nums = new ArrayList();
         for (int i: num) {
             nums.add(i);
         }
-        helper(res, new ArrayList<Integer>(), nums);
+        helper(res, new ArrayList(), nums);
         return res;
     }
 
     private void helper(List<List<Integer>> res, List<Integer> perm, List<Integer> nums) {
         // base case
         if (nums.size() == 0) { // no more numbers to consume
-            res.add(new ArrayList<Integer>(perm));
+            res.add(new ArrayList(perm));
             return;
         }
 
         // general case
-        Set<Integer> visited = new HashSet<Integer>();
+        Set<Integer> visited = new HashSet();
         for (int i = 0; i < nums.size(); i++) {
             int k = nums.get(i);
             if (visited.contains(k)) {
@@ -97,20 +96,20 @@ public class Permutation2 {
     // iterative
     public List<List<Integer>> permuteUnique3(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
 
         // use a incremental way of constructing the solution
         Arrays.sort(num);
-        res.add(new ArrayList<Integer>());
+        res.add(new ArrayList());
         for (int i: num) {
-            List<List<Integer>> resTemp = new ArrayList<List<Integer>>();
+            List<List<Integer>> resTemp = new ArrayList();
             for (List<Integer> perm: res) {
                 for (int j = 0; j <= perm.size(); j++) {
                     perm.add(j, i);
-                    resTemp.add(new ArrayList<Integer>(perm));
+                    resTemp.add(new ArrayList(perm));
                     perm.remove(j);
                     // only add until before the first occurrence of the same number
                     if (j < perm.size() && perm.get(j) == i) {
@@ -121,20 +120,5 @@ public class Permutation2 {
             res = resTemp;
         }
         return res;
-    }
-
-
-    ///////////////////   TEST   ///////////////////////
-    private static void test(Permutation2 solution, int[] a) {
-        List<List<Integer>> permutations = solution.permuteUnique(a);
-        PrettyPrinter.print2DList(permutations);
-        System.out.println();
-    }
-    public static void main(String[] args) {
-        Permutation2 solution = new Permutation2();
-        int[] a1 = {1, 1, 2, 3};
-        int[] a2 = {1, 2, 2, 2};
-        test(solution, a1);
-        test(solution, a2);
     }
 }

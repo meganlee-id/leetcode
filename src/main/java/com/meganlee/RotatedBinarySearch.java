@@ -1,7 +1,6 @@
 package com.meganlee;
 
 
-
 public class RotatedBinarySearch {
     public static int search(int[] A, int target) {
         if (A == null) return -1; // input checking

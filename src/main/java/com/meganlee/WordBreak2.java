@@ -1,21 +1,16 @@
 package com.meganlee;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Map;
-
+import java.util.*;
 
 //---------------------  Solution 1 ----------------------//
 // normal recursion
 public class WordBreak2 {
     public List<String> wordBreak(String s, Set<String> dict) {
         if (s == null || s.length() == 0) {
-            return new ArrayList<String>();
+            return new ArrayList();
         }
 
-        return wordBreakHelper(s, dict, new HashMap<String, ArrayList<String>>());
+        return wordBreakHelper(s, dict, new HashMap());
     }
 
     public ArrayList<String> wordBreakHelper(String s, Set<String> dict, Map<String, ArrayList<String>> cache){
@@ -23,7 +18,7 @@ public class WordBreak2 {
             return cache.get(s);
         }
 
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList();
         for(int len = 1; len <= s.length(); ++len){
             String word = s.substring(0,len);
             if(dict.contains(word)){
@@ -51,13 +46,13 @@ public class WordBreak2 {
     public List<String> wordBreak2(String s, Set<String> dict) {
         // input validation
         if (s == null || s.length() == 0) {
-            return new ArrayList<String>();
+            return new ArrayList();
         }
 
         //-- for passing online judge: use the following
         //-- method canBreak is the solution of the problem WordBreak
         // if (s == null || s.length() == 0 || !canBreak(s, dict)) {
-        //     return new ArrayList<String>();
+        //     return new ArrayList();
         // }
 
         // get the minLen and maxLen of the words in the dict
@@ -70,15 +65,15 @@ public class WordBreak2 {
         // construct the cache
         // 1. empty List means no solution
         // 2. base case is the first element, set it to be empty sting "" (pay attention to line 31)
-        Map<Integer, List<String>> cache = new HashMap<Integer, List<String>>();
+        Map<Integer, List<String>> cache = new HashMap();
         for (int i = 0; i <= s.length(); i++) {
-            cache.put(i, new ArrayList<String>());
+            cache.put(i, new ArrayList());
         }
         cache.get(0).add("");
 
         // start calculating
         for (int i = 1; i <= s.length(); i++) {
-            List<String> results = new ArrayList<String>();
+            List<String> results = new ArrayList();
             for (int j = Math.max(0, i - maxLen); j <= i - minLen; j++) {
                 String word = s.substring(j, i);
                 if (dict.contains(word)) {

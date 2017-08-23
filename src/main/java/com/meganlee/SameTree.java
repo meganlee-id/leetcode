@@ -1,8 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class SameTree {
     //----------------  Solution 1 --------------------//
@@ -26,8 +24,8 @@ public class SameTree {
     //----------------  Solution 2 --------------------//
     // BFS: level-by-level with "#" indicating a null node
     public boolean isSameTree2(TreeNode p, TreeNode q) {
-        Queue<TreeNode> levelP = new LinkedList<TreeNode>(Arrays.asList(p));
-        Queue<TreeNode> levelQ = new LinkedList<TreeNode>(Arrays.asList(q));
+        Queue<TreeNode> levelP = new LinkedList(Arrays.asList(p));
+        Queue<TreeNode> levelQ = new LinkedList(Arrays.asList(q));
         while (levelP.size() == levelQ.size() && !levelP.isEmpty()) {
             // pull one node
             TreeNode pNode = levelP.poll();

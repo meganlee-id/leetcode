@@ -1,15 +1,13 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class PathSum2 {
     //-------------------- Solution 1 --------------------//
     // use classic backtrace
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> res = new ArrayList<>();
-        helper(res, new ArrayList<Integer>(), root, sum);
+        List<List<Integer>> res = new ArrayList();
+        helper(res, new ArrayList(), root, sum);
         return res;
     }
     private void helper(List<List<Integer>> result, List<Integer> path, TreeNode root, int sum) {
@@ -20,7 +18,7 @@ public class PathSum2 {
         // leaf node: path has to end with a leaf node
         if (root.left == null && root.right == null) {
             if (root.val == sum) {
-                List<Integer> newPath = new ArrayList<>(path);
+                List<Integer> newPath = new ArrayList(path);
                 newPath.add(root.val);
                 result.add(newPath);
             }
@@ -36,8 +34,8 @@ public class PathSum2 {
     //-------------------- Solution 2 --------------------//
     // stack - postorder traversal
     public List<List<Integer>> pathSum2(TreeNode root, int sum) {
-        List<List<Integer>> res = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
+        List<List<Integer>> res = new ArrayList();
+        Stack<TreeNode> s = new Stack();
         TreeNode cur = root, lastVisited = null;
         int curSum = 0;
         while (cur != null || !s.isEmpty()) {
@@ -54,7 +52,7 @@ public class PathSum2 {
                 } else {
                     // leaf, mark the end of a path, see if it's a valid path
                     if (node.left == null && node.right == null && curSum == sum) {
-                        List<Integer> item = new ArrayList<Integer>();
+                        List<Integer> item = new ArrayList();
                         for (TreeNode n : s) {
                             item.add(n.val);
                         }

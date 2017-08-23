@@ -7,7 +7,7 @@ public class ValidSudoku {
         // input checking: check if board is 9X9
         // 1. check row by row
         for (int r = 0; r < 9; r++) {
-            Set<Character> row = new HashSet<>();
+            Set<Character> row = new HashSet();
             for(int c = 0; c < 9; c++) {
                 if (board[r][c] != '.' && !row.add(board[r][c])) {
                     return false;
@@ -16,7 +16,7 @@ public class ValidSudoku {
         }
         // 2. check col by col
         for (int c = 0; c < 9; c++) {
-            Set<Character> col = new HashSet<>();
+            Set<Character> col = new HashSet();
             for(int r = 0; r < 9; r++) {
                 if (board[r][c] != '.' && !col.add(board[r][c])) {
                     return false;
@@ -25,7 +25,7 @@ public class ValidSudoku {
         }
         // 3. check each square
         for (int i = 0; i < 9; i++) { // i indicates which block we r looking ats
-            Set<Character> block = new HashSet<>();
+            Set<Character> block = new HashSet();
             int rowStart = (i / 3) * 3;
             int colStart = (i % 3) * 3;
             for (int r = rowStart; r < rowStart + 3; r++) {

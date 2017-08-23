@@ -2,49 +2,29 @@ package com.meganlee;
 
 
 public class MergeSortedArray {
-    //------------ Solution 1 ------------//
+    //------------ Solution merg ------------//
     // while loop
-    public void merge(int A[], int m, int B[], int n) {
+    public void merge(int nums1[], int m, int nums2[], int n) {
         // input checking
-        if (A == null || B == null) {
+        if (nums1 == null || nums2 == null) {
             return;
         }
 
         // merge two
-        int a = m - 1, b = n - 1, c = m + n - 1;
-        while (a >= 0 && b >= 0) {
-            if (A[a] > B[b]) {
-                A[c--] = A[a--];
+        int i = m - 1, j = n - 1, k = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
             } else {
-                A[c--] = B[b--];
+                nums1[k--] = nums2[j--];
             }
         }
 
-        // copy leftovers
-        while(b >= 0) {
-            A[c--] = B[b--];
-        }
-    }
-
-    //------------ Solution 2 ------------//
-    // for loop
-    public void merge2(int A[], int m, int B[], int n) {
-        // input checking
-        if (A == null || B == null) {
-            return;
-        }
-
-        // assume A and B are sorted in ascending order
-        int i = m - 1, j = n - 1, k;
-        for (k = m + n - 1; i >= 0 && j >= 0; k--) {
-            if (A[i] > B[j]) {
-                A[k] = A[i--];
-            } else {
-                A[k] = B[j--];
-            }
-        }
-        while (j >= 0) {
-            A[k--] = B[j--];
+        // copy leftovers: the problem assumes A.length > B.length
+        // if 'a' is left over, all 'a' elements r already in place
+        // if 'b' is left over, copy 'b' over
+        while(j >= 0) {
+            nums1[k--] = nums2[j--];
         }
     }
 }

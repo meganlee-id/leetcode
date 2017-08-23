@@ -1,9 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 
 public class BinaryTreeMaxDepth {
 	//-------------------  Solution 1 --------------------------//
@@ -20,7 +17,7 @@ public class BinaryTreeMaxDepth {
         return Math.max(left, right) + 1;
     }
     
-	//-------------------  Solution 2 --------------------------//
+    //-------------------  Solution 2 --------------------------//
     // Level-by-level traversal (BFS)
     public int maxDepth2(TreeNode root) {
         // input validation
@@ -31,7 +28,7 @@ public class BinaryTreeMaxDepth {
         List<TreeNode> level = Arrays.asList(root);
         int max = 0;
         while (!level.isEmpty()) {
-            List<TreeNode> nextLevel = new ArrayList<TreeNode>();
+            List<TreeNode> nextLevel = new ArrayList();
             for (TreeNode node: level) {
                 // add next level non-null nodes
                 if (node.left != null)  {

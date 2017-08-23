@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class DivideTwoIntegers {
     //------------------ Solution 1 ---------------------//
     public int divide(int dividend, int divisor) {

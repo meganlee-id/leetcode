@@ -1,33 +1,27 @@
 package com.meganlee;
 
-/* Created by meganlee on 11/15/14. */
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.*;
 
 public class LongestConsecutiveSequence {
-    public int longestConsecutive(int[] num) {
+    public int longestConsecutive(int[] nums) {
         // input checking
-        if (num == null || num.length == 0) {
-            return 0;
-        }
-
-        // put original array into a set
-        Set<Integer> set = new HashSet<Integer>();
-        for (int n : num) {
-            set.add(n);
-        }
-
         int res = 0;
-        for (int i = 0; i < num.length && !set.isEmpty(); i++) {
+        if (nums == null || nums.length == 0) {
+            return res;
+        }
+        // put original array into a set: stream might be 5X slow than pure java
+        Set<Integer> set = Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        // check nums one-by-one
+        for (int i = 0; i < nums.length && !set.isEmpty(); i++) {
             // go down
             int count = 0;
-            for (int n = num[i]; set.contains(n); n--) {
+            for (int n = nums[i]; set.contains(n); n--) {
                 set.remove(n);
                 count++;
             }
             // go up
-            for (int n = num[i] + 1; set.contains(n); n++) {
+            for (int n = nums[i] + 1; set.contains(n); n++) {
                 set.remove(n);
                 count++;
             }

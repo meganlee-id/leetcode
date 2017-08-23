@@ -1,8 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BinaryTreeMinDepth {
     //-------------------  Solution 1 --------------------------//
@@ -30,7 +28,7 @@ public class BinaryTreeMinDepth {
         List<TreeNode> level = Arrays.asList(root);
         int min = 0;
         while (!level.isEmpty()) {
-            List<TreeNode> nextLevel = new ArrayList<TreeNode>();
+            List<TreeNode> nextLevel = new ArrayList();
             for (TreeNode node: level) {
                 // first leaf encountered, return
                 if (node.left == null && node.right == null) {

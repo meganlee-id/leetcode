@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class BestTimeBuyAndSellStock2 {
     public int maxProfit(int[] prices) {
         // input checking

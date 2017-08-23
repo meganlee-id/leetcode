@@ -32,7 +32,7 @@ public class TwoSum {
             return null;
         }
 
-        Map<Integer, Integer> table = new HashMap<>();
+        Map<Integer, Integer> table = new HashMap();
         for (int i = 0; i < nums.length; i++) {
             int num = nums[i];
             int complement = target - num;
@@ -56,7 +56,7 @@ public class TwoSum {
         }
 
         // user a HashMap to keep the original index before sorting
-        Map<Integer, Integer> table = new HashMap<>();
+        Map<Integer, Integer> table = new HashMap();
         for (int i = 0; i < nums.length; i++) {
             table.put(nums[i], i);
         }
@@ -81,7 +81,7 @@ public class TwoSum {
     ////////////////  TEST  ///////////////////////
     public static void test(TwoSum solution, int[] numbers, int target) {
         int[] res = solution.twoSum(numbers, target);
-        PrettyPrinter.print1DArray(res);
+        PrettyPrinter.print1DIntArray(res);
     }
     public static void main(String[] args) {
         TwoSum solution = new TwoSum();

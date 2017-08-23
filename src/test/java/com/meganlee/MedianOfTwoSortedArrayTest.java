@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 // org.junit.Assert.assertEquals(float1, float2, delta);
 

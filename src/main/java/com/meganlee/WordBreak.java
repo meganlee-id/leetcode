@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Set;
+import java.util.*;
 
 public class WordBreak {
     //---------- A very dynamic solution -------------//
@@ -41,7 +41,7 @@ public class WordBreak {
 }
 
 // 1. Discuss about what should be returned when s == null s is empty string
-//          according to test cases, we should return new ArrayList<String>();
+//          according to test cases, we should return new ArrayList();
 // 2. Discuss about whether words in the dict could be used multiple times
 //          it seems that dict words could be used multiple times
 // 3. Optimization: minLen and maxLen

@@ -1,17 +1,13 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BinaryTreeLevelOrderTraversal {
     //------------------- Solution 1 -------------------//
     // BFS: level + nextLevel (most recommended)
     public List<List<Integer>> levelOrder(TreeNode root) {
         // input validation
-        List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList();
         if (root == null) {
             return res;
         }
@@ -19,8 +15,8 @@ public class BinaryTreeLevelOrderTraversal {
         List<TreeNode> level = Arrays.asList(root);
         // level by level traversal
         while (!level.isEmpty()) { // also valid: level.size() != 0
-            List<Integer> vals = new ArrayList<>();
-            List<TreeNode> nextLevel = new ArrayList<>();
+            List<Integer> vals = new ArrayList();
+            List<TreeNode> nextLevel = new ArrayList();
             for (TreeNode n: level) {
                 vals.add(n.val);
                 if (n.left != null) {
@@ -42,14 +38,14 @@ public class BinaryTreeLevelOrderTraversal {
     // BFS: size + queue  (ok for most time)
     public List<List<Integer>> levelOrder2(TreeNode root) {
         // input validation
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (root == null) {
             return res;
         }
         // traverse level by level
-        Queue<TreeNode> q = new LinkedList<>(Arrays.asList(root));
+        Queue<TreeNode> q = new LinkedList(Arrays.asList(root));
         while (!q.isEmpty()) {
-            List<Integer> vals = new ArrayList<>();
+            List<Integer> vals = new ArrayList();
             int size = q.size();
             for (int i = 0; i < size; i++) {
                 TreeNode cur = q.poll();

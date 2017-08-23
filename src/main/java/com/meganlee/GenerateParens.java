@@ -1,42 +1,33 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GenerateParens {
     public List<String> generateParenthesis(int n) {
-        List<String> res = new ArrayList<String>();
+        // input validation
+        List<String> res = new ArrayList();
         if (n <= 0) {
             return res;
         }
-
-        helper(n, n, 0, new char[n * 2], res);
+        helper(res, new char[n * 2], n, n, 0);
         return res;
     }
 
-    private void helper(int numL, int numR, int i, char[] str, List<String> res) {
-        if (numL + numR == 0) {
+    private void helper(List<String> res, char[] str, int open, int close, int i) {
+        // base case: condition met
+        if (i == str.length) { 
             res.add(String.valueOf(str));
-            return;
+            return;     // remember to return in base case
         }
-
-        if (numL > 0) {
+        // general case: use '(' or ')' at current index i
+        if (open > 0) { // open/close : number open/close partens left/unused
             str[i] = '(';
-            helper(numL - 1, numR, i + 1, str, res);
+            helper(res, str, open - 1, close, i + 1);
         }
-
-        if (numL < numR) {
+        if (close > 0 && close > open) {
             str[i] = ')';
-            helper(numL, numR - 1, i + 1, str, res);
+            helper(res, str, open, close - 1, i + 1);
         }
-    }
-
-    public static void main(String[] args) {
-        GenerateParens pg = new GenerateParens();
-        System.out.println(pg.generateParenthesis(4));
-        System.out.println(pg.generateParenthesis(3));
-        System.out.println(pg.generateParenthesis(0));
-        System.out.println(pg.generateParenthesis(-1));
     }
 }
      

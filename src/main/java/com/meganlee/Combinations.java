@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Combinations {
     //-----------------  Solution 1  -----------------------//
@@ -9,14 +8,14 @@ public class Combinations {
     public List<List<Integer>> combine(int n, int k) {
         // input checking
         if (n <= 0 || k <= 0 || k > n) {
-            return new ArrayList<List<Integer>>();
+            return new ArrayList();
         }
 
         // --- First Level: when k == 1
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        List<List<Integer>> resLast = new ArrayList<List<Integer>>(); // last level
+        List<List<Integer>> res = new ArrayList();
+        List<List<Integer>> resLast = new ArrayList(); // last level
         for (int i = 1; i <= n; i++) {
-            List<Integer> item = new ArrayList<Integer>();
+            List<Integer> item = new ArrayList();
             item.add(i);
             resLast.add(item);
         }
@@ -26,14 +25,14 @@ public class Combinations {
             for (List<Integer> comb: resLast) {
                 int startNum = comb.get(comb.size() - 1) + 1;
                 for (int j = startNum; j <= n; j++) {
-                    List<Integer> newCombo = new ArrayList<Integer>(comb);
+                    List<Integer> newCombo = new ArrayList(comb);
                     newCombo.add(j);
-                    res.add(new ArrayList<Integer>(newCombo));
+                    res.add(new ArrayList(newCombo));
                 }
             }
             // after each level, update res/resLast
             resLast = res;
-            res = new ArrayList<List<Integer>>();
+            res = new ArrayList();
         }
         return resLast;
     }
@@ -42,18 +41,18 @@ public class Combinations {
     // classic recursive combination solution
     public List<List<Integer>> combine2(int n, int k) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (n <= 0 || k <= 0 || k > n) {
             return res;
         }
-        helper(res, new ArrayList<Integer>(), k, n, 1);
+        helper(res, new ArrayList(), k, n, 1);
         return res;
     }
 
     private void helper(List<List<Integer>> res, List<Integer> comb, int k, int n, int start) {
         // base case
         if (comb.size() == k) {
-            res.add(new ArrayList<Integer>(comb));
+            res.add(new ArrayList(comb));
             return;
         }
 
@@ -69,6 +68,6 @@ public class Combinations {
     public static void main(String[] args) {
         Combinations solution = new Combinations();
         List<List<Integer>> result = solution.combine(4, 2);
-        PrettyPrinter.print2DList(result);
+        PrettyPrinter.print2DIntList(result);
     }
 }

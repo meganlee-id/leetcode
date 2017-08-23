@@ -6,7 +6,7 @@ public class RotateImageTest {
     RotateImage solution = new RotateImage();
     private String calculate(int[][] matrix) {
         solution.rotate(matrix);
-        return PrettyPrinter.str2DArray(matrix);
+        return PrettyPrinter.str2DIntArray(matrix);
     }
     int[][] m1 = {{1, 2}, 
                   {3, 4}};

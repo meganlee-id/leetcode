@@ -1,15 +1,14 @@
 package com.meganlee;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class SearchInRotatedSortedArrayTest {
     SearchInRotatedSortedArray solution = new SearchInRotatedSortedArray();
-        int[] arr1 = {4, 5, 0, 1, 2, 3};
-        int[] arr2 = {1, 2, 3, 4, 5, 6};
-        private int calculate(int[] nums, int target) {
+    private int calculate(int[] nums, int target) {
         return solution.search(nums, target);
     }
+    int[] arr1 = {4, 5, 0, 1, 2, 3};
+    int[] arr2 = {1, 2, 3, 4, 5, 6};
 
     @Test
     public void testSearch3InArr1() {

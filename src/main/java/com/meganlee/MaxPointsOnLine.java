@@ -1,8 +1,6 @@
 package com.meganlee;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MaxPointsOnLine {
     //-----------------  Solution 1 ----------------------------//
@@ -55,7 +53,7 @@ public class MaxPointsOnLine {
         // fix one point, then count Map<slope, numOfPoints>
         for (int i = 0; i < N; i++) {
             //---- step 1: calculated number of points ------//
-            Map<Double, Integer> table = new HashMap<>();
+            Map<Double, Integer> table = new HashMap();
             int dupes = 1;
             for (int j = i + 1; j < N; j++) {
                 if (samePoints(points[i], points[j])) { // overlapping points, count numbers

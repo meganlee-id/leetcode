@@ -1,14 +1,12 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GrayCode {
-	
-	//----------------- Solution 1 ---------------------//
+    //----------------- Solution 1 ---------------------//
     public List<Integer> grayCode(int n) {
         // input validation
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         if (n < 0) {
             return res;
         }
@@ -29,7 +27,7 @@ public class GrayCode {
     // mathimetical
     public List<Integer> grayCode2(int n) {
         // input validation
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         if (n < 0) {
             return res;
         }

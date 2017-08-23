@@ -6,7 +6,7 @@ public class ListNode {
     public ListNode(int x) {
         val = x;
     }
-    
+
     // Easy to make a single-linked-list
     static public ListNode fromArray(int[] list) {
         if (list == null) {

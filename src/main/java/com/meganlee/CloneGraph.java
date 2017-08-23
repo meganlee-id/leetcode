@@ -1,10 +1,6 @@
 package com.meganlee;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Arrays;
+import java.util.*;
 
 public class CloneGraph {
     //---------------------- Solution -------------------//
@@ -13,8 +9,8 @@ public class CloneGraph {
         if (node == null) {
             return null;
         }
-        Queue<UndirectedGraphNode> q = new LinkedList<>(Arrays.asList(node));
-        Map<UndirectedGraphNode, UndirectedGraphNode> visited = new HashMap<>();
+        Queue<UndirectedGraphNode> q = new LinkedList(Arrays.asList(node));
+        Map<UndirectedGraphNode, UndirectedGraphNode> visited = new HashMap();
         UndirectedGraphNode nodeClone = new UndirectedGraphNode(node.label);
         visited.put(node, nodeClone);
 

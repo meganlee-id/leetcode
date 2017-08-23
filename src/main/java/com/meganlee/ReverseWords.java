@@ -1,80 +1,44 @@
 package com.meganlee;
 
+import java.util.*;
 
 public class ReverseWords {
-	//-------------------  Solution 1 ------------------------//
-	// use String's build-in methods
+    //-------------------  Solution 1 ------------------------//
+    // use String's build-in methods
     public String reverseWords(String s) {
         // validate input
-        if (s == null) {
-            return s;
-        }
-        
-        // split strings (first replace, then trim!)
-        String[] words = s.replaceAll("\\s+", " ").trim().split(" ");
-        
-        // concatenate reversed string
-        int numWords = words.length;
-        if (numWords == 0) {
-            return "";
-        }
-        StringBuilder reversedStr = new StringBuilder();
-        reversedStr.append(words[numWords - 1]);
-        for (int i = numWords - 2; i >= 0; i--) {
-            reversedStr.append(" " + words[i]);
-        }
-        return reversedStr.toString();
-    }
-    
-	//-------------------  Solution 2 ------------------------//
-	// another way of implementing solution 1
-    public String reverseWords2(String s) {
         if (s == null || s.length() == 0) {
             return "";
         }
-
-        String[] words = s.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (int i = words.length - 1; i >= 0; --i) {
-            if (!words[i].equals("")) {
-                sb.append(words[i]).append(" ");
-            }
-        }
-        return sb.toString().trim();         //remove the last " "
+        // use built-in methods
+        String[] words = s.trim().split("\\s+");
+        Collections.reverse(Arrays.asList(words));
+        return String.join(" ", words);
     }
     
     
-	//-------------------  Solution 3 ------------------------//
-	// split the string by hand (same algorithm as above 2)
-    public String reverseWords3(String s) {
+    //-------------------  Solution 2 ------------------------//
+    // split the string by hand (same algorithm as above 2)
+    public String reverseWords2(String s) {
         // validate input
         if (s == null || s.length() == 0) {
             return "";
         }
-
         // iterate backwards and append words one-by-one
-        StringBuilder reversedStr = new StringBuilder();
-        StringBuilder curWord = new StringBuilder();
-        for (int i = s.length() - 1; i >= 0; i--) {
-            if (s.charAt(i) == ' ') {   // skip all spaces
-                continue;
-                
-            } else {                    // for non-spaces
-                // starter of a new word
-                if (i == s.length() - 1 || s.charAt(i + 1) == ' ') {
-                    if (curWord.length() > 0 ) {
-                        reversedStr.append(curWord.reverse().toString() + " ");
-                    }
-                    curWord = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+        boolean trimable = false; // whether to trim a final " " in sb
+        for (int i = s.length() - 1, start = i, end = i; i >= 0; i--) {
+            if (!Character.isSpace(s.charAt(i))) { // do NOT use Character.isLetter, test case: "Hello World!!"
+                if (i == s.length() - 1 || Character.isSpace(s.charAt(i + 1))) {
+                    end = i;   // identify the end of a word
                 }
-                curWord.append(s.charAt(i));
+                if (i == 0 || Character.isSpace(s.charAt(i - 1))) {
+                    start = i; // identify the start of a word
+                    sb.append(s.substring(start, end + 1) + " ");
+                    trimable = true;
+                }
             }
         }
-        // don't forget to add the last word!
-        reversedStr.append(curWord.reverse().toString()); 
-        return reversedStr.toString();
+        return trimable ? sb.substring(0, sb.length() - 1) : sb.toString();
     }
 }
-
-
-// ERROR : for (i = n-1; i >= 0, i++) -> i--;

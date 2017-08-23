@@ -1,16 +1,17 @@
 package com.meganlee;
+
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 public class WordLadders2 {
     public List<List<String>> findLadders(String start, String end, Set<String> dict) {
         // Assume 1) begin/endWord non-empty 2) all words same len/unique 3) only a-z chars
         // result collector
-        List<List<String>> res = new ArrayList<>();
+        List<List<String>> res = new ArrayList();
 
         // {start + nodeNeighbors, nodeLevel} defines the TREE that contains the answer   
-        Map<String, List<String>> nodeNeighbors = new HashMap<>();  // node's all "neighbors" exists in dict
-        Map<String, Integer> nodeLevel = new HashMap<>();           // which level a node belongs to in the BFS traversed TREE
+        Map<String, List<String>> nodeNeighbors = new HashMap();  // node's all "neighbors" exists in dict
+        Map<String, Integer> nodeLevel = new HashMap();           // which level a node belongs to in the BFS traversed TREE
 
         // STEP 1: use bfs to construct the TREE that conatins the answer {start + nodeNeighbors, nodeLevel}
         // the original wordList is a graph, we use BFS for the solution TREE, where last level has 'endWord'
@@ -18,7 +19,7 @@ public class WordLadders2 {
 
         // STEP 2: use DFS TREE to collect all paths from TREE: {start + nodeNeighbors, nodeLevel}, 
         if (foundEnd) {
-            dfs(res, new ArrayList<String>(), start, nodeNeighbors, nodeLevel, end);
+            dfs(res, new ArrayList(), start, nodeNeighbors, nodeLevel, end);
         }
         return res;
     }
@@ -30,10 +31,10 @@ public class WordLadders2 {
         List<String> level = Arrays.asList(start); // first level
         int distance = 1; 
         while (!level.isEmpty() && !level.contains(end)) {
-            List<String> nextLevel = new ArrayList<>();
+            List<String> nextLevel = new ArrayList();
             for (String word : level) {
                 // find all reachable words in dict
-                List<String> neighbors = new ArrayList<>();
+                List<String> neighbors = new ArrayList();
                 for (int i = 0; i < word.length(); i++) {
                     char[] chars = word.toCharArray();
                     for (char ch = 'a'; ch <= 'z'; ch++) {
@@ -64,7 +65,7 @@ public class WordLadders2 {
     private void dfs(List<List<String>> res, List<String> path, String cur, Map<String, List<String>> nodeNeighbors, Map<String, Integer> nodeLevel, String end) {
         path.add(cur);
         if (cur.equals(end)) {
-            res.add(new ArrayList<String>(path));
+            res.add(new ArrayList(path));
         } else {
             for (String n: nodeNeighbors.get(cur)) {
                 if (nodeLevel.get(n) == nodeLevel.get(cur) + 1) {

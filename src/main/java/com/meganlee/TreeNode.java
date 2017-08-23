@@ -20,7 +20,7 @@ public class TreeNode {
         }
         // assume String[] s is valid: only contains int or '#'
         TreeNode root = new TreeNode(Integer.valueOf(s[0]));
-        Queue<TreeNode> q = new LinkedList<>(Arrays.asList(root)); // use a QUEUE
+        Queue<TreeNode> q = new LinkedList(Arrays.asList(root)); // use a QUEUE
         for (int i = 1; i < s.length - 1; i += 2) { // starting from index 1, take 2 nodes each loop
             TreeNode node = q.poll();
             String left = s[i];

@@ -1,14 +1,13 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SpiralMatrix {
     //--------------------  Solution 1 -------------------//
     // directions, steps and start point
     public List<Integer> spiralOrder(int[][] matrix) {
         // input validation
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return res;
         }
@@ -32,7 +31,7 @@ public class SpiralMatrix {
     // don't have to deal with 1 row specific
     public List<Integer> spiralOrder2(int[][] matrix) {
         // input checking
-        List<Integer> res = new ArrayList<Integer>();
+        List<Integer> res = new ArrayList();
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return res;
         }

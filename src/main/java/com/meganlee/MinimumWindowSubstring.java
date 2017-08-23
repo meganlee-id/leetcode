@@ -1,45 +1,44 @@
 package com.meganlee;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MinimumWindowSubstring {
-    public String minWindow(String S, String T) {
-        // assume S, T are non-null and there is a solution
-        Map<Character, Integer> needs = new HashMap<Character, Integer>();
-        Map<Character, Integer> found = new HashMap<Character, Integer>();
-        for (char ch : T.toCharArray()) { // not (char ch: T) !!
-            needs.put(ch, needs.containsKey(ch) ? needs.get(ch) + 1 : 1);
+    public String minWindow(String s, String t) {
+        // input validation
+        String res = "";
+        if (s == null || t == null || s.length() == 0 || t.length() == 0) {
+            return res;
         }
-
-        String res = S + " ";       // notice why we use S + " " here, see line 38
-        int count = 0;
-        for (int start = 0, end = start; end < S.length(); end++) {
-            // skip invalid chars
-            char ch = S.charAt(end);
-            if (!needs.containsKey(ch)) {
-                continue;
-            }
-            // update found
-            found.put(ch, found.containsKey(ch) ? found.get(ch) + 1 : 1);
-            if (found.get(ch) <= needs.get(ch)) {
-                count++;
-            }
-            // if a valid window found, shrink start and update solution
-            if (count == T.length()) {
-                // shrink start
-                while (!needs.containsKey(S.charAt(start)) || found.get(S.charAt(start)) > needs.get(S.charAt(start))) {
-                    if (found.containsKey(S.charAt(start))) { // don't forget this if!!
-                        found.put(S.charAt(start), found.get(S.charAt(start)) - 1);
+        // char frequency
+        Map<Character, Integer> dict = new HashMap();
+        for (char ch: t.toCharArray()) {
+            dict.put(ch, dict.containsKey(ch) ? dict.get(ch) + 1 : 1);
+        }
+        // sliding window
+        int count = 0; // use count to determine how many chars we've seen for solution collecting
+        Map<Character, Integer> chsLeft = new HashMap(dict);
+        for (int start = 0, end = start; end < s.length(); end++) {
+            char ch = s.charAt(end);
+            if (chsLeft.containsKey(ch)) { // ch valid
+                chsLeft.put(ch, chsLeft.get(ch) - 1); // count it
+                if (chsLeft.get(ch) >= 0) { // was available
+                    count++;
+                } 
+                if (count == t.length()) { // found a valid window
+                    // shrink start
+                    // DO NOT PUT char sChar = s.charAt(start) HERE at line 29, START IS CHANGING
+                    while (!chsLeft.containsKey(s.charAt(start)) || chsLeft.get(s.charAt(start)) < 0) {
+                        if (chsLeft.containsKey(s.charAt(start))) { // update chsLeft
+                            chsLeft.put(s.charAt(start), chsLeft.get(s.charAt(start)) + 1);
+                        }
+                        start++;
                     }
-                    start++;
+                    // update solution
+                    res = ("".equals(res) || res.length() > end - start + 1) ? s.substring(start, end + 1) : res;
                 }
-                // update solution
-                if (end - start + 1 < res.length()) {
-                    res = S.substring(start, end + 1);
-                }
-            }
-        }
-        return res.length() > S.length() ? "" : res;
+            } 
+        }    
+        return res;
     }
 }
+

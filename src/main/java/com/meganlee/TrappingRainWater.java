@@ -41,7 +41,7 @@ public class TrappingRainWater {
         }
 
         // use stack to store the indices of a decreasing series of bar heights
-        Stack<Integer> s = new Stack<>();
+        Stack<Integer> s = new Stack();
         int water = 0, N = height.length;
         for (int i = 0; i < N; ) {
             if (s.isEmpty() || height[s.peek()] >= height[i]) {
@@ -107,7 +107,7 @@ public class TrappingRainWater {
 
     ///////////////////  TEST //////////////////////
     private static void test(TrappingRainWater solution, int[] bars) {
-        PrettyPrinter.print1DArray(bars);
+        PrettyPrinter.print1DIntArray(bars);
         System.out.println(solution.trap3(bars));
     }
 
