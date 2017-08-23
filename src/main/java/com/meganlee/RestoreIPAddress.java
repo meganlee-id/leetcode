@@ -1,16 +1,15 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RestoreIPAddress {
     public List<String> restoreIpAddresses(String s) {
         // input checking
-        List<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList();
         if (s == null || s.length() < 4 || s.length() > 12) {
             return res;
         }
-        helper(res, new ArrayList<Integer>(), s);
+        helper(res, new ArrayList(), s);
         return res;
     }
 

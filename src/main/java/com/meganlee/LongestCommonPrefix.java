@@ -1,50 +1,44 @@
 package com.meganlee;
 
-// http://oj.leetcode.com/problems/longest-common-prefix/
+import java.util.*;
 
 public class LongestCommonPrefix {
     //------------------ Solution 1 -----------------------//
-    // string-by-string
+    // sort and solve
     public String longestCommonPrefix(String[] strs) {
-        // input checking
-        if(strs == null) return null;
-        if(strs.length == 0) return "";
-        
-        // check char by char, using the first string as benchmark
-        for(int i = 0; i < strs[0].length(); i++) {
-            for(int j = 1; j < strs.length; j++)  { // check each string
-                if ((strs[j].length() < i + 1) || 
-                		(strs[j].charAt(i) != strs[0].charAt(i)) )
-                    return strs[0].substring(0, i);
-            }
-        }
-        return strs[0];
-    }
-
-    //------------------ Solution 2 -----------------------//
-    // char-by-char: faster to terminate that solution 1
-    public String longestCommonPrefix3(String[] strs) {
         // input checking
         if (strs == null || strs.length == 0) {
             return "";
         }
-        // check char-by-char
-        for (int i = 0; i < strs[0].length(); i++) { // for each char
-            for (int j = 0; j < strs.length; j++) { // for each string
+        // 1. sort the array first
+        Arrays.sort(strs);
+        // 2. compare the fist and last Strings 
+        String first = strs[0], last = strs[strs.length - 1];
+        int i = 0; // index for the end of prefix
+        while (i < Math.min(first.length(), last.length())) { // use "while", we need to know "i" out of loop
+            if (first.charAt(i) != last.charAt(i)){
+                break;
+            }
+            i++;
+        }
+        return first.substring(0, i);
+    }
+
+    //------------------ Solution 2 -----------------------//
+    // char-by-char: faster to terminate that solution 1
+    public String longestCommonPrefix2(String[] strs) {
+        // input checking
+        if (strs == null || strs.length == 0) {
+            return "";
+        }
+        for (int i = 0; i < strs[0].length(); i++) {   // for each char/colum
+            for (int j = 1; j < strs.length; j++) {    // for each string
+                // no more char for strs[j] || strs[j]'s current char is different
                 if (strs[j].length() <= i || strs[j].charAt(i) != strs[0].charAt(i)) {
                     return strs[0].substring(0, i);
                 }
             }
         }
-        return strs[0];
+        return strs[0]; // return!
     }
 }
-
-/*
- * NOTE for char-by-char, it's faster to terminate
- *   0: hello
- *   1: hello
- *   2: hello
- *   3: p
- */
-

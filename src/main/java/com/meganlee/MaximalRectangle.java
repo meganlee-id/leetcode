@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
 
 public class MaximalRectangle {
     public int maximalRectangle(char[][] matrix) {
@@ -25,7 +24,7 @@ public class MaximalRectangle {
     }
 
     private int hist(int[] r) {
-        Stack<Integer> s = new Stack<>(); // stack store the index
+        Stack<Integer> s = new Stack(); // stack store the index
         int area = 0;
         int[] row = Arrays.copyOf(r, r.length + 1);
         for (int i = 0; i < row.length; ) { // no ++ here

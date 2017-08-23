@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Stack;
+import java.util.*;
 
 public class PathSum {
     //------------------- Solution 1 --------------------//
@@ -23,7 +23,7 @@ public class PathSum {
     //------------------- Solution 2 --------------------//
     // Classic Stack: stack + cur + lastVisited
     public boolean hasPathSum2(TreeNode root, int sum) {
-        Stack<TreeNode> s = new Stack<>();
+        Stack<TreeNode> s = new Stack();
         TreeNode cur = root, lastVisited = null;
         int curSum = 0;
         while (cur != null || !s.isEmpty()) {

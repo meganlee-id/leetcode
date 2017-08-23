@@ -1,8 +1,7 @@
 package com.meganlee;
 
-import org.junit.Assert;
-import org.junit.Test;
-import java.util.List;
+import java.util.*;
+import org.junit.*;
 
 public class ConstructPreorderInorderTest {
     ConstructPreorderInorder solution = new ConstructPreorderInorder();

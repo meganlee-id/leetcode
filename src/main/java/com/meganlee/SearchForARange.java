@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class SearchForARange {
     //--------------------- Solution 1 -----------------------//

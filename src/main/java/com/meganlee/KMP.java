@@ -1,19 +1,19 @@
 package com.meganlee;
 
 public class KMP {
-    public String strStr(String h, String n) {
+   public int strStr(String h, String n) {
         // input checking
-        if (h == null || n == null || n.length() == 0) {
-            return h;
-        }
-        if (h.length() < n.length()) {
-            return null;
+        // discuss about null or zero.length with interviewers
+        int H = h.length(), N = n.length(); // assume both are non-null
+        if (H < N) {
+            return -1;
+        } else if (N == 0) { // needle is "", return 0;
+            return 0;
         }
 
         // h and n are not null and len(h) >= len(n)
         int[] table = buildTable(n);
-        int i, j = 0;
-        for (i = 0; i < h.length();) {
+        for (int i = 0, j = 0; i < H; ) {
             if (h.charAt(i) != n.charAt(j)) {
                 if (j == 0) {
                     i++;
@@ -23,44 +23,30 @@ public class KMP {
             } else {
                 i++;
                 j++;
-                if (j == n.length()) {
-                    return h.substring(i - j);
+                if (j == N) {
+                    return i - j;
                 }
             }
         }
-        return null;
+        return -1;
     }
 
     private int[] buildTable(String s) {
         // assume s is not null, not empty
-        int n = s.length();
-        int[] table = new int[n];
-        int i = 0, j;
-        for (j = 1; j < n;) {
-            if (s.charAt(i) == s.charAt(j)) {
-                table[j] = table[j - 1] + 1;
+        int[] table = new int[s.length()];
+        for (int len = 0, i = 1; i < s.length(); ) {
+            if (s.charAt(len) == s.charAt(i)) {
+                table[i] = len + 1;
                 i++;
-                j++;
+                len++;
             } else {
-                if (i == 0) {
-                    j++;
+                if (len == 0) {
+                    i++; // table[i] = 0
                 } else {
-                    i = 0;
+                    len = table[len - 1];
                 }
             }
         }
         return table;
-    }
-
-
-    ///////////////////  TEST  ///////////////////
-    public static void main(String[] args) {
-        KMP solution = new KMP();
-        int[] res = solution.buildTable("ABCDABD");
-        for (int i: res) {
-            System.out.println(i);
-        }
-        String find = solution.strStr("ABC ABCDAB ABCDABCDABDE", "ABCDABD");
-        System.out.println(find);
     }
 }

@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Candy {
     //-------------------- Solution 1 -----------------------//
@@ -67,7 +67,7 @@ public class Candy {
 
     ///////////////////  TEST //////////////////////
     private static void test(Candy solution, int[] ratings) {
-        PrettyPrinter.print1DArray(ratings);
+        PrettyPrinter.print1DIntArray(ratings);
         System.out.println(solution.candy(ratings));
     }
 

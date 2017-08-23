@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class ValidNumber {
     //------------------- Solution 1 ------------------//
     // use regular expression

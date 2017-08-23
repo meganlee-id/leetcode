@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class JumpGame {
     //------------------- Solution 1 -------------------//
     // Range Expanding

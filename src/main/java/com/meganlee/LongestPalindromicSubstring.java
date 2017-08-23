@@ -1,7 +1,5 @@
 package com.meganlee;
 
-
-
 public class LongestPalindromicSubstring {
     //------------------ Solution 1. ---------------------//
     //  Naive Solution O(n^3)

@@ -1,17 +1,15 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
-public class Permutation {
+public class Permutations {
     //---------------- Solution 1 -------------------//
     // use int[] as solution builder, this solution uses swap()
     // Attention: it's fine in this problem to NOT use Arrays.sort, so the res perms are not naturally ordered
     public List<List<Integer>> permute(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
@@ -46,19 +44,19 @@ public class Permutation {
     // a very classic permutation solution
     public List<List<Integer>> permute2(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
         // use a helper to recursively populate the res
-        helper2(res, new ArrayList<Integer>(), num);
+        helper2(res, new ArrayList(), num);
         return res;
     }
 
     private void helper2(List<List<Integer>> res, List<Integer> perm, int[] num) {
         //--- 1. base case
         if (perm.size() == num.length) {
-            res.add(new ArrayList<Integer>(perm));  // remember to new a List
+            res.add(new ArrayList(perm));  // remember to new a List
         //--- 2. general case
         } else {
             for (int i : num) {
@@ -79,20 +77,20 @@ public class Permutation {
     // ...
     public List<List<Integer>> permute3(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
 
         // use a incremental way of constructing the solution
         Arrays.sort(num);
-        res.add(new ArrayList<Integer>());
+        res.add(new ArrayList());
         for (int i: num) {
-            List<List<Integer>> newRes = new ArrayList<List<Integer>>();
+            List<List<Integer>> newRes = new ArrayList();
             for (List<Integer> perm: res) {
                 for (int j = 0; j <= perm.size(); j++) {
                     perm.add(j, i);
-                    newRes.add(new ArrayList<Integer>(perm));
+                    newRes.add(new ArrayList(perm));
                     perm.remove(j);
                 }
             }

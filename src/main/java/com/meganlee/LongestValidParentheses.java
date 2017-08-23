@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Stack;
+import java.util.*;
 
 public class LongestValidParentheses {
     //-------------- Solution 1 --------------------//
@@ -9,41 +9,37 @@ public class LongestValidParentheses {
         if (s == null || s.length() == 0) {
             return 0;
         }
-        int[] dp = new int[s.length()];
+        // definition: longest len ends in index 1
         int res = 0;
+        int[] dp = new int[s.length()];
         for (int i = 1; i < s.length(); i++) {
-        if (s.charAt(i) == ')') {
-            int left = i - dp[i - 1] - 1;
-            if (left >= 0 && s.charAt(left) == '(') {
-                dp[i] = dp[i - 1] + 2;
-                if (left >= 1) {
-                    dp[i] += dp[left - 1];
+            if (s.charAt(i) == ')') { // cur is ')'
+                int start = i - dp[i - 1] - 1;  // start is the boundary index
+                if (start >= 0 && s.charAt(start) == '(') {
+                    dp[i] += dp[i - 1] + 2;      // embedded matching
+                    dp[i] += (start - 1 >= 0) ? dp[start - 1] : 0; // sequential addition
                 }
-            }
-            res = Math.max(res, dp[i]);
+                res = Math.max(res, dp[i]);
+            } // else is '(': there is no valid substring ending in '(', dp[i] => 0;
         }
+        return res;
     }
-    return res;
-}
 
     //------------------ Solution 2 ----------------------//
-    // use stack to solve
-    // some test cases:
-    // () (()
+    // stack: store index
     public int longestValidParentheses2(String s) {
         if (s == null || s.length() == 0) {
             return 0;
         }
         int res = 0;   // global max
-        Stack<Integer> stack = new Stack<Integer>();
-        int start = -1; // boundary of the beginning of cur valid parens
-                        // start + 1 is the index for the first char of valid parens substring
+        Stack<Integer> stack = new Stack();
+        int start = -1; // boundary: (start + 1) is the first index for cur valid paren substring
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
-                stack.push(i);  // put the index in stack
+                stack.push(i);   // put the index in stack
             } else {
                 if (stack.empty()) {
-                    start = i;
+                    start = i;   // set new boundary
                 } else {
                     stack.pop(); // pops out the matching '('
                     int len = i - (stack.empty() ? start : stack.peek());

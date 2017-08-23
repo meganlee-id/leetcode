@@ -1,10 +1,6 @@
 package com.meganlee;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
-
+import java.util.*;
 
 public class MergeKSortedLists {
 
@@ -15,14 +11,22 @@ public class MergeKSortedLists {
         if (lists == null || lists.length == 0) {
             return null;
         }
+
         // create a min heap for mergeing
-        Queue<ListNode> q = new PriorityQueue<ListNode>(lists.length,
-            new Comparator<ListNode>(){
-                @Override
-                public int compare(ListNode a, ListNode b) {
-                    return a.val - b.val;
-                }
-            });
+        //------ OPTION 1 ------
+        // HAVE TO INCLUDE <TYPE> IN PriorityQueue<ListNode>
+        // OTHERWISE lambda COULD NOT INFER
+        Queue<ListNode> q = new PriorityQueue<ListNode>(lists.length, (a, b) -> a.val - b.val);
+        //
+        //------ OPTION 2 ------
+        // Queue<ListNode> q = new PriorityQueue(lists.length,
+        //     new Comparator<ListNode>(){
+        //         @Override
+        //         public int compare(ListNode a, ListNode b) {
+        //             return a.val - b.val;
+        //     }
+        // });
+
         // put fist node of each list in to the queue
         ListNode dummy = new ListNode(0), tail = dummy;
         for (ListNode node : lists) {

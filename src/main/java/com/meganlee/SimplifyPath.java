@@ -1,56 +1,29 @@
 package com.meganlee;
 
-import java.util.Stack;
-
+import java.util.*;
 
 public class SimplifyPath {
     public String simplifyPath(String path) {
-        // input validation
+        // input validation: assume that the path is a valid path
         if (path == null || path.length() == 0) {
             return "";
         }
-
-        // assume that the path is valid
-        // first simplify the path
+        // simplify the path first
         String[] dirs = path.split("/");
-        Stack<String> stack = new Stack<String>();
+        Stack<String> stack = new Stack();
+        List<String> skippable = Arrays.asList("..", ".", "");
         for (String dir : dirs) {
-            if (dir.equals(".") || dir.equals("")) {
-                continue;
-            } else if (dir.equals("..")) {
-                if (!stack.isEmpty()) {
-                    stack.pop();
-                }
-            } else {
+            if (dir.equals("..") && !stack.isEmpty()) { // go to parent
+                stack.pop();
+            } else if (!skippable.contains(dir)) { // skip "..": stack.isEmpty(), skip "" or ".": same dir
                 stack.push(dir);
             }
         }
-
         // build the path string
         StringBuilder sb = new StringBuilder();
-        while (!stack.isEmpty()) {
-            sb.insert(0, "/" + stack.pop());
-        }
-        /* also could use iterator
         for (String dir : stack) {
             sb.append("/" + dir);
         }
-        */
-        return sb.length() == 0 ? "/" : sb.toString();
-    }
-
-    ////////////////////  TEST  /////////////////////
-    public static void main(String[] args) {
-
-        System.out.println("--------- HOW string.split() works ---------");
-        String[] strs1 = "///./../a///b/k///".split("/");
-        String[] strs2 = "///./../a///b/k///".split("/+");
-        PrettyPrinter.str1DStrArray(strs1);
-        PrettyPrinter.str1DStrArray(strs2);
-
-        System.out.println("--------- Test for this problem ---------");
-        SimplifyPath sp = new SimplifyPath();
-        System.out.println(sp.simplifyPath("/.."));
-        System.out.println(sp.simplifyPath("/..///a/./../b/c//"));
+        return sb.length() == 0 ? "/" : sb.toString(); // remember to check whether sb is empty
     }
 }

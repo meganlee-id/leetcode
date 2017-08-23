@@ -12,17 +12,17 @@ public class CombinationSum {
         for (int i = 0; i < A.length; i++) num[i] = A[i];
 
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
 
         // Add the first level: when there is only 1 elem
-        TreeSet<Integer> set = new TreeSet<Integer>(Arrays.asList(num)); // sorted unique elem
-        List<List<Integer>> level1 = new ArrayList<List<Integer>>();
-        List<List<Integer>> level2 = new ArrayList<List<Integer>>();
+        TreeSet<Integer> set = new TreeSet(Arrays.asList(num)); // sorted unique elem
+        List<List<Integer>> level1 = new ArrayList();
+        List<List<Integer>> level2 = new ArrayList();
         for (int i: set) {
-            List<Integer> item = new ArrayList<Integer>();;
+            List<Integer> item = new ArrayList();;
             item.add(i);   // use first element to store sum
             item.add(i);   // the rest are the sorted combos
             level1.add(item);
@@ -38,7 +38,7 @@ public class CombinationSum {
                 } else if (sum < target) {
                     Set<Integer> candidates = set.tailSet(lastNum);
                     for (int i: candidates) {
-                        List<Integer> nextCombo = new ArrayList<Integer>(combo);
+                        List<Integer> nextCombo = new ArrayList(combo);
                         nextCombo.add(i);           // append new number
                         nextCombo.set(0, sum + i);  // update sum
                         level2.add(nextCombo);      // collect it
@@ -46,7 +46,7 @@ public class CombinationSum {
                 } // otherwise sum > target, ignore
             }
             level1 = level2;
-            level2 = new ArrayList<List<Integer>>();
+            level2 = new ArrayList();
         }
         return res;
     }
@@ -58,19 +58,19 @@ public class CombinationSum {
     // 1) all nums in int[] num are positive
     // 2) target >= 0
     public List<List<Integer>> combinationSum2(int[] num, int target) {
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         // input checking
         if (num == null || num.length == 0) {
             return res;
         }
         Arrays.sort(num);   // sort to facilitate future calculation (might contain duplicates)
-        helper(res, new ArrayList<Integer>(), target, num, 0);
+        helper(res, new ArrayList(), target, num, 0);
         return res;
     }
 
     private void helper(List<List<Integer>> res, List<Integer> comb, int target, int[] num, int start) {
         if (target == 0) {
-            res.add(new ArrayList<Integer>(comb));
+            res.add(new ArrayList(comb));
         } else if (target > 0){
             for (int i = start; i < num.length; i++) {
                 // find all the unique numbers left
@@ -88,7 +88,7 @@ public class CombinationSum {
         CombinationSum solution = new CombinationSum();
         int[] nums = {2, 1, 3};
         List<List<Integer>> combos1 = solution.combinationSum(nums, 3);
-        PrettyPrinter.print2DList(combos1);
+        PrettyPrinter.print2DIntList(combos1);
     }
 }
 

@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.function.Function;
+import java.util.function.*; // Function
 
 public class SearchA2DMatrix {
     //------------------ Solution 1 ---------------------//

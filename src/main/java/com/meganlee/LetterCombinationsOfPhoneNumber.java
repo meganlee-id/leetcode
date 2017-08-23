@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class LetterCombinationsOfPhoneNumber {
     //-------------- Solution 1 --------------//
@@ -9,13 +8,13 @@ public class LetterCombinationsOfPhoneNumber {
     public List<String> letterCombinations(String digits) {
         // input checking
         if (digits == null || digits.length() == 0) {
-            return new ArrayList<String>();
+            return new ArrayList();
         }
 
         // normal cases
         String[] buttons = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        List<String> res = new ArrayList<String>();
-        List<String> resLast = new ArrayList<String>(); // last level
+        List<String> res = new ArrayList();
+        List<String> resLast = new ArrayList(); // last level
         resLast.add("");
         for (char digit: digits.toCharArray()) {  // NOTE: illegal to write --> for (char c: string)
             for (char letter: buttons[digit - '0'].toCharArray()) {
@@ -24,7 +23,7 @@ public class LetterCombinationsOfPhoneNumber {
                 }
             }
             resLast = res;
-            res = new ArrayList<String>();
+            res = new ArrayList();
         }
         return resLast;
     }
@@ -35,7 +34,7 @@ public class LetterCombinationsOfPhoneNumber {
     // char[] --> String: String.valueOf(char[])
     public List<String> letterCombinations2(String digits) {
         // input checking
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList();
         if (digits == null || digits.length() == 0) {
             results.add("");
             return results;

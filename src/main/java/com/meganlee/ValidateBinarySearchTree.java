@@ -1,6 +1,6 @@
 package com.meganlee;
 
-import java.util.Stack;
+import java.util.*;
 
 public class ValidateBinarySearchTree {
     //------------------- Solution 1 -----------------------//
@@ -29,7 +29,7 @@ public class ValidateBinarySearchTree {
     //------------------- Solution 2 -----------------------//
     // in-order traversal: stack + cur
     public boolean isValidBST2(TreeNode root) {
-        Stack<TreeNode> s = new Stack<>();
+        Stack<TreeNode> s = new Stack();
         TreeNode pre = null;      // use a preNode
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {

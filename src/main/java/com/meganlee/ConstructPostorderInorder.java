@@ -1,10 +1,7 @@
 package com.meganlee;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.*;
 
 public class ConstructPostorderInorder {
     //--------------- Solution 1  ----------------//
@@ -16,7 +13,7 @@ public class ConstructPostorderInorder {
         }
         // construct a fast querying data structure for inorder!!
         int N = inorder.length;
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> map = new HashMap();
         for (int i = 0; i < N; i++) {
             map.put(inorder[i], i);
         }

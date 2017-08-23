@@ -1,8 +1,8 @@
 package com.meganlee;
+
 import java.util.*;
 
 public class WordLadders {
-
     //--------------------- Solution 1 ----------------------//
     // one-way BFS: level by level traversal
     public int ladderLength(String start, String end, Set<String> dict) {
@@ -11,7 +11,7 @@ public class WordLadders {
         List<String> level = Arrays.asList(start); // first level
         int dictance = 1;
         while (!level.isEmpty()) {
-            List<String> nextLevel = new ArrayList<>();
+            List<String> nextLevel = new ArrayList();
             for (String word : level) {
                 for (int i = 0; i < word.length(); i++) {
                     char[] chars = word.toCharArray();

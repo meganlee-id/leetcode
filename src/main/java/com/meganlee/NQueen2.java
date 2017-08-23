@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class NQueen2 {
     //--------------- Solution 1 --------------------//
@@ -13,7 +12,7 @@ public class NQueen2 {
             return res[0];
         }
         // use a 1D-array to indicate solution
-        helper(res, new ArrayList<Integer>(), n, 0);
+        helper(res, new ArrayList(), n, 0);
         return res[0];
     }
 

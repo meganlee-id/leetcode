@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class IsBalancedTree {
     public boolean isBalanced(TreeNode root) {
         return height(root) != -1;

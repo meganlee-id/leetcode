@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PalindromePartitioning {
     //--------------------- Solution --------------------------//
@@ -9,19 +8,19 @@ public class PalindromePartitioning {
     // Naive Approach: replace buildCache method with isPalindrome, others are the same
     public List<List<String>> partition(String s) {
         // input validation
-        List<List<String>> res = new ArrayList<List<String>>();
+        List<List<String>> res = new ArrayList();
         if (s == null || s.length() == 0) {
             return res;
         }
         boolean[][] cache = buildCache(s);
-        populateResult(s, 0, new ArrayList<String>(), res, cache);
+        populateResult(s, 0, new ArrayList(), res, cache);
         return res;
     }
 
     private void populateResult(String s, int start, List<String> partition, List<List<String>> res, boolean[][] cache) {
         // base case
         if (start >= s.length()) {
-            res.add(new ArrayList<String>(partition));
+            res.add(new ArrayList(partition));
         }
 
         // general case

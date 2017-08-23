@@ -1,14 +1,13 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 public class NQueen {
     //--------------- Solution 1 --------------------//
     // use a board as a solution builder
     public List<String[]> solveNQueens(int n) {
         // input checking
-        List<String[]> res = new ArrayList<String[]>();
+        List<String[]> res = new ArrayList();
         if (n <= 0) {
             return res;
         }
@@ -67,12 +66,12 @@ public class NQueen {
     // perm={1, 2, 4, 5, 3} -- index: row -- perm[index]: col
     public List<String[]> solveNQueens2(int n) {
         // input checking
-        List<String[]> res = new ArrayList<String[]>();
+        List<String[]> res = new ArrayList();
         if (n <= 0) {
             return res;
         }
         // use a 1D-array to indicate solution
-        helper(res, new ArrayList<Integer>(), n, 0);
+        helper(res, new ArrayList(), n, 0);
         return res;
     }
 

@@ -1,8 +1,6 @@
 package com.meganlee;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.*;
 
 public class RomanToInteger {
     public int romanToInt(String s) {
@@ -15,7 +13,7 @@ public class RomanToInteger {
         // 1. build the value chart
         char[] letters = {'I', 'V', 'X', 'L', 'C', 'D', 'M'};
         int[] values   = { 1,   5,   10,  50, 100, 500, 1000};
-        Map<Character, Integer> table = new HashMap<Character, Integer>();
+        Map<Character, Integer> table = new HashMap();
         for (int i = 0; i < letters.length; i++) {
             table.put(letters[i], values[i]);
         }

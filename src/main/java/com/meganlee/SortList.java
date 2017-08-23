@@ -1,8 +1,6 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class SortList {
     //--------------- Solution 1 ----------------//

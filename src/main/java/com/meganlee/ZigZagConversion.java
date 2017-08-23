@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class ZigZagConversion {
     public String convert(String s, int nRows) {
         // input validation

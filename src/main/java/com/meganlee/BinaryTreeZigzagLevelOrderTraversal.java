@@ -1,16 +1,13 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BinaryTreeZigzagLevelOrderTraversal {
     //------------------- Solution 1 -------------------//
     // BFS: level + nextLevel
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         // input validation
-        List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList();
         if (root == null) {
             return res;
         }
@@ -19,8 +16,8 @@ public class BinaryTreeZigzagLevelOrderTraversal {
         int curLevel = 0; //------ see which level it is
         // level by level traversal
         while (!level.isEmpty()) {
-            List<Integer> vals = new ArrayList<>();
-            List<TreeNode> nextLevel = new ArrayList<>();
+            List<Integer> vals = new ArrayList();
+            List<TreeNode> nextLevel = new ArrayList();
             for (TreeNode n : level) {
                 vals.add(n.val);
                 if (n.left != null) {

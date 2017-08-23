@@ -1,8 +1,8 @@
 package com.meganlee;
 
 public class StringToInteger {
-	
-	//------------- Solution 1. Use casting ---------------//
+    
+    //------------- Solution 1. Use casting ---------------//
     // use long to prevent overflow
     public static int myAtoi(String str) {
         // input validation
@@ -34,7 +34,7 @@ public class StringToInteger {
     }
 
 
-	//-------------   Solution 2 No casting version A  ---------------//
+    //-------------   Solution 2 No casting version A  ---------------//
     public int myAtoi1(String str) {
         // input validation
         if (str == null || str.trim().isEmpty()) {

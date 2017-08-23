@@ -1,12 +1,9 @@
 package com.meganlee;
 
-// http://www.geeksforgeeks.org/full-and-complete-binary-tree-from-given-preorder-and-postorder-traversals/
+import java.util.*;
+import java.util.stream.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.Arrays;
-import java.util.List;
+// http://www.geeksforgeeks.org/full-and-complete-binary-tree-from-given-preorder-and-postorder-traversals/
 
 public class FullBinaryTreePostPre { 
     static class Node {

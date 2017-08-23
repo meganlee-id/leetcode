@@ -37,8 +37,8 @@ public class SymmetricTree {
             return true;
         }
 
-        Queue<TreeNode> left = new LinkedList<TreeNode>(Arrays.asList(root.left));
-        Queue<TreeNode> right = new LinkedList<TreeNode>(Arrays.asList(root.right));
+        Queue<TreeNode> left = new LinkedList(Arrays.asList(root.left));
+        Queue<TreeNode> right = new LinkedList(Arrays.asList(root.right));
         while (left.size() == right.size() && !left.isEmpty()) {
             // pull one node
             TreeNode l = left.poll();

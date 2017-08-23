@@ -1,7 +1,5 @@
 package com.meganlee;
 
-/* 10/24/2014 Megan Lee */
-
 public class SortColors {
     //-------------  SOLUTION 1: 2 SCANs ----------------//
     // count sort

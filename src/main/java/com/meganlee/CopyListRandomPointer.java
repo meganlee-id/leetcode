@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CopyListRandomPointer {
     //------------------- Solution 1 --------------------------//
@@ -9,7 +8,7 @@ public class CopyListRandomPointer {
     public RandomListNode copyRandomList2(RandomListNode head) {
         // if head == null, the following code works well
         // 1st time loop: create map{old -> new}
-        Map<RandomListNode, RandomListNode> map = new HashMap<>();
+        Map<RandomListNode, RandomListNode> map = new HashMap();
         RandomListNode iter = head;
         while (iter != null) {
             map.put(iter, new RandomListNode(iter.label));

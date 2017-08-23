@@ -7,7 +7,11 @@ public class SpiralMatrix2Test {
     SpiralMatrix2 solution = new SpiralMatrix2();
     private String calculate(int n) {
         int[][] matrix = solution.generateMatrix(n);
-        return (matrix == null) ? "" : PrettyPrinter.str2DArray(matrix);
+        System.out.println(String.format("n == %d", n));
+        System.out.println("------- Spiral ------");
+        PrettyPrinter.print2DIntArray(matrix);
+        System.out.println("");
+        return (matrix == null) ? "" : PrettyPrinter.str2DIntArray(matrix);
     }
 
     @Test

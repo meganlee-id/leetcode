@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class ValidPalindrome {
     //------------------- Solution 1 ------------------------//
     // two pointers meeting each other

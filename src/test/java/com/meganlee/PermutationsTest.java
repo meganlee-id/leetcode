@@ -1,14 +1,10 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import org.junit.*;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-public class PermutationTest {
-    Permutation solution = new Permutation();
+public class PermutationsTest {
+    Permutations solution = new Permutations();
     private String calculate(int[] num) {
         List<List<Integer>> res = solution.permute(num);
         // sort for better comparison

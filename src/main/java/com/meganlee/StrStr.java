@@ -4,36 +4,35 @@ package com.meganlee;
 public class StrStr {
     //-----------------  Solution 1 ------------------//
     // brute-force
-    // ERROR: !Line 18: error: cannot find symbol: variable j
-    public String strStr(String haystack, String needle) {
+    public int strStr(String haystack, String needle) {
         // input checking
-        if (haystack == null || needle == null || needle.length() == 0) {
-            return haystack;
+        // discuss about null or zero.length
+        int H = haystack.length(), N = needle.length();
+        if (H < N) {
+            return -1;
+        } else if (N == 0) { // needle is "", return 0;
+            return 0;
         }
-        if (haystack.length() < needle.length()) {
-            return null;
-        }
-
-        // sliding window
-        for (int i = 0; i <= haystack.length() - needle.length(); i++) {
-            for (int j = 0; j < needle.length(); j++) {
-                if (haystack.charAt(i + j) != needle.charAt(j)) {
-                    break;
-                } else {
-                    if (j == needle.length() - 1) {
-                        return haystack.substring(i);
-                    }
-                }
+        // h and n are not null and H >= n
+        for (int i = 0; i <= H - N; i++) {
+            if (haystack.substring(i, i + N).equals(needle)) { // String.equals: 1) compare len 2) compare char by char
+                return i;
             }
+            //---- if implement String.equal by yourself, content in for block: ------//
+            // for (int j = 0; j < N; j++) {
+            //     if (haystack.charAt(i + j) == needle.charAt(j)) {
+            //         if (j == N - 1) {
+            //             return i;
+            //         }
+            //     } else {
+            //         break;
+            //     }
+            // }
         }
-        return null;
+        return -1;
     }
 
     //-----------------  Solution 2 ------------------//
     // KMP - please refer to class KMP
-    // explanation could be found on Leetcode Summary
-
-    //----------------- Solution 3 -------------------//
-    // Rolling Hash - Rabin-Karp: pleas refer to code ganker's website
 }
 

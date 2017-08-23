@@ -11,7 +11,7 @@ public class SingleNumber2 {
             return 0;
         }
 
-        Map<Integer, Integer> countMap = new HashMap<>();
+        Map<Integer, Integer> countMap = new HashMap();
         for (int n : nums) {
             int currentCount = countMap.containsKey(n) ? countMap.get(n) : 0;
             countMap.put(n, currentCount + 1);

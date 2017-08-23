@@ -1,7 +1,6 @@
 package com.meganlee;
 
 
-
 public class RemoveListDupes {
     //------------------- Solution 1 ----------------------//
     // two pointers, 1 points to end of valid list,

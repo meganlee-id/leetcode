@@ -1,21 +1,19 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Subsets2 {
     //--------------  Solution 1 ---------------------//
     // incremental
     public List<List<Integer>> subsetsWithDup(int[] num) {
         // input checking
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<List<Integer>> result = new ArrayList();
         if (num == null || num.length == 0) {
             return result;
         }
 
         Arrays.sort(num); // sort first!
-        result.add(new ArrayList<Integer>());  // add the empty set
+        result.add(new ArrayList());  // add the empty set
 
         for (int i = 0; i < num.length; i++) {
             // step 1: count duplicates && move to the last same num
@@ -29,7 +27,7 @@ public class Subsets2 {
             int size = result.size();
             for (int j = 1; j <= counter; j++) {
                 for (int k = (j - 1) * size; k < j * size; k++) {
-                    List<Integer> item = new ArrayList<Integer>(result.get(k));
+                    List<Integer> item = new ArrayList(result.get(k));
                     item.add(num[i]);
                     result.add(item);
                 }
@@ -42,20 +40,20 @@ public class Subsets2 {
     // classic recursion (DFS + backtrack)
     public List<List<Integer>> subsetsWithDup2(int[] num) {
         // input checking
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
             return res;
         }
 
         Arrays.sort(num);  // remember to sort!!
-        populateResult(res, new ArrayList<Integer>(), num, 0);
+        populateResult(res, new ArrayList(), num, 0);
         return res;
     }
     
     private void populateResult(List<List<Integer>> result,  List<Integer> subset, int[] num, int pos) {
         // base case
         if (pos >= num.length) {
-            result.add(new ArrayList<Integer>(subset));
+            result.add(new ArrayList(subset));
             return;
         }
         
@@ -82,6 +80,6 @@ public class Subsets2 {
         Subsets2 solution = new Subsets2();
         int[] s = {1,4,4};
         List<List<Integer>> result = solution.subsetsWithDup(s);
-        PrettyPrinter.print2DList(result);
+        PrettyPrinter.print2DIntList(result);
     }
 }

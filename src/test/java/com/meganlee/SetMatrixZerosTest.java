@@ -1,4 +1,3 @@
-
 package com.meganlee;
 
 import org.junit.*;
@@ -7,7 +6,7 @@ public class SetMatrixZerosTest {
     SetMatrixZeros solution = new SetMatrixZeros();
     private String calculate(int[][] matrix) {
         solution.setZeroes(matrix);
-        return PrettyPrinter.str2DArray(matrix);
+        return PrettyPrinter.str2DIntArray(matrix);
     }
 
     // test cases:

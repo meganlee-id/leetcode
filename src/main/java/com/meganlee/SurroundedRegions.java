@@ -13,7 +13,7 @@ public class SurroundedRegions {
         }
 
         // initialize
-        Queue<Integer>  queue = new LinkedList<Integer>();
+        Queue<Integer>  queue = new LinkedList();
         int rows = board.length, cols = board[0].length;
         for (int i = 0; i < rows; i++) {
             enqueue(queue, board, i, 0);

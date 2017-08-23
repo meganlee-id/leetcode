@@ -1,7 +1,6 @@
 package com.meganlee;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class LinkedListCycle {
     //------------------ Solution 1 ------------------//
@@ -30,7 +29,7 @@ public class LinkedListCycle {
     // HashTable
     // Time/Space: O(n)
     public boolean hasCycle2(ListNode head) {
-        Set<ListNode> nodesSeen = new HashSet<ListNode>();
+        Set<ListNode> nodesSeen = new HashSet();
         while (head != null) {
             if (nodesSeen.contains(head)) {
                 return true;

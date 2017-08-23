@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class Sqrt {
     //-----------  Binary Search --------------//
     public int sqrt(int x) {

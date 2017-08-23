@@ -1,15 +1,13 @@
 package com.meganlee;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreePreorderTraversal {
 
     //----------------- Solution 1 --------------------//
     // recursion
     public List<Integer> preorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         helper(root, res);
         return res;
     }
@@ -27,8 +25,8 @@ public class BinaryTreePreorderTraversal {
     //----------------- Solution 2 --------------------//
     // Classic Stack: stack + cur
     public List<Integer> preorderTraversal2(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
+        List<Integer> res = new ArrayList();
+        Stack<TreeNode> s = new Stack();
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
@@ -47,8 +45,8 @@ public class BinaryTreePreorderTraversal {
     //----------------- Solution 3 --------------------//
     // DFS
     public List<Integer> preorderTraversal3(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
+        List<Integer> res = new ArrayList();
+        Stack<TreeNode> s = new Stack();
         if (root == null) {
             return res;
         }
@@ -72,7 +70,7 @@ public class BinaryTreePreorderTraversal {
     // Morris traversal
     // pre: rightmost child of my left sub tree
     public List<Integer> preorderTraversal4(TreeNode root) {
-        List<Integer> res = new ArrayList<>();
+        List<Integer> res = new ArrayList();
         TreeNode cur = root;
         while (cur != null) {
             TreeNode pre = cur.left;

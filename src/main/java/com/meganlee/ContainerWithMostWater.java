@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class ContainerWithMostWater {
     //----------------- Solution 1 ------------------//
     // brute-force, find all pairs: Time Limit Exceeded
@@ -46,7 +45,7 @@ public class ContainerWithMostWater {
 
     ///////////////////  TEST //////////////////////
     private static void test(ContainerWithMostWater solution, int[] bars) {
-        PrettyPrinter.print1DArray(bars);
+        PrettyPrinter.print1DIntArray(bars);
         System.out.println(solution.maxArea2(bars));
     }
 

@@ -1,14 +1,12 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public class FourSum {
     //-------- Sort and solve, exactly the same code as 3sum --------------//
     public List<List<Integer>> fourSum(int[] num, int target) {
         // input validation
-        List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList();
         if (num == null || num.length < 4) {
             return res;
         }
@@ -55,7 +53,7 @@ public class FourSum {
         FourSum solution = new FourSum();
         int[] nums = {1, 2, 5, -3, 4, 2, 1, 1, 3, 6, 5, 7, 1, -3};
         List<List<Integer>> res = solution.fourSum(nums, 0);
-        PrettyPrinter.print2DList(res);
+        PrettyPrinter.print2DIntList(res);
     }
 }
 

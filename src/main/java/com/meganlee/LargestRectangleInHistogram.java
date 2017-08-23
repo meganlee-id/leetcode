@@ -1,8 +1,6 @@
 package com.meganlee;
 
-import java.util.Arrays;
-import java.util.Stack;
-
+import java.util.*;
 
 public class LargestRectangleInHistogram {
     // ---------------  Solution 1 ---------------------//
@@ -37,11 +35,11 @@ public class LargestRectangleInHistogram {
             return 0;
         }
 
-        Stack<Integer> stack = new Stack<>();                   // for getting the left and right boundaries
+        Stack<Integer> stack = new Stack();                   // for getting the left and right boundaries
         int maxArea = 0;
-        int[] h = Arrays.copyOf(height, height.length + 1);     // add a padding 0 at the end for simplify the code
+        int[] h = Arrays.copyOf(height, height.length + 1);   // add a padding 0 at the end for simplify the code
         for(int i = 0; i < h.length; ) { // no i++ here
-            if (stack.isEmpty() || h[i] >= h[stack.peek()]) {   // >, >= both ok
+            if (stack.isEmpty() || h[i] >= h[stack.peek()]) { // >, >= both ok
                 stack.push(i);
                 i++;    // i++ here
             } else {    // no i++

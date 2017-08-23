@@ -1,8 +1,6 @@
 package com.meganlee;
 
-// TAGS: dp
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PascalTriangle2 {
     // 0 --> [1]
@@ -11,20 +9,18 @@ public class PascalTriangle2 {
     // ...
     public List<Integer> getRow(int rowIndex) {
         // input checking
-        List<Integer> res = new ArrayList<Integer>();
+        List<Integer> row = new ArrayList();
         if (rowIndex < 0) {
-            return res;
+            return row;
         }
-
         // compute row by row
-        res.add(1);  // rowIndex == 0
-        for (int row = 1; row <= rowIndex; row++) {
-            res.add(1);
-            for (int j = row - 1; j >= 1; j--) {
-                res.set(j, res.get(j) + res.get(j - 1));
+        for (int i = 0; i <= rowIndex; i++) {  // rowIndex starts from 0
+            for (int j = row.size() - 1; j >= 1 ; j--) {
+                row.set(j, row.get(j) + row.get(j - 1));
             }
+            row.add(1);
         }
-        return res;
+        return row;
     }
 }
 
