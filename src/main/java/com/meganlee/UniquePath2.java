@@ -126,7 +126,7 @@ public class UniquePath2 {
                     }
                 }
             }
-            PrettyPrinter.print1DIntArray(dp);
+            Arrays.toString(dp);
         }
         return dp[n];
     }

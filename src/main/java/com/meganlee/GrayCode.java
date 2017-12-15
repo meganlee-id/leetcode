@@ -13,9 +13,12 @@ public class GrayCode {
         
         // collect result bit-by-bit / level-by-level
         res.add(0);
-        for (int pos = 0; pos < n; pos++) { // track levels of iteration, pay attention of off-by-one error
-            int size = res.size();
-            int msb = 1 << pos;  // msb: most significant bit
+        // pos indicate 1) level 2) 0-indexed number of effective bits
+        for (int pos = 0; pos < n; pos++) {
+            // get the msb for appending the mirrored reversed number in current res
+            int msb = 1 << pos;     // msb: most significant bit
+            // append the mirrored reverse
+            int size = res.size(); // record the size of last level
             for (int i = size - 1; i >= 0; i--) {
                 res.add(msb + res.get(i));
             }
@@ -33,7 +36,7 @@ public class GrayCode {
         }
         
         // use binary -> Gray conversion XOR rule
-        for (int i = 0; i < (1 << n); i++) {
+        for (int i = 0; i < (1 << n); i++) { // i < 2^n
             res.add(i ^ (i >> 1));
         }
         return res;

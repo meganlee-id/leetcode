@@ -60,7 +60,7 @@ public class MaxPointsOnLine {
                     dupes++;
                 } else {                                // non overlapping points, collect in map table
                     Double slope = getSlope(points[i], points[j]);
-                    int numOfPoints =  table.containsKey(slope) ? (table.get(slope) + 1) : 1;
+                    int numOfPoints = table.containsKey(slope) ? (table.get(slope) + 1) : 1;
                     table.put(slope, numOfPoints);
                 }
             }
@@ -93,31 +93,10 @@ public class MaxPointsOnLine {
     }
 
     private Double getSlope(Point p1, Point p2) {
+        // Assumption:  p1 is NOT the same as p2
+
         // 1) in Java -0,0 is NOT the same as 0.0, but -0.0 + 0.0 = 0.0
         // 2) don't forget to cast to (double)!! otherwise slope is rounded to int
         return (p1.x == p2.x) ? Double.POSITIVE_INFINITY : ((double)(p1.y - p2.y) / (p1.x - p2.x)) + 0.0;
-    }
-
-
-    //////////////////////  TEST /////////////////////////
-    private static void test(MaxPointsOnLine solution, int[][] points, int expected) {
-        int actual = solution.maxPoints(Point.buildPoints(points));
-        System.out.println(String.format("\n\nActual: %d,  Expected: %d", actual, expected));
-        System.out.println(actual == expected);
-    }
-    public static void main(String[] args) {
-        // output 6
-        int[][] xys1 = {{84,250},{0,0},{1,0},{0,-70},{0,-70},{1,-1},{21,10},{42,90},{-42,-230}};
-
-        // output 12
-        int[][] xys2 = {{0,9},{138,429},{115,359},{115,359},{-30,-102},{230,709},{-150,-686},{-135,-613},{-60,-248},{-161,-481},{207,639},{23,79},{-230,-691}, {-115,-341},{92,289},{60,336},{-105,-467},{135,701},{-90,-394},{-184,-551},{150,774}};
-
-        // output: 4
-        int[][] xys3 = {{0,0},{0,0},{0,0},{0,0}};
-
-        MaxPointsOnLine solution = new MaxPointsOnLine();
-        test(solution, xys1, 6);
-        test(solution, xys2, 12);
-        test(solution, xys3, 4);
     }
 }

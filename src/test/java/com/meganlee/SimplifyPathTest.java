@@ -1,5 +1,6 @@
 package com.meganlee;
 
+import java.util.*;
 import org.junit.*;
 
 public class SimplifyPathTest {
@@ -8,7 +9,7 @@ public class SimplifyPathTest {
         System.out.println("str: " + s);
         String[] splitted = s.split("/");
         System.out.print("splits: "); 
-        PrettyPrinter.print1DStrArray(splitted);
+        System.out.println(Arrays.toString(splitted));
         String res = solution.simplifyPath(s);
         System.out.print("simplified path: "); 
         System.out.println(res);

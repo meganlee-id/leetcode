@@ -1,6 +1,7 @@
 package com.meganlee;
 
 import java.util.*;
+import java.util.stream.*;
 
 public class WordBreak {
     //---------- A very dynamic solution -------------//
@@ -9,7 +10,11 @@ public class WordBreak {
         if (s == null || s.length() == 0) {
             return true;
         }
+        if (dict == null || dict.size() == 0) {
+            return false;
+        }
 
+        // get max and min len of the words
         // prepare for the calculation
         int minLen = Integer.MAX_VALUE;
         int maxLen = Integer.MIN_VALUE;
@@ -18,15 +23,18 @@ public class WordBreak {
             minLen = Math.min(minLen, wordLen);
             maxLen = Math.max(maxLen, wordLen);
         }
+        // // Stream.max() returns Optional[String]
+        // int maxLen = dict.stream().max(Comparator.comparingInt(String::length)).get().length(); 
+        // int minLen = dict.stream().min(Comparator.comparingInt(String::length)).get().length();
 
         // start calculation
-        boolean[] res = new boolean[s.length() + 1]; // res[i], can prefix with len i be segmented
+        boolean[] res = new boolean[s.length() + 1]; // res[len], can prefix with len i be segmented
         res[0] = true;
-        for (int i = minLen; i <= s.length(); i++) {
-            for (int j = Math.max(i - maxLen, 0); j <= i - minLen; j++) {
-                String curWord = s.substring(j, i);
-                if (dict.contains(curWord) && res[j]) {
-                    res[i] = true;
+        for (int end = minLen; end <= s.length(); end++) {
+            for (int start = Math.max(end - maxLen, 0); start <= end - minLen; start++) {
+                String curWord = s.substring(start, end);
+                if (dict.contains(curWord) && res[start]) { // res[start] record the substring BEFORE index start
+                    res[end] = true;
                     break;
                 }
             }

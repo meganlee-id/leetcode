@@ -24,6 +24,7 @@ public class BinaryTreePreorderTraversal {
 
     //----------------- Solution 2 --------------------//
     // Classic Stack: stack + cur
+    // Ask: whether to returen a List<TreeNode> or List<Integer>
     public List<Integer> preorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList();
         Stack<TreeNode> s = new Stack();
@@ -34,9 +35,9 @@ public class BinaryTreePreorderTraversal {
                 res.add(cur.val);   // VISIT
                 cur = cur.left;     // travel to each node's left child, till reach the left leaf
             } else {            //--- GOING UP   ---
-                cur = s.pop();      // backtrack to higher level
-                cur = cur.right;    // switch to right branch
-            }
+                TreeNode node = s.pop();  // backtrack to higher level
+                cur = node.right;         // switch to right branch
+             }
         }
         return res;
     }
@@ -55,6 +56,7 @@ public class BinaryTreePreorderTraversal {
         while (!s.isEmpty()) {
             TreeNode cur = s.pop();
             res.add(cur.val);
+            // push right node first which will be visited laster
             if (cur.right != null) {
                 s.push(cur.right);
             }

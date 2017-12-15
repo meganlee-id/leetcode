@@ -1,17 +1,15 @@
 package com.meganlee;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Arrays;
+import java.util.*;
 
 
 public class TwoSum {
     //-------------- Solution 1  ------------------//
     // 2 pointers, naive
     public int[] twoSum(int[] nums, int target) {
+        // invalid input
         if (nums == null || nums.length < 2) {
-            return null;    // invalid input
+            return null;
         }
 
         for (int i = 0; i < nums.length; i++) {
@@ -26,20 +24,19 @@ public class TwoSum {
     }
 
     //-------------- Solution 2  ------------------//
-    // HashMap
+    // HashMap: 
     public int[] twoSum2(int[] nums, int target) {
         if (nums == null || nums.length < 2) {
             return null;
         }
-
+        // Map<num, index>
         Map<Integer, Integer> table = new HashMap();
         for (int i = 0; i < nums.length; i++) {
-            int num = nums[i];
-            int complement = target - num;
+            int complement = target - nums[i];
             if (table.containsKey(complement)) {
                 return new int[] {table.get(complement), i}; // found an answer
             } else {
-                table.put(num, i);
+                table.put(nums[i], i);
             }
         }
 
@@ -75,17 +72,5 @@ public class TwoSum {
         }
 
         return null;
-    }
-
-
-    ////////////////  TEST  ///////////////////////
-    public static void test(TwoSum solution, int[] numbers, int target) {
-        int[] res = solution.twoSum(numbers, target);
-        PrettyPrinter.print1DIntArray(res);
-    }
-    public static void main(String[] args) {
-        TwoSum solution = new TwoSum();
-        int[] numbers = {12, 2, 11, 4, 6, 10, 8};
-        test(solution, numbers, 14);
     }
 }

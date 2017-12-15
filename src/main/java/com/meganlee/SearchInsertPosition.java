@@ -1,14 +1,14 @@
 package com.meganlee;
 
 public class SearchInsertPosition {
-    public static int searchInsert(int[] A, int target) {
+    public static int searchInsert(int[] nums, int target) {
         // binary search
-        int lo = 0, hi = A.length - 1;
+        int lo = 0, hi = nums.length - 1;
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (A[mid] == target) {
+            if (nums[mid] == target) {
                 return mid;
-            } else if (A[mid] > target) {
+            } else if (nums[mid] > target) {
                 hi = mid - 1;
             } else {
                 lo = mid + 1;

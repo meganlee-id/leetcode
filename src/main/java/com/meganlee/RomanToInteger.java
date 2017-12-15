@@ -29,18 +29,4 @@ public class RomanToInteger {
         }
         return res;
     }
-    
-    //////////////// Test ///////////////////
-    public static void test(String s) {
-        RomanToInteger solution = new RomanToInteger();
-        System.out.println(s + " = " + solution.romanToInt(s));
-    }
-
-    public static void main(String[] argv) {
-        test("MMMCMXCIX");
-        test("VIII");
-        test("XXVII");
-    }
 }
-
-

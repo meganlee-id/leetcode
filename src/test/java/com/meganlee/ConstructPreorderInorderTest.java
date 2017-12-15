@@ -6,8 +6,8 @@ import org.junit.*;
 public class ConstructPreorderInorderTest {
     ConstructPreorderInorder solution = new ConstructPreorderInorder();
     private String calculate(int[] pre, int[] in) {
-        BinaryTreeInorderTraversal util = new BinaryTreeInorderTraversal();
-        List<Integer> actual = util.inorderTraversal(solution.buildTree(pre, in));
+        BinaryTreeInorderTraversal treeUtil = new BinaryTreeInorderTraversal();
+        List<Integer> actual = treeUtil.inorderTraversal(solution.buildTree(pre, in));
         return actual.toString();
     }
 

@@ -25,6 +25,7 @@ public class BinaryTreeInorderTraversal {
 
     //----------------- Solution 2 ------------------//
     // Classic Stack: stack + cur pointer
+    // Ask: whether to returen a List<TreeNode> or List<Integer>
     public List<Integer> inorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList();
         Stack<TreeNode> s = new Stack();
@@ -34,9 +35,9 @@ public class BinaryTreeInorderTraversal {
                 s.push(cur);        // add to call stack
                 cur = cur.left;     // travel to each node's left child, till reach the left leaf
             } else {            //--- GOING UP   ---
-                cur = s.pop();      // backtrack to higher level
-                res.add(cur.val);   // VISIT
-                cur = cur.right;    // switch to right branch
+                TreeNode node = s.pop();  // backtrack to higher level
+                res.add(node.val);        // VISIT
+                cur = node.right;         // switch to right branch
             }
         }
         return res;
@@ -46,10 +47,10 @@ public class BinaryTreeInorderTraversal {
     //-- NO DFS SOLUTION FOR IN-ORDER TRAVERSAL
     
 
-    //----------------- Solution 3 ------------------//
+    //----------------- Solution 4 ------------------//
     // Morris traversal
     // pre: rightmost child of my left sub tree
-    public List<Integer> inorderTraversal3(TreeNode root) {
+    public List<Integer> inorderTraversal4(TreeNode root) {
         List<Integer> res = new ArrayList();
         TreeNode cur = root;
         while (cur != null) {
@@ -84,7 +85,7 @@ public class BinaryTreeInorderTraversal {
         BinaryTreeInorderTraversal solution = new BinaryTreeInorderTraversal();
         String[] s = {"1", "2", "3", "#", "#", "4", "#", "#", "5"};
         TreeNode root = TreeNode.buildTreeFromLevelOrder(s);
-        List<Integer> result = solution.inorderTraversal3(root);
+        List<Integer> result = solution.inorderTraversal4(root);
         PrettyPrinter.print1DIntList(result);
     }
 }

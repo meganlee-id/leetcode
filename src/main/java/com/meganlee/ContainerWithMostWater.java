@@ -1,5 +1,7 @@
 package com.meganlee;
 
+import java.util.*;
+
 public class ContainerWithMostWater {
     //----------------- Solution 1 ------------------//
     // brute-force, find all pairs: Time Limit Exceeded
@@ -35,28 +37,10 @@ public class ContainerWithMostWater {
             max = Math.max(max, area);
             if (height[i] < height[j]) {
                 i++;
-            } else {
+            } else { // if height[i] == height[j] we could throw either side
                 j--;
             }
         }
         return max;
     }
-
-
-    ///////////////////  TEST //////////////////////
-    private static void test(ContainerWithMostWater solution, int[] bars) {
-        PrettyPrinter.print1DIntArray(bars);
-        System.out.println(solution.maxArea2(bars));
-    }
-
-
-    public static void main(String[] args) {
-        ContainerWithMostWater solution = new ContainerWithMostWater();
-        int[] bars1 = {9,6,8,8,5,6,3};
-        int[] bars2 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30};
-        test(solution, bars1);
-        test(solution, bars2);
-    }
 }
-
-// think: when lo == hi, we should both lo++ and hi-- e.g: (9, 100, 102, 9)

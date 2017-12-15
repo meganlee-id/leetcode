@@ -7,13 +7,13 @@ public class FirstMissingPositive {
             return 1;
         }
 
-        // put i at index i - 1
+        // put num at index i = num - 1
         for (int i = 0; i < A.length; ) {
             int targetIndex = A[i] - 1;
             if (A[i] <= 0 || A[i] > A.length || i == targetIndex || A[i] == A[targetIndex]) {
-                i++;
+                i++; // skip
             } else {
-                swap(A, i, targetIndex);
+                swap(A, i, targetIndex); // swap, no i++
             }
         }
 

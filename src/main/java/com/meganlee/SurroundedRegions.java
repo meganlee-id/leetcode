@@ -1,9 +1,6 @@
 package com.meganlee;
 
-/* Created by meganlee on 11/15/14. */
-
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class SurroundedRegions {
     public void solve(char[][] board) {

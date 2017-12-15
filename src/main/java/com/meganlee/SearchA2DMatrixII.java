@@ -4,18 +4,19 @@
     //------------------ Solution 1 ---------------------//
     // single-step throw row or col -> O(M + N)
     public boolean searchMatrix(int[][] matrix, int target) {
+        // input validation
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return false;
         }
-
-        int row = 0, col = matrix[0].length - 1;
-        while (row < matrix.length && col >= 0) {
-            if (matrix[row][col] == target) {
+        // find the target
+        int r = 0, c = matrix[0].length - 1;
+        while (r <= matrix.length - 1 && c >= 0) {
+            if (matrix[r][c] == target) {
                 return true;
-            } else if (matrix[row][col] > target) {
-                col--;
+            } else if (matrix[r][c] < target) {
+                r++;
             } else {
-                row++;
+                c--;
             }
         }
         return false;
@@ -31,33 +32,33 @@
         return helper(matrix, 0, matrix.length - 1, 0, matrix[0].length - 1, target);
     }
 
-    private boolean helper(int[][] matrix, int x1, int x2, int y1, int y2, int target) {
+    private boolean helper(int[][] matrix, int r1, int r2, int c1, int c2, int target) {
         // base case
-        if (x1 > x2 || y1 > y2) {
+        if (r1 > r2 || c1 > c2) {
             return false;
         }
         // step 1: find the pivot in the mid row
-        int midRow = x1 + (x2 - x1) / 2;    // get the mid row
-        int midCol = findMidCol(matrix, midRow, y1, y2, target); // find first elem < target
-        if (midCol != -1 && matrix[midRow][midCol] == target) {
+        int midR = r1 + (r2 - r1) / 2;    // get the mid row
+        int midC = findMidCol(matrix, midR, c1, c2, target); // find first elem < target
+        if (midC != -1 && matrix[midR][midC] == target) {
             return true;
         }
         // step 2: recursivelly call on 2 smaller matrix
-        return helper(matrix, x1, midRow - 1, midCol + 1, y2, target) ||
-               helper(matrix, midRow + 1, x2, y1, midCol, target);
+        return helper(matrix, r1, midR - 1, midC + 1, c2, target) ||
+               helper(matrix, midR + 1, r2, c1, midC, target);
     }
 
-    private int findMidCol(int[][] matrix, int row, int y1, int y2, int target) {
-        while (y1 <= y2) {
-            int mid = y1 + (y2 - y1) / 2;
-            if (matrix[row][mid] == target) {
-                return mid;
-            } else if (matrix[row][mid] < target) {
-                y1 = mid + 1;
+    private int findMidCol(int[][] matrix, int r, int c1, int c2, int target) {
+        while (c1 <= c2) {
+            int midC = c1 + (c2 - c1) / 2;
+            if (matrix[r][midC] == target) {
+                return midC;
+            } else if (matrix[r][midC] < target) {
+                c1 = midC + 1;
             } else {
-                y2 = mid - 1;
+                c2 = midC - 1;
             }
         }
-        return y2;
+        return c2;
     }
 }

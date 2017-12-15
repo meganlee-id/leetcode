@@ -24,7 +24,9 @@ public class BinaryTreePostorderTraversal {
 
 
     //--------------------- Solution 2 ----------------------//
-    // Classic Stack: stack + cur + lastVisited
+    // We could also use reverse preorder, here is a tweak version of classic stack
+    // stack + cur + lastVisited
+    // Stack always store the path from root to current
     public List<Integer> postorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList();
         Stack<TreeNode> s = new Stack();
@@ -35,13 +37,13 @@ public class BinaryTreePostorderTraversal {
                 cur = cur.left;     // travel to each node's left child, till reach the left leaf
             } else {            //--- GOING UP   ---
                 TreeNode node = s.peek();
-                // case 1: haven't visited right part
-                if (node.right != null && node.right != lastVisited) {
-                    cur = node.right;          // switch to right branch
-                // case 2: right subtree visited already
-                } else {
+                // case 1: right subtree visited already
+                if (node.right == null || node.right == lastVisited) {
                     lastVisited = s.pop();    // backtrack to higher level
                     res.add(lastVisited.val); // visit
+                // case 2: haven't visited right subtree
+                } else {
+                    cur = node.right;          // switch to right branch
                 }
             }
         }

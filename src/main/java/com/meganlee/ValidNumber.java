@@ -3,18 +3,48 @@ package com.meganlee;
 public class ValidNumber {
     //------------------- Solution 1 ------------------//
     // use regular expression
+    // AeB
+    //
+    // A could be integer or float
+    //     1) sign --> + - non
+    //     2) [0-9]*.[0-9]* would all be valid except for . only
+    //         e.g: 000  30.  .05   9.00
+    //
+    // B should be integer
+    //     1) sign --> + - non
+    //     2) [0-9]+
+    //
+    // eB must appear or disappear together
+    //
+    // A = [+-]? (I | F)
+    //      I = [0-9]+\.?          --> integer
+    //      F = [0-9]*\.[0-9]+     --> float
+    //
+    // e = [eE]
+    //
+    // B = [+-]?[0-9]+    --> raised to the power
+    //
+    // REGEX = A(eB)? 
+    //       = [+-]?([0-9]+\.?|[0-9]*\.[0-9]+)([eE][+-]?[0-9]+)?
     public boolean isNumber(String s) {
-        return s.trim().matches("[-+]?([0-9]+\\.?|[0-9]*\\.[0-9]+)([eE][-+]?[0-9]+)?");
+        // input validation
+        if (s == null) {
+            return false;
+        }
+        // String.matches("regex_string")
+        return s.trim().matches("[+-]?([0-9]+\\.?|[0-9]*\\.[0-9]+)([eE][+-]?[0-9]+)?");
     }
 
+
     //------------------- Solution 2 ------------------//
-    // check string one-by-one
+    // check string one-by-one, using flag
     public boolean isNumber2(String s) {
         // input validation
         if (s == null) {
             return false;
         }
         s = s.trim().toLowerCase();
+        // check char one-by-one
         boolean hasNum = false;
         boolean hasE = false;
         boolean hasDot = false;
@@ -31,12 +61,13 @@ public class ValidNumber {
                 if (i != 0 && s.charAt(i - 1) != 'e') {
                     return false;
                 }
+                hasNum = false;  // have to have number after
             } else if (ch == 'e') {
                 if (!hasNum || hasE) {
                     return false;
                 }
                 hasE = true;
-                hasNum = false;
+                hasNum = false;  // have to have number after
             } else {
                 return false;
             }
@@ -45,32 +76,51 @@ public class ValidNumber {
     }
 
 
-    /////////////////// Test //////////////////////
-    // use thie example to test valid number representations
-    public static void example() {
-        int[] a = new int[20];
-        a[0] = +000;
-        a[1] = -0;
-        a[2] = 0;
-        a[3] = +130;
-        a[4] = -130;
-        a[5] = 00130;
-        a[6] = Integer.MAX_VALUE;
-        a[7] = Integer.MIN_VALUE;
 
-
-        long[] b = new long[20];
-        b[0] = -0l;
-        b[1] = +0l;
-        b[2] = 0l;
-        b[3] = -15l;
-        b[4] = +15l;
-        b[5] = 15l;
-
-
-        double[] c = new double[20];
-        c[0] = 177.1e+00f;
-        c[1] = 00.;  // a doulbe
-        c[1] = .0000f;
+    //------------------- Solution 3 ------------------//
+    // DFA: automator
+    public boolean isNumber3(String s) {
+        // input validation
+        if (s == null) {
+            return false;
+        }
+        s = s.trim().toLowerCase();
+        // use a flag for deciding on dot
+        boolean hasNum = false;
+        int state = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (Character.isDigit(ch)) {
+                hasNum = true;
+                if (state <= 2) {
+                    state = 2;
+                } else if (state <=4) {
+                    state = 4;
+                } else {
+                    state = 7;
+                }
+            } else if (ch == '+' || ch == '-') {
+                if (state == 0 || state == 5) {
+                    state++;
+                } else {
+                    return false;
+                }
+            } else if (ch == '.') {
+                if (state <= 2) {
+                    state = 3;
+                } else {
+                    return false;
+                }
+            } else if (ch == 'e') {
+                if (hasNum && 2 <= state && state <= 4) {
+                    state = 5;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        return (state == 2) || (state == 3 && hasNum) || (state == 4) || (state == 7);
     }
 }

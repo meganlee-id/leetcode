@@ -7,7 +7,7 @@ public class Permutations2Test {
     Permutations2 solution = new Permutations2();
     private String calculate(int[] a) {
         System.out.println("---- input ----");
-        PrettyPrinter.print1DIntArray(a);
+        Arrays.toString(a);
 
         System.out.println("---- permutations ----");
         List<List<Integer>> res = solution.permuteUnique(a);

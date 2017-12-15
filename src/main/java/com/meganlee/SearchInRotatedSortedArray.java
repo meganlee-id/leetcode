@@ -32,15 +32,15 @@ public class SearchInRotatedSortedArray {
         int lo = 0, hi = nums.length - 1; // hi = len - 1
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
-            if (target == nums[mid]) {
+            if (target == nums[mid]) {          // find the target
                 return mid;
-            } else if (nums[lo] <= nums[mid]) { // [lo, mid] contiguous    <= instead of < since lo might equals to mid
+            } else if (nums[lo] <= nums[mid]) { // [lo ~ mid] strictly sorted (<= not <, lo might equals mid)
                 if (nums[lo] <= target && target < nums[mid]) { // target '<' mid (not <=)
                     hi = mid - 1;
                 } else {
                     lo = mid + 1;
                 }
-            } else {                            // [mid, hi] contiguous
+            } else {                            // [mid ~ hi] strictly sorted
                 if (nums[mid] < target && target <= nums[hi]) { // mid '<'' target (not <=)
                     lo = mid + 1;
                 } else {

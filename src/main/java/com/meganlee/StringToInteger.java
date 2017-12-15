@@ -1,41 +1,40 @@
 package com.meganlee;
 
 public class StringToInteger {
-    
-    //------------- Solution 1. Use casting ---------------//
-    // use long to prevent overflow
-    public static int myAtoi(String str) {
+    //-------------   Solution 1 int: Reverse Calculation  ---------------//
+    // use "reverse calculation" to check for overflow
+    public int myAtoi(String str) {
         // input validation
         if (str == null || str.trim().isEmpty()) {
             return 0;
         }
         str = str.trim();
 
-        // define vars, get sign
-        long res = 0;
+        // define vars, get sign            
+        int absRes = 0;    //--DIFF-- use "int" + "reverse calculation"
         int i = 0;
-        boolean isPos = true;                   // if no sign, isPos should be true by default
-        char sign = str.charAt(0);
-        if (sign == '+' || sign == '-') {
-            isPos = (sign == '+');
+        int sign = 1;      // if no sign char detected, should default to true
+        if (str.charAt(0) == '+' || str.charAt(0) == '-') {
+            sign = (str.charAt(0) == '+') ? 1 : -1;
             i++;
         }
 
         // convert the value
         while (i < str.length() && Character.isDigit(str.charAt(i))) {
-            int digit = str.charAt(i) - '0';    // don't forget to convert to int
-            res = res * 10 + digit;
-            if (res > Integer.MAX_VALUE) {      // if (res == MAX + 1) isNeg ? MIN : MAX  [NOTE: abs(MIN) = MAX + 1]
-                return isPos ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            int oldAbsRes = absRes;
+            absRes = absRes * 10 + (str.charAt(i) - '0');  // convert char to int: digit = char - '0'
+            if (absRes / 10 != oldAbsRes) {                //--DIFF--: overflow check using "reverse calculation"
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             }
             i++; // remember to +1 in a while loop
         }
-        return (int)(isPos ? res : -res);
+        // if no digit sequence detected, res remains 0 here, comply to the requirement
+        return absRes * sign;
     }
 
-
-    //-------------   Solution 2 No casting version A  ---------------//
-    public int myAtoi1(String str) {
+    //------------- Solution 2. Use Long ---------------//
+    // use "long" to check for overflow
+    public static int myAtoi2(String str) {
         // input validation
         if (str == null || str.trim().isEmpty()) {
             return 0;
@@ -43,30 +42,31 @@ public class StringToInteger {
         str = str.trim();
 
         // define vars, get sign
-        int res = 0;                                       ////// diff 1. use 'int' instead of 'long'
+        long absRes = 0;    //--DIFF--  use long for detecting overflow during calculation
         int i = 0;
-        boolean isPos = true;
-        char sign = str.charAt(0);
-        if (sign == '+' || sign == '-') {
-            isPos = (sign == '+');
+        int sign = 1;       // if no sign char detected, should default to true
+        if (str.charAt(0) == '+' || str.charAt(0) == '-') {
+            sign = (str.charAt(0) == '+') ? 1 : -1;
             i++;
         }
 
-        // convert the string to integer
+        // convert the value
         while (i < str.length() && Character.isDigit(str.charAt(i))) {
-            int digit = str.charAt(i) - '0';
-            if (res > (Integer.MAX_VALUE - digit) / 10) {  ////// diff 2. boundary check if (res * 10 + digit) > MAX (reversed calc)
-                return isPos ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            absRes = absRes * 10 + (str.charAt(i) - '0');  // convert char to int: digit = char - '0'
+            if (absRes > Integer.MAX_VALUE) {              //--DIFF-- overflow check: if (absRes == MAX + 1) isPos ? MAX : MIN
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
             }
-            res = res * 10 + digit;
-            i++;
+            i++; // remember to +1 in a while loop
         }
-        return isPos ? res : -res;
+        // if no digit sequence detected, res remains 0 here, comply to the requirement
+        return (int)(absRes * sign); // remember to cast
     }
-    
 
-    //-------------   Solution 3 No casting version B  ---------------//
-    public int myAtoi2(String str) {
+
+
+    //-------------   Solution 3 Reverse Calculation  ---------------//
+    // StringBuilder.toString(): NOT RECOMMENDED FOR THIS PROBLEM
+    public static int myAtoi3(String str) {
         // input validation
         if (str == null || str.trim().isEmpty()) {
             return 0;
@@ -74,29 +74,30 @@ public class StringToInteger {
         str = str.trim();
 
         // define vars, get sign
-        int res = 0;                        /////// diff 1. use 'int' instead of 'long'
+        long absRes = 0;    //--DIFF-- use long for detecting overflow during calculation
         int i = 0;
-        boolean isPos = true;
-        char sign = str.charAt(0);
-        if (sign == '+' || sign == '-') {
-            isPos = (sign == '+');
+        int sign = 1;       // if no sign char detected, should default to true
+        if (str.charAt(0) == '+' || str.charAt(0) == '-') {
+            sign = (str.charAt(0) == '+') ? 1 : -1;
             i++;
         }
 
-        // convert the string to integer
-        while (i < str.length() && Character.isDigit(str.charAt(i))) {
-            int digit = str.charAt(i) - '0';
-            int oldRes = res;
-            res = res * 10 + digit;
-            if (res / 10 != oldRes) {       ////// diff 2. if overflow res / 10 != oldRes (sign might still be the same in some cases)
-                return isPos ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        // convert the value
+        StringBuilder sb = new StringBuilder();
+        while (i < str.length() && Character.isDigit(str.charAt(i)) && sb.length() <= 10) { //--DIFF--: int couldn't be more than 10 digits
+            if (!(sb.length() == 0 && str.charAt(i) == '0')) { // skip leading '0'
+                sb.append(str.charAt(i));
             }
-            i++;
+            i++; // remember to +1 in a while loop
         }
-        return isPos ? res : -res;
+        absRes = (sb.length() == 0) ? 0 : Long.valueOf(sb.toString());
+        if (absRes > Integer.MAX_VALUE) {              //--DIFF-- overflow check: if (absRes == MAX + 1) isPos ? MAX : MIN
+            return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
+        // if no digit sequence detected, res remains 0 here, comply to the requirement
+        return (int)(absRes * sign); // remember to cast
     }
 
-    
     ////////////////// TEST ///////////////////////
     public static void test(StringToInteger solution, String s) {
         System.out.println(solution.myAtoi(s));

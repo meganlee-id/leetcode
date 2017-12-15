@@ -30,7 +30,7 @@ public class IntegerToRoman {
         }
     } 
 
-    //-----------------  Solution 1 ---------------------//
+    //-----------------  Solution 2 ---------------------//
     // use parallel array
     public String intToRoman2(int num) {
         // input checking
@@ -51,18 +51,5 @@ public class IntegerToRoman {
             }
         }
         return sb.toString();
-    }
-
-
-    /////////////////// Test //////////////////////
-    static void test(int n, IntegerToRoman solution) {
-        System.out.println(n + " = " + solution.intToRoman(n));
-    }
-    public static void main(String[] args) {
-        IntegerToRoman solution = new IntegerToRoman();
-        test(3999, solution);
-        test(0, solution);
-        test(944, solution);
-        test(8, solution);
     }
 }

@@ -1,5 +1,7 @@
 package com.meganlee;
 
+import java.util.*;
+
 // This is similar to Candy
 // but requires that SAME ratings means SAME candy
 public class CandyII {
@@ -13,33 +15,26 @@ public class CandyII {
         }
 
         int[] candy = new int[ratings.length];
-        candy[0] = 1;
+        Arrays.fill(candy, 1);
         for (int i = 1; i < ratings.length; i++) {
             if (ratings[i - 1] < ratings[i]) {
                 candy[i] = candy[i - 1] + 1;
             } else if (ratings[i - 1] == ratings[i]) {
                 candy[i] = candy[i - 1];
             } else {
-                candy[i] = 1;
                 // adjust predecessors
-                int p = i - 1;
-                while (p >= 0) {
-                    if (ratings[p] == ratings[p + 1]) {
-                        if (candy[p] < candy[p + 1]) candy[p] = candy[p + 1];
-                        else break;
-                    } else if (ratings[p] > ratings[p + 1]) {
-                        if (candy[p] <= candy[p + 1]) candy[p] = candy[p + 1] + 1;
-                        else break;
+                for (int p = i - 1; p >= 0; p--) {
+                    if (ratings[p] == ratings[p + 1] && candy[p] < candy[p + 1]) {
+                        candy[p] = candy[p + 1];
+                    } else if (ratings[p] > ratings[p + 1] && candy[p] <= candy[p + 1]) {
+                        candy[p] = candy[p + 1] + 1;
                     } else {
                         break;
                     }
-                    p--;
                 }
             }
         }
 
-        int sum = 0;
-        for (int num: candy) sum += num;
-        return sum;
+        return Arrays.stream(candy).sum();
     }
 }
