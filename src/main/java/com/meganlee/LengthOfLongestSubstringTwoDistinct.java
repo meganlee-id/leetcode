@@ -20,9 +20,7 @@ public class LengthOfLongestSubstringTwoDistinct {
             while (freq.size() > 2) {    //~~~~ freq.size number of <k,v> pairs
                 char sChar = s.charAt(start);
                 freq.put(sChar, freq.get(sChar) - 1);
-                if (freq.get(sChar) == 0) { 
-                    freq.remove(sChar); //~~~~  freq.remove(key)
-                }
+                freq.remove(sChar, 0); //~~~~  freq.remove(key, val)
                 start++;
             }
             // 3) invariant hold: update result

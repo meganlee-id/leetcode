@@ -54,9 +54,7 @@ public class LengthOfLongestSubstringKDistinct {
             while (freq.size() > k) {    //~~~~ freq.size number of <k,v> pairs
                 char sCh = s.charAt(start);
                 freq.put(sCh, freq.get(sCh) - 1);
-                if (freq.get(sCh) == 0) { 
-                    freq.remove(sCh); //~~~~  freq.remove(key)
-                }
+                freq.remove(sCh, 0); //~~~~~ remove key if val is 0
                 start++;
             }
             // 3) invariant hold: update result
