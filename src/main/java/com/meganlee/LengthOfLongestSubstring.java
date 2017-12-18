@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LengthOfLongestSubstring {
     //---------- Solution 1:  Sliding Window--------------
-    // brute-force
+    // brute-force O(N^3): Time Limit Exceeded
     public int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -14,21 +14,26 @@ public class LengthOfLongestSubstring {
         for (int start = 0; start < s.length(); start++) {
             for (int end = start; end < s.length(); end++) {
                 Set<Character> seenChars = new HashSet();
+                // check dupes between range [start, end]
                 for (int i = start; i <= end; i++) {
-                    if (seenChars.contains(s.charAt(i))) {
+                    if (seenChars.contains(s.charAt(i))) { // contains dupes, break
                         break;
                     } else {
                         seenChars.add(s.charAt(i));
-                        maxLen = Math.max(maxLen, i - start + 1);
                     }
+                }
+                // if no dupes, update maxLen
+                if (seenChars.size() == end - start + 1) { // no access to i could not use (i == end + 1)
+                    maxLen = Math.max(maxLen, seenChars.size());
                 }
             }
         }
         return maxLen;
     }
 
+
     //---------- Solution 2:  Sliding Window--------------
-    // seen flag: HashSet or boolean[256]
+    // sliding window: seen flag, HashSet/boolean[256]
     public int lengthOfLongestSubstring2(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -37,15 +42,16 @@ public class LengthOfLongestSubstring {
         Set<Character> seenChars = new HashSet();
         int maxLen = 0;
         for (int start = 0, end = 0; end < s.length(); end++) {
+            // 1) adjust start, to keep the invariant
             char ch = s.charAt(end);
-            if (seenChars.contains(ch)) {
+            while (seenChars.contains(ch)) {
                 seenChars.remove(s.charAt(start));
                 start++;
-                end--; // DO NOT move end pointer (counter end++ effect in for loop)
-            } else {
-                seenChars.add(ch);
-                maxLen = Math.max(maxLen, end - start + 1);
             }
+            // 2) update cache
+            seenChars.add(ch);
+            // 3) invariant hold: update result
+            maxLen = Math.max(maxLen, end - start + 1);
         }
         return maxLen;
     }
@@ -62,14 +68,16 @@ public class LengthOfLongestSubstring {
         Arrays.fill(table, -1);
         int maxLen = 0;
         for (int start = 0, end = 0; end < s.length(); end++) {
+            // 1) adjust start, to keep the invariant
             char ch = s.charAt(end);
-            int lastIndex = table[ch];  // ch could be auto converted to in
-            if (lastIndex < start) {    // NOT  in cur substr: either -1 for unseen, or <start for earlier occurrence
-                maxLen = Math.max(maxLen, end - start + 1);
-            } else {                    // seen in cur substr
+            int lastIndex = table[ch];  // ch could be auto converted to int
+            if (lastIndex >= start) {   // seen in cur substr, adjust start
                 start = lastIndex + 1;
-            }
-            table[ch] = end;            // update seen table along each step
+            } 
+            // 2) update cache (seen table)
+            table[ch] = end;
+            // 3) invariant hold: update result
+            maxLen = Math.max(maxLen, end - start + 1);
         }
         return maxLen;
     }

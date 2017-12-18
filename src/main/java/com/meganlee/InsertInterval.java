@@ -30,7 +30,7 @@ public class InsertInterval {
     }
 
 
-    //--------------- Solution 1 --------------------//
+    //--------------- Solution 2 --------------------//
     // reuse code of Sor MergeIntervals
     // add one line: intervals.add(newInterval);
     public List<Interval> insert2(List<Interval> intervals, Interval newInterval) {

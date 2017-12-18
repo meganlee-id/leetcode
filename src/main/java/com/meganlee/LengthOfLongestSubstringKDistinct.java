@@ -2,7 +2,7 @@ package com.meganlee;
 
 import java.util.*;
 
-class LengthOfLongestSubstringKDistinct {
+public class LengthOfLongestSubstringKDistinct {
     //--------------- Solution 1 ----------------//
     // a typical sliding window problem
     // int[256] + count:  char freq
@@ -16,19 +16,20 @@ class LengthOfLongestSubstringKDistinct {
         int count = 0; // count the # of distinct characters
         int[] freq = new int[256]; // ASCII characters 1) 0-31 control 2) 32-127 printable 3) 128-255 extended
         for (int start = 0, end = 0; end < s.length(); end++) {
-            char eChar = s.charAt(end);
-            // update freq/count,
-            freq[eChar]++;
-            count += (freq[eChar] == 1) ? 1 : 0;
-            // if count exceeded restrain k, adjust start
+            // 1) update cache(freq/count)
+            char ch = s.charAt(end);
+            freq[ch]++;
+            count += (freq[ch] == 1) ? 1 : 0;
+            // 2) adjust start, to keep the invariant
             while (count > k) { 
-                char sChar = s.charAt(start);
-                // update freq/count
-                freq[sChar]--;
-                count -= (freq[sChar] == 0) ? 1 : 0;
+                // update freq/count,
+                char sCh = s.charAt(start);
+                freq[sCh]--;
+                count -= (freq[sCh] == 0) ? 1 : 0;
+                // increment start
                 start++;
             }
-            // update result
+            // 3) invariant hold: update result
             maxLen = Math.max(maxLen, end - start + 1);
         }
         return maxLen;
@@ -44,20 +45,21 @@ class LengthOfLongestSubstringKDistinct {
         }
         // sliding window, using Map as char frequency table
         int maxLen = 0;
-        Map<Character, Integer> map = new HashMap<>();
-        for(int start = 0, end = 0; end < s.length(); end++) {
-            char eChar = s.charAt(end);
-            map.put(eChar, map.getOrDefault(eChar, 0) + 1); //~~~~ map.getOrDefault(key, defaultValue)
-            // if num of keys so far exceeded restrain k, adjust start
-            while (map.size() > k) {    //~~~~ map.size number of <k,v> pairs
-                char sChar = s.charAt(start);
-                map.put(sChar, map.get(sChar) - 1);
-                if (map.get(sChar) == 0) { 
-                    map.remove(sChar); //~~~~  map.remove(key)
+        Map<Character, Integer> freq = new HashMap();
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            // 1) update cache(freq/count)
+            char ch = s.charAt(end);
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1); //~~~~ freq.getOrDefault(key, defaultValue)
+            // 2) adjust start, to keep the invariant
+            while (freq.size() > k) {    //~~~~ freq.size number of <k,v> pairs
+                char sCh = s.charAt(start);
+                freq.put(sCh, freq.get(sCh) - 1);
+                if (freq.get(sCh) == 0) { 
+                    freq.remove(sCh); //~~~~  freq.remove(key)
                 }
                 start++;
             }
-            // update result
+            // 3) invariant hold: update result
             maxLen = Math.max(maxLen, end - start + 1);
         }
         return maxLen;

@@ -31,13 +31,4 @@ public class FirstMissingPositive {
         A[i] = A[j];
         A[j] = temp;
     }
-
-    ///////////////////////  TEST  ////////////////////////
-    public static void main(String[] args) {
-        int[] A = {3, 4, -1, 1};
-        int[] B = {4, 3, 5, -1, 0, 3, 7, 2, 8, -2, 1};
-
-        int x = (new FirstMissingPositive()).firstMissingPositive(B);
-        System.out.println(x);
-    }
 }

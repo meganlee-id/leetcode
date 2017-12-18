@@ -5,6 +5,7 @@ import java.util.*;
 public class PascalTriangle {
     //------------------- Solutino 1 -----------------//
     // layer by layer, intuitive
+    // use a NEWS list for next level numbers
     public List<List<Integer>> generate(int numRows) {
         // input check
         List<List<Integer>> res = new ArrayList();
@@ -18,9 +19,8 @@ public class PascalTriangle {
                 if (j == 0 || j == i) {
                     curRow.add(1);
                 } else {
-                    // this block ensures that i - 1 >= 0!!
-                    // do NOT move this line 21 up at line 14, will have index out of bounds!
-                    List<Integer> preRow = res.get(i - 1);
+                    // this block ensures that i >= 1 and j >= 1
+                    List<Integer> preRow = res.get(i - 1); // do not move this out of else block
                     curRow.add(preRow.get(j - 1) + preRow.get(j));
                 }
             }
@@ -30,16 +30,18 @@ public class PascalTriangle {
     }
 
     //------------------- Solutino 1 -----------------//
-    // dp, reuse with PascalTriangel2
+    // reuse with PascalTriangel2
+    // use the same List for next level numbers: calculating backwards
     public List<List<Integer>> generate2(int numRows) {
         // input check
         List<List<Integer>> res = new ArrayList();
         if (numRows <= 0) {
             return res;
         }
-        ArrayList<Integer> row = new ArrayList();
+        // genrate row by row
+        List<Integer> row = new ArrayList();
         for (int i = 0; i < numRows; i++) {
-            for (int j = row.size() - 1; j >= 1 ; j--) {
+            for (int j = row.size() - 1; j >= 1 ; j--) { // fill backwards
                 row.set(j, row.get(j) + row.get(j - 1));
             }
             row.add(1); // row.add(index, num) || row.add(num) at the end

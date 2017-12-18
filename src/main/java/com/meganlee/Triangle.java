@@ -34,13 +34,31 @@ public class Triangle {
         }
         // do not change the original triangle
         int N = triangle.size();
-        int[] minSums = new int[N + 1];  // a dummy row filling with all 0
-        for (int i = N - 1; i >= 0; i--) {
-            List<Integer> curRow = triangle.get(i);
-            for (int j = 0; j < curRow.size(); j++) {
-                minSums[j] = curRow.get(j) + Math.min(minSums[j], minSums[j + 1]);
+        int[] res = new int[N + 1]; // add a virtual layer, initialized to 0
+        for (int row = N - 1; row >= 0; row--) {
+            List<Integer> curRow = triangle.get(row);
+            for (int col = 0; col < curRow.size(); col++) {
+                res[col] = curRow.get(col) + Math.min(res[col], res[col + 1]);
             }
         }
-        return minSums[0];
+        return res[0];
+    }
+
+    // instead of using int[], you might want to use List<Integer> as res
+    public int minimumTotal3(List<List<Integer>> triangle) {
+        // input check
+        if (triangle == null || triangle.size() == 0) {
+            return Integer.MIN_VALUE; // there might be negative values
+        }
+        // bottom up
+        int N = triangle.size();
+        List<Integer> res = new ArrayList(triangle.get(N - 1)); // clone bottom layer. Do NOT change original triangle
+        for (int row = N - 2; row >= 0; row--) {
+            List<Integer> curRow = triangle.get(row);
+            for (int col = 0; col < curRow.size(); col++) {
+                res.set(col, curRow.get(col) + Math.min(res.get(col), res.get(col + 1))); // use list.set(index, elem)
+            }
+        }
+        return res.get(0);
     }
 }
