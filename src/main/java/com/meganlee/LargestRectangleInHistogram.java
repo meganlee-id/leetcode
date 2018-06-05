@@ -5,23 +5,24 @@ import java.util.*;
 public class LargestRectangleInHistogram {
     // ---------------  Solution 1 ---------------------//
     // brute-force find all pairs: with one optimization T=O(N^2)
-    // Time Limit Exceeded: could not pass LeetCode for time limits for acsending order {0, 1, 2, 3, 4, .., 1000}
-    public int largestRectangleArea(int[] height) {
+    // Time Limit Exceeded:
+    // -- could not pass LeetCode for time limits for acsending order {0, 1, 2, 3, 4, .., 1000}
+    public int largestRectangleArea(int[] h) {
         // input checking
-        if (height == null || height.length == 0) {
+        if (h == null || h.length == 0) {
             return 0;
         }
-        // i points to right most bar, j points to left most bar
         int maxArea = 0;
-        for (int i = 0; i < height.length; i++) {
-            // optimization, if prev-bar >= cur-bar, prune calculation
-            if (i != 0 && height[i - 1] >= height[i]) {
+        // i points to right most bar, j points to left most bar
+        for (int i = 0; i < h.length; i++) {
+            // optimization: if prev-bar >= cur-bar, prune calculation
+            if (i != 0 && h[i - 1] >= h[i]) {
                 continue;
             }
-            int min = height[i];
-            for (int j = i; j < height.length; j++) { // j start from i, not from i+1
-                min = Math.min(min, height[j]);
-                maxArea = Math.max(maxArea, min * (j - i + 1));
+            int min = h[i];
+            for (int j = i; j < h.length; j++) { // j start from i, not from i+1
+                min = Math.min(min, h[j]);  // update min
+                maxArea = Math.max(maxArea, min * (j - i + 1)); // update areaa
             }
         }
         return maxArea;
@@ -29,23 +30,25 @@ public class LargestRectangleInHistogram {
 
     // ---------------  Solution 2 ---------------------//
     // incremental--stack
-    public int largestRectangleArea2(int[] height) {
+    public int largestRectangleArea2(int[] h) {
         // input checking
-        if (height == null || height.length == 0) {
+        if (h == null || h.length == 0) {
             return 0;
         }
 
-        Stack<Integer> stack = new Stack();                   // for getting the left and right boundaries
-        int maxArea = 0;
-        int[] h = Arrays.copyOf(height, height.length + 1);   // add a padding 0 at the end for simplify the code
-        for(int i = 0; i < h.length; ) { // no i++ here
-            if (stack.isEmpty() || h[i] >= h[stack.peek()]) { // >, >= both ok
-                stack.push(i);
+        Stack<Integer> s = new Stack();
+        h = Arrays.copyOf(h, h.length + 1); // append 0 at the end
+        int maxArea = 0, i = 0;
+        while (i < h.length) { // no i++ here
+            // stack: indices of a increasing heights, find 1st < me
+            if (s.isEmpty() || h[s.peek()] < h[i]) {
+                s.push(i);
                 i++;    // i++ here
-            } else {    // no i++
+            // !s.isEmpty() && A[s.peek()] >= A[i]
+            } else {    // no i++, we need to keep popping util 1st one < me
                 // pop top element and use the popped element as the min bar
-                int minBar = h[stack.pop()];
-                int width = stack.isEmpty() ? i : (i - stack.peek() - 1);
+                int minBar = h[s.pop()];
+                int width = s.isEmpty() ? i : (i - s.peek() - 1);
                 maxArea = Math.max(maxArea, minBar * width);
             }
         }
@@ -74,5 +77,7 @@ public class LargestRectangleInHistogram {
         }
         return maxArea;
     }
+
+    // NO solution 3B there is no dp (parallel array for this problem)
 }
 

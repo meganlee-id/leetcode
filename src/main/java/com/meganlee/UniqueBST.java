@@ -1,6 +1,7 @@
 package com.meganlee;
 
 
+//************** Catalan Implementation **************//
 public class UniqueBST {
     //-------------- Solution 1 --------------------//
     // pure recursion
@@ -24,7 +25,7 @@ public class UniqueBST {
     }
 
     //-------------- Solution 2 --------------------//
-    // DP: recursion formula (developed from solution 1)
+    // pure recursion + memoization
     // Time: O(n^2), Space: O(n)
     public int numTrees2(int n) {
         // input checking
@@ -57,7 +58,8 @@ public class UniqueBST {
         // for non-negative n
         int result = 1;
         for (int i = 1; i <= n; i++) {
-            // ERROR: might lose precision here!! or range overflow
+            // ERROR SOLUTION:
+            //--- might lose precision here!! or range overflow ---//
             // result *= (4 * i - 2) / (i + 1);
 
             // RIGHT SOLUTION:
@@ -67,12 +69,8 @@ public class UniqueBST {
         return result;
     }
 
-
-    //////////////////////   TEST   ////////////////////////
-    public static void main(String[] args) {
-        UniqueBST solution = new UniqueBST();
-        for (int i = 0; i < 5; i++)
-            System.out.println(solution.numTrees3(i));
-    }
+    //-------------- Solution 4 ---------------//
+    // checkout BinominalCoefficient.java
+    // Catalan(N) = C(2N, N) - C(2N, N+1)
 }
 

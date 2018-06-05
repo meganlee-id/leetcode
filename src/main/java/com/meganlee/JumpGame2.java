@@ -13,58 +13,41 @@ public class JumpGame2 {
 
         // level by level
         int steps = 0;
-        int start = 0, end = 0, nextEnd = end;
-        while (start <= end) {  // level travesing
-            for (int i = start; i <= end; i++) { // within each level, find max end for next level
-                nextEnd = Math.max(nextEnd, i + A[i]);
-                if (nextEnd >= A.length - 1) {
-                    return steps + 1;
-                }
+        for (int i = 0, end = 0, nextEnd = 0; i <= end; i++) {
+            nextEnd = Math.max(nextEnd, i + A[i]); // expand end boundary of next level
+            if (nextEnd >= A.length - 1) {       // fast break: last index reachable, return true
+                return steps + 1;
             }
-            start = end + 1;
-            end = nextEnd;
-            steps++;
+            if (i == end) { // current level deplete, update index
+                steps++;
+                end = nextEnd;
+            }
         }
-        return 0;
+        return 0; // if we reach here, could not reach last elem
     }
 
 
     //------------------- Solution 2 ----------------------//
-    // dp, O(N^2), not good for this problem
+    // DP, O(N^2) - time limits exceeded on LeetCode
     public int jump2(int[] A) {
         // input validation
         if (A == null || A.length <= 1) {
             return 0;
         }
 
-        // dp
-        int[] steps = new int[A.length];
+        int N = A.length;
+        int[] steps = new int[N];
         Arrays.fill(steps, Integer.MAX_VALUE);
         steps[0] = 0;
 
-        for (int i = 1; i < A.length; i++) {
+        for (int i = 1; i < N; i++) {
             for (int j = 0; j < i; j++) {
-                if (steps[j] != Integer.MAX_VALUE && j + A[j] >= i) {
+                if (steps[j] != Integer.MAX_VALUE && A[j] + j >= i) {
                     steps[i] = Math.min(steps[i], steps[j] + 1);
-                    break;
+                    break; // have break is correct here (1st reachable place is minimus)
                 }
             }
         }
         return steps[A.length - 1];
-    }
-
-    /////////////////////    TEST      //////////////////////
-    private static void test(JumpGame2 solution, int[] a) {
-        System.out.println(solution.jump(a));
-    }
-
-    public static void main(String[] args) {
-        JumpGame2 solution = new JumpGame2();
-        int[] A1 = {5, 3, 2, 1, 4};
-        int[] A2 = {0};
-        int[] A3 = {0, 1, 3};
-        test(solution, A1);
-        test(solution, A2);
-        test(solution, A3);
     }
 }

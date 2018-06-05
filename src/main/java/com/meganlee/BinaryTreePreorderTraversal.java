@@ -24,19 +24,20 @@ public class BinaryTreePreorderTraversal {
 
     //----------------- Solution 2 --------------------//
     // Classic Stack: stack + cur
+    // Ask: whether to returen a List<TreeNode> or List<Integer>
     public List<Integer> preorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList();
         Stack<TreeNode> s = new Stack();
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
-                s.push(cur);        // add to call stack
+                s.push(cur);        // push
                 res.add(cur.val);   // VISIT
-                cur = cur.left;     // travel to each node's left child, till reach the left leaf
+                cur = cur.left;     // left
             } else {            //--- GOING UP   ---
-                cur = s.pop();      // backtrack to higher level
-                cur = cur.right;    // switch to right branch
-            }
+                TreeNode node = s.pop();  // pop
+                cur = node.right;         // right
+             }
         }
         return res;
     }
@@ -55,6 +56,7 @@ public class BinaryTreePreorderTraversal {
         while (!s.isEmpty()) {
             TreeNode cur = s.pop();
             res.add(cur.val);
+            // push right node first which will be visited laster
             if (cur.right != null) {
                 s.push(cur.right);
             }
@@ -81,17 +83,17 @@ public class BinaryTreePreorderTraversal {
                 }
                 // case 1: haven't visited the left subtree
                 if (pre.right == null) {
-                    res.add(cur.val);  // visit
-                    pre.right = cur;
-                    cur = cur.left;
+                    res.add(cur.val);  // VISIT
+                    pre.right = cur;   // connect
+                    cur = cur.left;    // left
                 }
                 // case 2: returned from left subtree
                 if (pre.right == cur) {
-                    pre.right = null;
-                    cur = cur.right;
+                    pre.right = null;  // disconnect
+                    cur = cur.right;   // right
                 }
             } else {
-                res.add(cur.val); // visit
+                res.add(cur.val); // VISIT
                 cur = cur.right;
             }
         }

@@ -9,13 +9,13 @@ public class MaximumProductSubarray {
             return Integer.MIN_VALUE;
         }
         // global and local solution
-        int global = nums[0], max = nums[0], min = nums[0];
+        int res = nums[0], max = nums[0], min = nums[0];
         for (int i = 1; i < nums.length; i++) {
-            int maxCopy = max; // has keep a copy otherwise, max will be changed at next line!
-            max = Collections.max(Arrays.asList(nums[i], nums[i] * min,  nums[i] * maxCopy)); 
-            min = Collections.min(Arrays.asList(nums[i], nums[i] * min,  nums[i] * maxCopy)); 
-            global = Math.max(global, max);
+            int lastMax = max, lastMin = min; // has keep a copy otherwise, max will be changed at next line!
+            max = Collections.max(Arrays.asList(nums[i], nums[i] * lastMin,  nums[i] * lastMax)); // local max
+            min = Collections.min(Arrays.asList(nums[i], nums[i] * lastMin,  nums[i] * lastMax)); // local min
+            res = Math.max(res, max); // global max
         }
-        return global;
+        return res;
     }
 }

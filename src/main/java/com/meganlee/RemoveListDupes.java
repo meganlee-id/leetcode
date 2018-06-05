@@ -3,52 +3,33 @@ package com.meganlee;
 
 public class RemoveListDupes {
     //------------------- Solution 1 ----------------------//
-    // two pointers, 1 points to end of valid list,
-    // another move one-by-one along original list
+    // recursion
     public ListNode deleteDuplicates(ListNode head) {
-        ListNode dummy = new ListNode(0), tail = dummy;
-        while (head != null) {
-            if (dummy.next == null || head.val != tail.val) {
-                tail.next = head;
-                tail = tail.next;
-            }
-            head = head.next;
+        // base case
+        if (head == null) {
+            return head;
         }
-        tail.next = null; // don't forget this!
-        return dummy.next;
+        // general case
+        head.next = deleteDuplicates2(head.next);
+        return (head.next != null && head.val == head.next.val) ? head.next : head;
     }
 
     //------------------- Solution 2 ----------------------//
-    // one pinter, examine my next node to determine what to do
+    // two pointers: p1 1st of dupe seq, p2 last of dup seq
+    // dupes: [p1 --> p2]
     public ListNode deleteDuplicates2(ListNode head) {
-        ListNode p = head;
-        while (p != null) {
-            if (p.next == null || p.val != p.next.val) {
-                p = p.next;
-            } else {
-                p.next = p.next.next;
+        ListNode p1 = head;
+        while (p1 != null) {
+            // move p2 to end of dupe sequence
+            ListNode p2 = p1;
+            while (p2.next != null && p2.next.val == p2.val) {
+                p2 = p2.next;
             }
+            // skip tail for dupe sequence
+            p1.next = p2.next;
+            // update p1
+            p1 = p1.next;
         }
         return head;
-    }
-
-
-    ///////////////////////  TEST  //////////////////////
-    private static void test(RemoveListDupes solution, int[] list) {
-        ListNode head = ListNode.fromArray(list);
-        ListNode l = solution.deleteDuplicates(head);
-        System.out.println(l);
-    }
-    public static void main(String[] args) {
-        RemoveListDupes solution = new RemoveListDupes();
-
-        int[] x1 = {1,1,2,3,3};
-        test(solution, x1);
-
-        int[] x2 = {1,1,1,1,1};
-        test(solution, x2);
-
-        int[] x3 = {1,1,1,2,3,3,3,3,4,4,5};
-        test(solution, x3);
     }
 }

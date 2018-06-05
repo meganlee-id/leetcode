@@ -8,30 +8,27 @@ public class StringConcatenationOfAllWords {
     public List<Integer> findSubstring(String S, String[] L) {
         // assume S and L are non-null and non-empty, L doesn't contain empty string
         List<Integer> res = new ArrayList();
-        Map<String, Integer> needs = new HashMap();
+        Map<String, Integer> freq = new HashMap();
         for (String word: L) {
-            needs.put(word, needs.containsKey(word) ? needs.get(word) + 1 : 1);
+            freq.put(word, freq.getOrDefault(word, 0) + 1);
         }
         int numWords = L.length, wordLen = L[0].length();
         for (int start = 0; start <= S.length() - numWords * wordLen; start++) {
-            if (isValid(S, start, needs, numWords, wordLen)) {
+            if (isValid(S, start, freq, numWords, wordLen)) {
                 res.add(start);
             }
         }
         return res;
     }
 
-    private boolean isValid(String S, int start, Map<String, Integer> needs, int numWords, int wordLen) {
-        Map<String, Integer> found = new HashMap();
+    private boolean isValid(String S, int start, Map<String, Integer> freq, int numWords, int wordLen) {
+        Map<String, Integer> dict = new HashMap(freq); // clone the dict: un-used words
         for (int i = 0; i < numWords; i++) {
             int left = start + i * wordLen;
             String word = S.substring(left, left + wordLen);
-            if (needs.containsKey(word)) {
-                if (found.containsKey(word) && found.get(word) >= needs.get(word)) {
-                    return false;
-                } else {
-                    found.put(word, found.containsKey(word) ? found.get(word) + 1 : 1);
-                }
+            if (dict.containsKey(word)) {
+                dict.put(word, dict.get(word) - 1);
+                dict.remove(word, 0);
             } else {
                 return false;
             }
@@ -45,59 +42,44 @@ public class StringConcatenationOfAllWords {
     public List<Integer> findSubstring2(String S, String[] L) {
         // assume S and L are non-null and non-empty, L doesn't contain empty string
         List<Integer> res = new ArrayList();
-        Map<String, Integer> needs = new HashMap();
+        Map<String, Integer> freq = new HashMap();
         for (String word: L) {
-            needs.put(word, needs.containsKey(word) ? needs.get(word) + 1 : 1);
+            freq.put(word, freq.getOrDefault(word, 0) + 1);
         }
-
         int numWords = L.length, wordLen = L[0].length();
         for (int i = 0; i < wordLen; i++) {
-            populateResult(S, i, needs, numWords, wordLen, res);
+            populateResult(S, i, freq, numWords, wordLen, res);
         }
         return res;
     }
 
-    private void populateResult(String S, int i, Map<String, Integer> needs, int numWords, int wordLen, List<Integer> res) {
-        Map<String, Integer> found = new HashMap();
-        for (int start = i, end = start; end <= S.length() - wordLen; end += wordLen) {
+    private void populateResult(String S, int i, Map<String, Integer> freq, int numWords, int wordLen, List<Integer> res) {
+        Map<String, Integer> dict = new HashMap(freq);  // clone the dict: un-used words
+        for (int start = i, end = i; end <= S.length() - wordLen; end += wordLen) {
+            if (start > S.length() - numWords * wordLen) { // fast break
+                return;
+            }
+            // case A: not valid word
             String word = S.substring(end, end + wordLen);
-            // adjust start to satisfy the invariant
-            if (!needs.containsKey(word)) {
-                found.clear(); // don't forget to clear the cache table
-                start = end + wordLen;
+            if (!freq.containsKey(word)) {
+                dict = new HashMap(freq);   // re-populate dict
+                start = end + wordLen;      // adjust start
+            // case B: a valid word, not enough count left in dict
             } else {
-                while (found.get(word) != null && found.get(word) >= needs.get(word)) {
-                    String removeWord = S.substring(start, start + wordLen);
-                    found.put(removeWord, found.get(removeWord) - 1);
+                // 1. adjust start to satisfy the invariant
+                while (!dict.containsKey(word)) {
+                    String sWord  = S.substring(start, start + wordLen);
+                    dict.put(sWord, dict.getOrDefault(sWord, 0) + 1);
                     start += wordLen;
                 }
-                found.put(word, found.containsKey(word) ? found.get(word) + 1 : 1);
-                if (end + wordLen - start == numWords * wordLen) {
+                // 2. update cache
+                dict.put(word, dict.get(word) - 1);
+                dict.remove(word, 0);
+                // 3. update result
+                if (dict.isEmpty()) {
                     res.add(start);
                 }
             }
         }
     }
-
-    public static void main(String[] args) {
-        String s = "helo";
-        for (char ch : s.toCharArray()) {
-
-        }
-    }
 }
-
-
-
-//=========  TAG: ==========//
-// Sliding Window
-//
-//=========  Design: =========//
-// a.--- Brute-force, all substring of length (numWords * wordLen)
-// b.--- classify into wordLen number of strings, and use cache to optimize
-//
-//=========  Error/Note: =========//
-//       1) if (found.get(word) >= needs.get(word))  ==> NullPointer
-//  --->  if (found.containsKey(word) && found.get(word) >= needs.get(word))
-//       2) don't forget to clear cache table
-

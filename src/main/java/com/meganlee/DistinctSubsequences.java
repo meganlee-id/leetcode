@@ -4,36 +4,33 @@ import java.util.*;
 
 public class DistinctSubsequences {
     //----------------   Solution 1  ----------------------//
-    // Recursion (TIMEOUT)
+    // Recursion (Time Limit Exceeded)
     public int numDistinct(String s, String t) {
         if (s == null || t == null) {
             return 0;
         }
-
-        int M = s.length(), N = t.length();
+        int S = s.length(), T = t.length();
         int res = 0;
-        if (N == 0) {  //--- base case
+        if (T == 0) {  //--- base case
             res = 1;
-        } else if (M == 0) {
+        } else if (S == 0) {
             res = 0;
         } else {       //--- general case
-            res = s.charAt(0) == t.charAt(0) ? numDistinct(s.substring(1), t.substring(1)) : 0; // =
-            res += numDistinct(s.substring(1), t); // +=
+            res = numDistinct(s.substring(1), t); // =, NOT use s_1st_ch
+            res += (s.charAt(0) == t.charAt(0)) ? numDistinct(s.substring(1), t.substring(1)) : 0; // +=, use s_1st_ch
         }
         return res;
     }
 
     //----------------   Solution 2  ----------------------//
-    // Recursion with cache (Stack Overflow)
-    // cache[i][j] numDistinct(s.substring(i), t.substring(j))
+    // Recursion with cache (Stack Overflow, for test4 "zzz....")
     public int numDistinct2(String s, String t) {
         if (s == null || t == null) {
             return 0;
         }
-
         // create cache
-        int M = s.length(), N = t.length();
-        int[][] cache = new int[M + 1][N + 1];
+        int S = s.length(), T = t.length();
+        int[][] cache = new int[S + 1][T + 1];
         for (int[] row : cache) {
             Arrays.fill(row, -1);
         }
@@ -41,17 +38,19 @@ public class DistinctSubsequences {
     }
 
     private int helper(String s, String t, int i, int j, int[][] cache) {
-        int M = s.length(), N = t.length();
+        int S = s.length(), T = t.length();
+        // update cache
         if (cache[i][j] == -1) {
-            if (j == N) {  //--- base case
+            if (j == T) {  //--- base case
                 cache[i][j] = 1;
-            } else if (i == M) {
+            } else if (i == S) {
                 cache[i][j] = 0;
             } else {       //--- general case
-                cache[i][j] = s.charAt(i) == t.charAt(j) ? helper(s, t, i + 1, j + 1, cache) : 0;
-                cache[i][j] += helper(s, t, i + 1, j, cache);
+                cache[i][j] = helper(s, t, i + 1, j, cache); // =, NOT use s_1st_ch
+                cache[i][j] += (s.charAt(i) == t.charAt(j)) ? helper(s, t, i + 1, j + 1, cache) : 0;  // +=, use s_1st_ch
             }
         }
+        // return cache
         return cache[i][j];
     }
 
@@ -63,63 +62,19 @@ public class DistinctSubsequences {
         if (s == null || t == null) {
             return 0;
         }
-
-        int M = s.length(), N = t.length();
-        int[][] nums = new int[M + 1][N + 1];
+        int S = s.length(), T = t.length();
+        int[][] nums = new int[S + 1][T + 1]; // dp[sLen][tLen]
         // initialize the the dp table
-        for (int i = M; i >= 0; i--) {
-            nums[i][N] = 1;  // if (lenT == 0), t is empty string, return 1
-        }
-        // if j != N && i == M, nums[i][j] == 0
-
-        for (int i = M - 1; i >= 0; i--) {
-            for (int j = N - 1; j >= 0; j--) {
-                nums[i][j] = s.charAt(i) == t.charAt(j) ? nums[i + 1][j + 1] : 0;
-                nums[i][j] += nums[i + 1][j];
+        for (int i = 0; i <= S; i++) {
+            nums[i][0] = 1;  // if lenT == 0, return 1
+        }                    // if lenT != 0 && lenS == 0, nums[lenS][lenT] == 0 default value
+        // dp
+        for (int i = 1; i <= S; i++) {
+            for (int j = 1; j <= T; j++) {
+                nums[i][j] = nums[i - 1][j]; // =, NOT use s_cur_ch
+                nums[i][j] += (s.charAt(i - 1) == t.charAt(j - 1)) ? nums[i - 1][j - 1] : 0;  // +=, use s_cur_ch
             }
         }
-        return nums[0][0];
-    }
-
-    //----------------   Solution 4  ----------------------//
-    // 2D-dp: s.substring(0, lenS) and t.substring(0, lenT)
-    public int numDistinct4(String s, String t) {
-        // input validation
-        if (s == null || t == null) {
-            return 0;
-        }
-
-        int M = s.length(), N = t.length();
-        int[][] nums = new int[M + 1][N + 1];
-        // initialize the the dp table
-        for (int lenS = 0; lenS <= M; lenS++) {
-            nums[lenS][0] = 1;  // if (lenT == 0), t is empty string, return 1
-        }
-        // if lenT != 0 && lenS == 0:  nums[lenS][lenT] == 0
-
-        for (int lenS = 1; lenS <= M; lenS++) {
-            for (int lenT = 1; lenT <= N; lenT++) {
-                nums[lenS][lenT] = s.charAt(lenS - 1) == t.charAt(lenT - 1) ? nums[lenS - 1][lenT - 1] : 0;
-                nums[lenS][lenT] += nums[lenS - 1][lenT];
-            }
-        }
-        return nums[M][N];
-    }
-
-
-    ///////////////////  TEST //////////////////////
-    private static void test(DistinctSubsequences solution, String s, String t) {
-        System.out.println(s);
-        System.out.println(t);
-        System.out.println(solution.numDistinct3(s, t) + "\n");
-    }
-
-    public static void main(String[] args) {
-        DistinctSubsequences solution = new DistinctSubsequences();
-
-        test(solution, "rabbbit", "rabbit");
-        test(solution, "ccc", "c");
-        test(solution, "aabdbaabeeadcbbdedacbbeecbabebaeeecaeabaedadcbdbcdaabebdadbbaeabdadeaabbabbecebbebcaddaacccebeaeedababedeacdeaaaeeaecbe",
-                       "bddabdcae");
+        return nums[S][T];
     }
 }

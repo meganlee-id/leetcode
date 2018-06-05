@@ -4,6 +4,7 @@ public class SortColors {
     //-------------  SOLUTION 1: 2 SCANs ----------------//
     // count sort
     public void sortColors(int[] A) {
+        // check input
         if (A == null || A.length == 0) {
             return;
         }
@@ -28,11 +29,13 @@ public class SortColors {
 
     //-------------  SOLUTION 2: 1 SCAN ----------------//
     public void sortColors2(int[] A) {
+        // check input
         if (A == null || A.length == 0) {
             return;
         }
         
-        int i = 0, p = 0, j = A.length - 1;
+        // Dijkstra 3-way partition
+        int i = 0, p = 0, j = A.length - 1; // i next to fill 0, p next to fill 1, j nexy to fill 2
         while (p <= j) {   
             switch (A[p]) {
                 case 0: swap(A, i++, p++); 
@@ -51,6 +54,7 @@ public class SortColors {
         A[j] = temp;
     }
 
+
     //------------------ Solution 3 --------------------//
     // Code Ganker
     public void sortColors3(int[] A) {
@@ -62,8 +66,8 @@ public class SortColors {
             switch(A[i]) {
                 case 0:
                     A[i] = 2;
-                    A[index1++] = 1;
-                    A[index0++] = 0;
+                    A[index1++] = 1;  // has to be BEFORE A[index0++] = 0;
+                    A[index0++] = 0;  // DON"T put A[index1++]=1 above current line
                     break;
                 case 1:
                     A[i] = 2;

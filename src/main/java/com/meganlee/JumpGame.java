@@ -4,24 +4,25 @@ public class JumpGame {
     //------------------- Solution 1 -------------------//
     // Range Expanding
     public boolean canJump(int[] A) {
+        // input validation
         if (A == null || A.length <= 1) {
             return true;
         }
 
-        int start = 0, end = 0;
-        for (int i = start; i <= end; i++) {
-            end = Math.max(end, i + A[i]);
-            if (end >= A.length - 1) {
+        for (int i = 0, end = 0; i <= end; i++) { // i <= end!
+            end = Math.max(end, i + A[i]);   // expand end boundary in each step
+            if (end >= A.length - 1) {       // fast break: last index reachable, return true
                 return true;
             }
         }
-        return false;
+        return false;   // end of loop, last index non-reachable
     }
 
 
     //------------------- Solution 2 -------------------//
-    // DP - time limits exceeded on LeetCode
+    // DP, O(N^2) - time limits exceeded on LeetCode
     public boolean canJump2(int[] A) {
+        // input validation
         if (A == null || A.length <= 1) {
             return true;
         }
@@ -29,9 +30,10 @@ public class JumpGame {
         int N = A.length;
         boolean[] dp = new boolean[N];  // dp[n] --> whether A[k] is reachable from A[0]
         dp[0] = true;
+
         for (int i = 1; i < N; i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                if (dp[j] && A[j] + j >= N - 1) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && A[j] + j >= i) {
                     dp[i] = true;
                     break;
                 }
@@ -39,20 +41,5 @@ public class JumpGame {
         }
         return dp[N - 1];
 
-    }
-
-    /////////////////////    TEST      //////////////////////
-    private static void test(JumpGame solution, int[] a) {
-        System.out.println(solution.canJump2(a));
-    }
-
-    public static void main(String[] args) {
-        JumpGame solution = new JumpGame();
-        int[] A1 = {5, 3, 2, 1, 4};
-        int[] A2 = {0};
-        int[] A3 = {0, 1, 3};
-        test(solution, A1);
-        test(solution, A2);
-        test(solution, A3);
     }
 }

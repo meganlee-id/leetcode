@@ -2,13 +2,14 @@ package com.meganlee;
 
 
 public class PopulateNextPointer2 {
-    // This solution also works for PopulateNextPointer
+    //------------------- Solution  ----------------//
+    // Same as PopulateNextPointer1 solution3
     public void connect(TreeLinkNode root) {
         TreeLinkNode levelHead = root;
         TreeLinkNode dummyHead = new TreeLinkNode(0);
         TreeLinkNode pre = dummyHead;
         while (levelHead != null) {
-            // link this level
+            // 1. link this level
             TreeLinkNode cur = levelHead;
             while (cur != null) {
                 if (cur.left != null) {
@@ -21,7 +22,7 @@ public class PopulateNextPointer2 {
                 }
                 cur = cur.next;
             }
-            // next level
+            // 2. update head for level
             levelHead = dummyHead.next;
             dummyHead.next = null;
             pre = dummyHead;

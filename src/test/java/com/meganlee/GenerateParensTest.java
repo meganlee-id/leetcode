@@ -14,26 +14,26 @@ public class GenerateParensTest {
 
     @Test
     public void testMinusOne() {
-        Assert.assertEquals(calculate(-1), "[]");         
+        Assert.assertEquals("[]", calculate(-1));
     }
 
     @Test
     public void testOne() {
-        Assert.assertEquals(calculate(1), "[()]");         
+        Assert.assertEquals("[()]", calculate(1));
     }
 
     @Test
     public void testTwo() {
-        Assert.assertEquals(calculate(2), "[(()), ()()]");         
+        Assert.assertEquals("[(()), ()()]", calculate(2));
     }
 
     @Test
     public void testThree() {
-        Assert.assertEquals(calculate(3), "[((())), (()()), (())(), ()(()), ()()()]");         
+        Assert.assertEquals("[((())), (()()), (())(), ()(()), ()()()]", calculate(3));
     }
 
     @Test
     public void testFour() {
-        Assert.assertEquals(calculate(4), "[(((()))), ((()())), ((())()), ((()))(), (()(())), (()()()), (()())(), (())(()), (())()(), ()((())), ()(()()), ()(())(), ()()(()), ()()()()]");         
+        Assert.assertEquals("[(((()))), ((()())), ((())()), ((()))(), (()(())), (()()()), (()())(), (())(()), (())()(), ()((())), ()(()()), ()(())(), ()()(()), ()()()()]", calculate(4));
     }
 }

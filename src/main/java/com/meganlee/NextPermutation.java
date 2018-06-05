@@ -16,7 +16,7 @@ public class NextPermutation {
             int j = nums.length - 1;
             while (j >= 0 && nums[j] <= nums[i]) { // use while instead of for loop, need to refer to j later
                 j--;
-            }
+            } // no worry of j == -1 in case of i != -1
             swap(nums, i, j);
         }
 
@@ -31,7 +31,7 @@ public class NextPermutation {
     }
 
     private void reverse(int[] nums, int start) {
-        for (int i = start, j = nums.length - 1; i < j; i++, j--) {
+        for (int i = start, j = nums.length - 1; i < j; i++, j--) { // do NOT use i <= j as end condition
             swap(nums, i, j);
         }
     }

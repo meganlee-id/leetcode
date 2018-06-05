@@ -18,7 +18,7 @@ public class StrStr {
             if (haystack.substring(i, i + N).equals(needle)) { // String.equals: 1) compare len 2) compare char by char
                 return i;
             }
-            //---- if implement String.equal by yourself, content in for block: ------//
+            //---- if implement String.equal by yourself ------//
             // for (int j = 0; j < N; j++) {
             //     if (haystack.charAt(i + j) == needle.charAt(j)) {
             //         if (j == N - 1) {

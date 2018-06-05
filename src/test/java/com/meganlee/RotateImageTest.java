@@ -19,7 +19,10 @@ public class RotateImageTest {
     public void testMatrix1() {
         // [3, 1]
         // [4, 2]
-        Assert.assertEquals(calculate(m1), "[3, 1]\n[4, 2]");
+        Assert.assertEquals(
+            "[3, 1]\n[4, 2]",
+            calculate(m1)
+        );
     }
 
     @Test
@@ -27,6 +30,9 @@ public class RotateImageTest {
         // [7, 4, 1]
         // [8, 5, 2]
         // [9, 6, 3]
-        Assert.assertEquals(calculate(m2), "[7, 4, 1]\n[8, 5, 2]\n[9, 6, 3]");
+        Assert.assertEquals(
+            "[7, 4, 1]\n[8, 5, 2]\n[9, 6, 3]",
+            calculate(m2)
+        );
     }
 }

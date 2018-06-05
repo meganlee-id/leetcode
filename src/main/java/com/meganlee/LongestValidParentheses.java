@@ -3,9 +3,35 @@ package com.meganlee;
 import java.util.*;
 
 public class LongestValidParentheses {
-    //-------------- Solution 1 --------------------//
-    // dynamic programming (a hard dp problem)
+    //------------------ Solution 1 ----------------------//
+    // stack: store index (Time Limit Exceeded)
     public int longestValidParentheses(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int res = 0;
+        Stack<Integer> stack = new Stack();
+        int start = -1; // boundary: (start + 1) is the first index for cur valid paren substring
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);   // put the index in stack
+            } else {
+                if (stack.empty()) {
+                    start = i;   // set new boundary
+                } else {
+                    stack.pop(); // pops out the matching '('
+                    int len = i - (stack.empty() ? start : stack.peek());
+                    res = Math.max(res, len);
+                }
+            }
+        }
+        return res;
+    }
+
+
+    //-------------- Solution 2 --------------------//
+    // dp (a hard dp problem)
+    public int longestValidParentheses2(String s) {
         if (s == null || s.length() == 0) {
             return 0;
         }
@@ -21,31 +47,6 @@ public class LongestValidParentheses {
                 }
                 res = Math.max(res, dp[i]);
             } // else is '(': there is no valid substring ending in '(', dp[i] => 0;
-        }
-        return res;
-    }
-
-    //------------------ Solution 2 ----------------------//
-    // stack: store index
-    public int longestValidParentheses2(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-        int res = 0;   // global max
-        Stack<Integer> stack = new Stack();
-        int start = -1; // boundary: (start + 1) is the first index for cur valid paren substring
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                stack.push(i);   // put the index in stack
-            } else {
-                if (stack.empty()) {
-                    start = i;   // set new boundary
-                } else {
-                    stack.pop(); // pops out the matching '('
-                    int len = i - (stack.empty() ? start : stack.peek());
-                    res = Math.max(res, len);
-                }
-            }
         }
         return res;
     }

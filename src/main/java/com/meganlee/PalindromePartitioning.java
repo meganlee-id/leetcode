@@ -4,15 +4,14 @@ import java.util.*;
 
 public class PalindromePartitioning {
     //--------------------- Solution --------------------------//
-    // a combination problem
-    // Naive Approach: replace buildCache method with isPalindrome, others are the same
+    // backtracing
     public List<List<String>> partition(String s) {
         // input validation
         List<List<String>> res = new ArrayList();
         if (s == null || s.length() == 0) {
             return res;
         }
-        boolean[][] cache = buildCache(s);
+        boolean[][] cache = buildCache(s); // could replace buildCache with isPalindrome, others are the same
         populateResult(s, 0, new ArrayList(), res, cache);
         return res;
     }
@@ -24,24 +23,35 @@ public class PalindromePartitioning {
         }
 
         // general case
-        for (int i = start; i < s.length(); i++) {
-            if (cache[start][i]) {
-                partition.add(s.substring(start, i + 1));
-                populateResult(s, i + 1, partition, res, cache);
-                partition.remove(partition.size() - 1);
+        for (int end = start; end < s.length(); end++) {
+            if (cache[start][end]) { // s[start, end] is palidrome
+                partition.add(s.substring(start, end + 1)); // end is inclusive
+                populateResult(s, end + 1, partition, res, cache);
+                partition.remove(partition.size() - 1);     // backtrace: remove last elem
             }
         }
     }
 
+    // :( buildCache is not faster than simply check isPalindrome!!
     private boolean[][] buildCache(String s) {
-        boolean[][] cache = new boolean[s.length()][s.length()];
-        for (int i = 0; i < s.length(); i++) {
-            for (int j = 0; j <= i; j++) {
-                if (s.charAt(i) == s.charAt(j) && (i - j <= 1 || cache[j + 1][i - 1])) {
-                    cache[j][i] = true;
-                }
+        int N = s.length();
+        boolean[][] cache = new boolean[N][N];
+        for (int len = 1; len <= N; len++) {
+            for (int start = 0; start + len - 1 < N; start++) {
+                int end = start + len - 1;
+                cache[start][end] = (s.charAt(start) == s.charAt(end)) && (len <= 2 || cache[start + 1][end - 1]);
             }
         }
         return cache;
+    }
+
+    //************ UTIL NOT USED *************//
+    // this is faster in practice
+    private boolean isPalindrome(String s, int start, int end) {
+        while (start <= end && s.charAt(start) == s.charAt(end)) {
+            start++;
+            end--;
+        }
+        return start > end;
     }
 }

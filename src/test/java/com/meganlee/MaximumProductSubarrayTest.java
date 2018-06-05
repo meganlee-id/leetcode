@@ -1,11 +1,12 @@
 package com.meganlee;
 
+import java.util.*;
 import org.junit.*;
 
 public class MaximumProductSubarrayTest {
     MaximumProductSubarray solution = new MaximumProductSubarray();
     public int calculate(int[] nums) {
-        PrettyPrinter.print1DIntArray(nums);
+        Arrays.toString(nums);
         int maxProd = solution.maxProduct(nums);
         System.out.println("Max Prod: " + maxProd + "\n");
         return maxProd;
@@ -14,6 +15,6 @@ public class MaximumProductSubarrayTest {
 
     @Test
     public void test() {
-       Assert.assertEquals(calculate(nums), 20);
+       Assert.assertEquals(20, calculate(nums));
     }
 }

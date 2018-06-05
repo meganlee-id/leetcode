@@ -23,7 +23,10 @@ public class InsertIntervalTest {
 
     @Test
     public void testCase1() {
-        Assert.assertEquals(calculate(a, 3, 6), "[0, 6] [8, 10] [3, 6] [8, 12] [15, 20]\n");
+        Assert.assertEquals(
+            "[0, 6] [8, 10] [3, 6] [8, 12] [15, 20]\n",
+            calculate(a, 3, 6)
+        );
     }
 }
 

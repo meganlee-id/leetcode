@@ -15,10 +15,10 @@ public class LengthOfLastWord {
         int res = 0;
         for (int start = 0, end = 0; end < s.length(); end++) {
             // if it's space, increment both start and end
-            if (Character.isWhitespace(s.charAt(end))) {
+            if (Character.isWhitespace(s.charAt(end))) { // do NOT use Character.isLetter, test case: "Hello World!!"
                 start++;
             // if it's letter increment only end
-            // if it's leeter and end shows the end of the current word, calculate the word length
+            // if it's letter and end of cur word, calculate the word length
             } else if (end == s.length() - 1 || Character.isWhitespace(s.charAt(end + 1))) {
                 res = end - start + 1;
                 start = end + 1;
@@ -56,7 +56,8 @@ public class LengthOfLastWord {
         }
 
         // at lease one word exists
-        String[] words = s.split("\\s+");
+        String sTrim = s.trim();
+        String[] words = sTrim.split("\\s+");
         return words[words.length - 1].length();    // str.split(String regex)
     }
 
@@ -68,10 +69,11 @@ public class LengthOfLastWord {
         if (s == null || s.trim().length() == 0) {  // s.trim().length() == 0
             return 0;
         }
-
-        int end = s.trim().length();           // think about when there is only one word
-        int start = s.trim().lastIndexOf(" "); // think about when there is only one word
-        return end - start - 1;
+        // at lease one word exists
+        String sTrim = s.trim();
+        int end = sTrim.length() - 1;
+        int start = sTrim.lastIndexOf(" "); // if only one word and no space, return -1
+        return end - start;
     }
 
     

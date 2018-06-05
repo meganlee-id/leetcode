@@ -18,8 +18,8 @@ public class TextJustification {
             line.add(words[i]);
             //  ---- last word ----   || ----- line terminates at current word ------
             if (i == words.length - 1 || curLen + words[i + 1].length() + line.size() > L) {
-                // add the current line
-                addLine2(res, line, L, curLen, i == words.length - 1);
+                // add current line to res
+                formatAndAddLine(res, line, L, curLen, i == words.length - 1);
                 // reset for next line
                 curLen = 0;
                 line.clear();
@@ -28,50 +28,52 @@ public class TextJustification {
         return res;
     }
 
-    private void addLine(List<String> res, List<String> line, int L, int curLen, boolean lastLine) {
-        if (line.size() == 1) { // one word
-            res.add(String.format("%-" + L + "s", line.get(0))); // String.format("%-10s", "hello") => "hello     "
-        } else { // >= 2 words
-            int spaces = (L - curLen) / (line.size() - 1); // spaces
-            int extra  = (L - curLen) % (line.size() - 1); // # of extra spaces
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < line.size(); i++) {
-                sb.append(line.get(i));
-                if (i != line.size() - 1) { // add spaces between words
-                    String s = String.format("%" + spaces + "s", "") + ((extra-- > 0) ? " " : ""); // space between each words
-                    sb.append(lastLine ? " " : s);
-                } else if (lastLine) {      // add trailing spaces for last line
-                    sb.append(String.format("%" + (L - sb.length()) + "s", ""));
-                }
-            }
-            res.add(sb.toString());
-        }
-    }
-
-    // a 2nd way to: this is faster than String.format()
-    private void addLine2(List<String> res, List<String> line, int L, int curLen, boolean lastLine) {
+    // String.format and String.join(separator, List/Arr) is slow but concise: 20ms
+    private void formatAndAddLine(List<String> res, List<String> line, int L, int curLen, boolean lastLine) {
         StringBuilder sb = new StringBuilder();
-        char[] paddings = new char[L];
-        Arrays.fill(paddings, ' ');
-        if (lastLine || line.size() == 1) { // last line or only one word
-            for (String w : line) {
-                sb.append(w + " "); // add only one space between words
-            }
-            sb.append(paddings); // paddings will be trimed at line 74
-        } else { // >= 2 words, and NOT last line
+        if (lastLine || line.size() == 1) { // last line || only one word
+            sb.append(String.format("%-" + L + "s", String.join(" ", line))); // '%-'' means extra spaces will be append at the end, L is total len
+        } else { // not last line AND >= 2 words
             int spaces = (L - curLen) / (line.size() - 1);
             int extra  = (L - curLen) % (line.size() - 1); // # of extra spaces
             for (int i = 0; i < line.size(); i++) {
+                // add word
                 sb.append(line.get(i));
+                // add sapces (if not last word)
                 if (i != line.size() - 1) {
                     int numSpaces = spaces + ((extra-- > 0) ? 1 : 0); // do add a () around ternary operator!!
-                    for (int j = 0; j < numSpaces; j++) {
+                    sb.append(String.format("%" + numSpaces + "s", ""));
+                }
+            }
+        }
+        res.add(sb.toString());
+    }
+
+    // use for loop instead of String utils: 1ms
+    private void formatAndAddLine2(List<String> res, List<String> line, int L, int curLen, boolean lastLine) {
+        StringBuilder sb = new StringBuilder();
+        if (lastLine || line.size() == 1) { // last line || only one word
+            for (String w: line) {  //~~~~~~~~ diff 1
+                sb.append(w + " ");
+            }
+            while (sb.length() < L) {
+                sb.append(" ");
+            }
+        } else { // not last line AND >= 2 words
+            int spaces = (L - curLen) / (line.size() - 1);
+            int extra  = (L - curLen) % (line.size() - 1); // # of extra spaces
+            for (int i = 0; i < line.size(); i++) {
+                // add word
+                sb.append(line.get(i));
+                // add sapces (if not last word)
+                if (i != line.size() - 1) {
+                    int numSpaces = spaces + ((extra-- > 0) ? 1 : 0); // do add a () around ternary operator!!
+                    for (int j = 0; j < numSpaces; j++) {   //~~~~~~ diff 2
                         sb.append(" ");
                     }
                 }
             }
         }
-        res.add(sb.substring(0, L)); // could also manipulate sb.delete(start, end)
+        res.add(sb.substring(0, L));    //~~~~~ diff3
     }
-
 }

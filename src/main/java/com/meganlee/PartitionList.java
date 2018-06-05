@@ -24,12 +24,4 @@ public class PartitionList {
         tail2.next = null;     // don't forget to set the tail.next = null
         return dummy1.next;
     }
-
-    ////////////////  TEST  /////////////////////
-    public static void main(String[] args) {
-        int[] x = {1, 2, 3, 4, 5, 2, 1, 3};
-        ListNode list = ListNode.fromArray(x);
-        PartitionList solution = new PartitionList();
-        System.out.println(solution.partition(list, 3));
-    }
 }

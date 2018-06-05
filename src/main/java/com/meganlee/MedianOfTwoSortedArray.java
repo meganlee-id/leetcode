@@ -40,35 +40,74 @@ public class MedianOfTwoSortedArray {
     // if (aMid < bMid) Keep [aRight + bLeft]    
     // else             Keep [bRight + aLeft]
     // NOTE: k is the length, starts from 1
-    public double findMedianSortedArrays2(int[] A, int[] B) {
-        int k1 = (A.length + B.length + 1) / 2;
-        int k2 = (A.length + B.length + 2) / 2;
-        return (findKth(A, 0, B, 0, k1) + findKth(A, 0, B, 0, k2)) / 2.0;
+    public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+        int N1 = nums1.length, N2 = nums2.length;
+        int k1 = (N1 + N2 + 1) / 2;   // median1 is k1_th elem
+        int k2 = (N1 + N2 + 2) / 2;   // median2 is k2_th elem
+        double median1 = findKth(nums1, 0, nums2, 0, k1);
+        double median2 = findKth(nums1, 0, nums2, 0, k2);
+        return (median1 + median2) / 2.0; // not divided by integer 2
     }
 
-    public double findKth(int[] A, int aStart, int[] B, int bStart, int k) {
+    // starting from index p1 in sorted array nums1, index p2 in sorted array nums2
+    // find the kth elem using both arrays
+    public double findKth(int[] nums1, int p1, int[] nums2, int p2, int k) {
         // base cases
-        if (aStart > A.length - 1) {
-            return B[bStart + k - 1];  
+        if (p1 > nums1.length - 1) {  // nums1 index overflows, return kth elem in nums2
+            return nums2[p2 + k - 1];  
         }
-        if (bStart > B.length - 1) {
-            return A[aStart + k - 1];   
+        if (p2 > nums2.length - 1) {  // nums2 index overflows, return kth elem in nums1
+            return nums1[p1 + k - 1];   
         }
         if (k == 1) {
-            return Math.min(A[aStart], B[bStart]);
+            return Math.min(nums1[p1], nums2[p2]);
         }
         
         // general cases
-        int aMedian = (aStart + k / 2 - 1 < A.length) ? A[aStart + k / 2 - 1] : Integer.MAX_VALUE;
-        int bMedian = (bStart + k / 2 - 1 < B.length) ? B[bStart + k / 2 - 1] : Integer.MAX_VALUE;
-        if (aMedian < bMedian) {
-            return findKth(A, aStart + k / 2, B, bStart, k - k / 2); // Check: aRight + bLeft 
+        //----- if both arrays    has > k/2 elem, throw k/2 elem from the array with smaller max value
+        //----- if only one array has > k/2 elem, throw k/2 elem from the array with longer length
+        //
+        // k/2 = half size, (p1 + k/2 - 1): end index to be cut away
+        int cut1 = p1 + k / 2 - 1;  // max index in nums1 that might be cut away
+        int cut2 = p2 + k / 2 - 1;  // max index in nums2 that might be cut away
+        int max1 = (cut1 < nums1.length) ? nums1[cut1] : Integer.MAX_VALUE; // last elem in nums1 to be cut
+        int max2 = (cut2 < nums2.length) ? nums2[cut2] : Integer.MAX_VALUE; // last elem in nums2 to be cut
+        if (max1 < max2) {
+            return findKth(nums1, p1 + k / 2, nums2, p2, k - k / 2); // throw away nums1's first k/2 elems
         } else {
-            return findKth(A, aStart, B, bStart + k / 2, k - k / 2); // Check: bRight + aLeft
+            return findKth(nums1, p1, nums2, p2 + k / 2, k - k / 2); // throw away nums2's first k/2 elems
         }
     }
 
     //----------------- Solutin 3 -------------------//
     // iterative binary search derivative
-    // https://discuss.leetcode.com/topic/3367/share-my-iterative-solution-with-o-log-min-n-m
+    public double findMedianSortedArrays3(int[] nums1, int[] nums2) {
+        // make sure nums1 is the array with smaller size, we'll binary search on it
+        int N1 = nums1.length, N2 = nums2.length;
+        if (N1 > N2) return findMedianSortedArrays(nums2, nums1);
+        
+        // binary search on nums1
+        int lo = 0, hi = N1; // the split point, hi is NOT N1-1, hi could be N1 too
+        while (lo <= hi) {
+            // k = mid1 + mid2: the kth elem is the smaller median
+            int mid1 = lo + (hi - lo) / 2;       // size of left partition in nums1 to be checked
+            int mid2 = (N1 + N2 + 1) / 2 - mid1; // size of left partition in nums2 to be checked
+            // find 4 boundary numbers
+            double leftMax1 = (mid1 == 0) ? Integer.MIN_VALUE : nums1[mid1 - 1];
+            double leftMax2 = (mid2 == 0) ? Integer.MIN_VALUE : nums2[mid2 - 1];
+            double rightMin1 = (mid1 == N1) ? Integer.MAX_VALUE : nums1[mid1];
+            double rightMin2 = (mid2 == N2) ? Integer.MAX_VALUE : nums2[mid2];
+            if (leftMax1 <= rightMin2 && leftMax2 <= rightMin1) { // find the right position
+                double median1 = Math.max(leftMax1, leftMax2);
+                double median2 = (N1 + N2) % 2 == 0 ? Math.min(rightMin1, rightMin2) : median1;
+                return (median1 + median2) / 2.0;
+            } else if (leftMax1 > rightMin2) { // shift mid1 to left
+                hi = mid1 - 1;
+            } else { // shift mid2 to right
+                lo = mid1 + 1;
+            }
+        }
+        // Only way we can reach here is that input arrays not sorted
+        return -1;
+    }
 }

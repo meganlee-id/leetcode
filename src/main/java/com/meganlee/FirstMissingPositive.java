@@ -7,13 +7,13 @@ public class FirstMissingPositive {
             return 1;
         }
 
-        // put i at index i - 1
+        // put num at index i = num - 1
         for (int i = 0; i < A.length; ) {
             int targetIndex = A[i] - 1;
             if (A[i] <= 0 || A[i] > A.length || i == targetIndex || A[i] == A[targetIndex]) {
-                i++;
+                i++; // skip
             } else {
-                swap(A, i, targetIndex);
+                swap(A, i, targetIndex); // swap, no i++
             }
         }
 
@@ -30,14 +30,5 @@ public class FirstMissingPositive {
         int temp = A[i];
         A[i] = A[j];
         A[j] = temp;
-    }
-
-    ///////////////////////  TEST  ////////////////////////
-    public static void main(String[] args) {
-        int[] A = {3, 4, -1, 1};
-        int[] B = {4, 3, 5, -1, 0, 3, 7, 2, 8, -2, 1};
-
-        int x = (new FirstMissingPositive()).firstMissingPositive(B);
-        System.out.println(x);
     }
 }

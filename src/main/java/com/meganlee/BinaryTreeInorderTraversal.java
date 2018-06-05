@@ -22,34 +22,34 @@ public class BinaryTreeInorderTraversal {
         helper(node.right, res); // 3. visit right subtree
     }
 
-
     //----------------- Solution 2 ------------------//
     // Classic Stack: stack + cur pointer
+    // Ask: whether to returen a List<TreeNode> or List<Integer>
     public List<Integer> inorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList();
         Stack<TreeNode> s = new Stack();
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
-                s.push(cur);        // add to call stack
-                cur = cur.left;     // travel to each node's left child, till reach the left leaf
+                s.push(cur);        // push
+                cur = cur.left;     // left
             } else {            //--- GOING UP   ---
-                cur = s.pop();      // backtrack to higher level
-                res.add(cur.val);   // VISIT
-                cur = cur.right;    // switch to right branch
+                TreeNode node = s.pop();  // pop
+                res.add(node.val);        // VISIT
+                cur = node.right;         // right
             }
         }
         return res;
     }
 
-    //------------------------------------------------//
+    //----------------- Solution 3 ------------------//
     //-- NO DFS SOLUTION FOR IN-ORDER TRAVERSAL
     
 
-    //----------------- Solution 3 ------------------//
+    //----------------- Solution 4 ------------------//
     // Morris traversal
     // pre: rightmost child of my left sub tree
-    public List<Integer> inorderTraversal3(TreeNode root) {
+    public List<Integer> inorderTraversal4(TreeNode root) {
         List<Integer> res = new ArrayList();
         TreeNode cur = root;
         while (cur != null) {
@@ -66,25 +66,15 @@ public class BinaryTreeInorderTraversal {
                 }
                 // case 2: returned from left subtree
                 if (pre.right == cur) {
-                    res.add(cur.val);  // visit
+                    res.add(cur.val);  // VISIT
                     pre.right = null;
                     cur = cur.right;
                 }
             } else {
-                res.add(cur.val); // visit
+                res.add(cur.val); // VISIT
                 cur = cur.right;
             }
         }
         return res;
-    }
-
-
-    /////////////////  TEST  //////////////////
-    public static void main(String[] args) {
-        BinaryTreeInorderTraversal solution = new BinaryTreeInorderTraversal();
-        String[] s = {"1", "2", "3", "#", "#", "4", "#", "#", "5"};
-        TreeNode root = TreeNode.buildTreeFromLevelOrder(s);
-        List<Integer> result = solution.inorderTraversal3(root);
-        PrettyPrinter.print1DIntList(result);
     }
 }

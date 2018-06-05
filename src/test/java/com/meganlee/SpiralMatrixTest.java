@@ -8,7 +8,7 @@ public class SpiralMatrixTest {
         System.out.println("------- Matrix ------");
         PrettyPrinter.print2DIntArray(array);
         System.out.println("------- Spiral ------");
-        String res = solution.spiralOrder(array).toString();
+        String res = solution.spiralOrder2(array).toString();
         System.out.println(res);
         System.out.println("");
         return res;
@@ -22,21 +22,21 @@ public class SpiralMatrixTest {
     
     @Test
     public void testRowsMoreThanColumns() {
-        Assert.assertEquals(calculate(matrix1), "[1, 2, 3, 6, 9, 8, 7, 4, 5]");
+        Assert.assertEquals("[1, 2, 3, 6, 9, 8, 7, 4, 5]", calculate(matrix1));
     }
 
     @Test
     public void testColumnsMoreThanRows() {
-        Assert.assertEquals(calculate(matrix2), "[1, 2, 3, 6, 5, 4]");
+        Assert.assertEquals("[1, 2, 3, 6, 5, 4]", calculate(matrix2));
     }
 
     @Test
     public void testOnlyOneRow() {
-        Assert.assertEquals(calculate(matrix3), "[1, 2, 3, 4, 5, 6]");
+        Assert.assertEquals("[1, 2, 3, 4, 5, 6]", calculate(matrix3));
     }
 
     @Test
     public void testOnlyOneColumn() {
-        Assert.assertEquals(calculate(matrix4), "[1, 2, 3, 4]");
+        Assert.assertEquals("[1, 2, 3, 4]", calculate(matrix4));
     }
 }

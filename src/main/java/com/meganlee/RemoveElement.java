@@ -4,8 +4,10 @@ package com.meganlee;
 public class RemoveElement {
 
     //---------------- Solution 1 --------------------//
+    // 2 pointers, stable, more moves
     public int removeElement(int[] A, int elem) {
-        if (A == null) {
+        // input check
+        if (A == null || A.length == 0) {
             return 0;
         }
 
@@ -19,8 +21,7 @@ public class RemoveElement {
     }
 
     //---------------- Solution 2 -----------------//
-    // non-stable (allowing changing the order)
-    // sparse delete, move all bad items to the end of array
+    // 2 pointers, non-stable, less moves with sparse target
     public int removeElement2(int[] A, int elem) {
         if (A == null || A.length == 0) {
             return 0;
@@ -32,7 +33,7 @@ public class RemoveElement {
             } else {
                 // swap(A, i, j--);  // no need to swap!, discard target
                 A[i] = A[j];
-                j--;                 // reduce array size by one
+                j--;
             }
         }
         return i;

@@ -88,13 +88,13 @@ public class UniquePath2 {
 
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
-                if (obstacleGrid[i - 1][j - 1] == 0) {
-                    if (i == 1 && j == 1) {  // non-blocker, start cell
+                if (obstacleGrid[i - 1][j - 1] == 0) { //----- non-blocker
+                    if (i == 1 && j == 1) {  // intial cell
                         dp[i][j] = 1;
-                    } else {                 // non-blocker, other cells
+                    } else {                 // other cells
                         dp[i][j]= dp[i - 1][j] + dp[i][j - 1];
                     }
-                }
+                } //----- blocker, leave 0 as the value
             }
         }
         return dp[m][n];
@@ -116,33 +116,17 @@ public class UniquePath2 {
 
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
-                if (obstacleGrid[i - 1][j - 1] == 1) {
-                    dp[j] = 0; // !!! need to CLEAR the value here !!
-                } else {
-                    if (i == 1 && j == 1) {   // non-blocker, start cell
+                if (obstacleGrid[i - 1][j - 1] == 1) { //----- blocker, set 0 as value
+                    dp[j] = 0; // !!! need to CLEAR the value here from pre row!!
+                } else {  //----- non-blocker
+                    if (i == 1 && j == 1) {  // intial cell
                         dp[j] = 1;
-                    } else {                  // non-blocker, other cells
+                    } else {                 // other cells
                         dp[j] += dp[j - 1];
                     }
-                }
+                } 
             }
-            PrettyPrinter.print1DIntArray(dp);
         }
         return dp[n];
-    }
-    
-    ///////////////////  TEST //////////////////////
-    private static void test(UniquePath2 solution, int[][] grids) {
-        PrettyPrinter.print2DIntArray(grids);
-        System.out.println(solution.uniquePathsWithObstacles4(grids));
-    }
-
-    public static void main(String[] args) {
-        UniquePath2 solution = new UniquePath2();
-        int[][] grids1 = {{0,0,0}, {0,1,0}, {0,0,0}};
-        int[][] grids2 = {{0,0,0}};
-
-        test(solution, grids1);
-        test(solution, grids2);
     }
 }

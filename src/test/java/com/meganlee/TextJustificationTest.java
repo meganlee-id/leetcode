@@ -24,31 +24,49 @@ public class TextJustificationTest {
 
     @Test
     public void testWords1With6() {
-        Assert.assertEquals(calculate(words1, 6), "[What  , must  , be    , shall , be.   ]");
+        Assert.assertEquals(
+            "[What  , must  , be    , shall , be.   ]",
+            calculate(words1, 6)
+        );
     }
 
     @Test
     public void testWords1With10() {
-        Assert.assertEquals(calculate(words1, 10), "[What  must, be   shall, be.       ]");
+        Assert.assertEquals(
+            "[What  must, be   shall, be.       ]",
+            calculate(words1, 10)
+        );
     }
 
     @Test
     public void testWords1With12() {
-        Assert.assertEquals(calculate(words1, 12), "[What must be, shall be.   ]");
+        Assert.assertEquals(
+            "[What must be, shall be.   ]",
+            calculate(words1, 12)
+        );
     }
 
     @Test
     public void testWords1With18() {
-        Assert.assertEquals(calculate(words1, 18), "[What must be shall, be.               ]");
+        Assert.assertEquals(
+            "[What must be shall, be.               ]",
+            calculate(words1, 18)
+        );
     }
 
     @Test
     public void testWords2With15() {
-        Assert.assertEquals(calculate(words2, 15), "[This    is   an, example of text, justification. ]");
+        Assert.assertEquals(
+            "[This    is   an, example of text, justification. ]",
+            calculate(words2, 15)
+        );
     }
 
     @Test
     public void testWords3With0() {
-        Assert.assertEquals(calculate(words3, 0), "[]");
+        Assert.assertEquals(
+            "[]", 
+            calculate(words3, 0)
+        );
     }
 }

@@ -13,12 +13,12 @@ public class MergeIntervals {
 
         // sort and solve
         //---- OPTION1 ----
-        intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
-        //
+        intervals.sort((i1, i2) -> i1.start - i2.start); // have to make sure lambda returns an int!!
         //---- OPTION2 ----
-        // intervals.sort((i1, i2) -> i1.start - i2.start); // have to make sure lambda returns an int!!
-        //
+        // intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
         //---- OPTION3 ----
+        // Collections.sort(intervals, (i1, i2) -> i1.start - i2.start);
+        //---- OPTION4 ----
         // Collections.sort(intervals, new Comparator<Interval>() {
         //     @Override
         //     public int compare(Interval a, Interval b) {
@@ -27,16 +27,17 @@ public class MergeIntervals {
         // }); // ADD A ';'!
 
         // merge one by one
-        List<Interval> res = new ArrayList(Arrays.asList(intervals.get(0)));
+        List<Interval> res = new ArrayList();
         Interval cur = intervals.get(0);
         for (Interval i: intervals) {
             if (i.start <= cur.end) { // overlaps
                 cur.end = Math.max(i.end, cur.end);
             } else {
-                res.add(i);
+                res.add(cur);
                 cur = i;
             }
         }
+        res.add(cur);
         return res;
     }
 
@@ -77,7 +78,6 @@ public class MergeIntervals {
                 res.add(new Interval(starts[s], ends[e]));
                 s = e + 1;
             }
-
         }
         return res;
     }

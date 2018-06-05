@@ -2,6 +2,8 @@ package com.meganlee;
 
 import java.util.*;
 
+/****** 2 transactions ******/
+
 public class BestTimeBuyAndSellStock3 {
     //----------------- Solution 1 -------------------//
     // brute force, 4 pointers (Exceed Time Limit)
@@ -57,67 +59,28 @@ public class BestTimeBuyAndSellStock3 {
         return maxProfit;
     }
 
-    //-------------- Solution 4 -------------------//
-    // space-saving dp
-    public int maxProfit4(int[] prices) {
-        // input checking
-        if (prices == null || prices.length <= 1) {
-            return 0;
-        }
-
-        int[] global = new int[3];  // [num of trades]
-        int[] local  = new int[3];
-
-        for (int i = 1; i < prices.length; i++) {
-            int diff = prices[i] - prices[i - 1];
-            for (int trades = 2; trades >= 1; trades--) {  // NOTE: have to count from 2 --> 1
-                local[trades]  = Math.max(local[trades] + diff, global[trades - 1] + (diff > 0 ? diff : 0));
-                global[trades] = Math.max(local[trades], global[trades]);
-            }
-        }
-
-        return global[2];
-    }
-
-    //-------------- Solution 4 -------------------//
-    // DP - Space saving
+    //-------------- Solution 3 -------------------//
+    // dp[k][i]
     public int maxProfit3(int[] prices) {
         // input checking
         if (prices == null || prices.length <= 1) {
             return 0;
         }
-
+        // dp[k][i]
         int N = prices.length;
-        int[][] global = new int[N][3];  // [index][num of trades]
-        int[][] local  = new int[N][3];
-
-        // initial: global[*][0] = 0, local[*][0] = 0. (0 trades, profit is 0)
-        //          global[0][*] = 0, local[0][*] = 0, (day 0, no matter how many trades, profit is 0)
-
-        for (int i = 1; i < N; i++) {
-            int diff = prices[i] - prices[i - 1];
-            for (int trades = 1; trades <= 2; trades++) {
-                local[i][trades]  = Math.max(local[i - 1][trades] + diff,
-                    global[i - 1][trades - 1] + (diff > 0 ? diff : 0));  // NOTE: MUST HAVE () AROUND TERNARY EXPRESSION!!
-                // X + Y > 0 ? Y : 0 SAME AS ==> (X + Y) > 0 ? Y : 0
-                global[i][trades] = Math.max(local[i][trades], global[i - 1][trades]);
+        int[][] dp = new int[3][N];
+        for (int k = 1; k < 3; k++) {
+            int maxBase = 0 - prices[0];
+            for (int i = 1; i < N; i++) {
+                dp[k][i] = Math.max(dp[k][i - 1], maxBase + prices[i]);
+                maxBase  = Math.max(maxBase, dp[k - 1][i] - prices[i]);
             }
         }
-
-        return global[N - 1][2];
+        return dp[2][N - 1];
     }
 
-    ////////////////////   TEST   /////////////////////
-    private static void test(BestTimeBuyAndSellStock3 m, int[] A) {
-        System.out.println(Arrays.toString(A));
-        System.out.println(m.maxProfit3(A) + "\n");
-    }
-    public static void main(String[] args) {
-        BestTimeBuyAndSellStock3 m = new BestTimeBuyAndSellStock3();
-        int[] A1 = {397,6621,4997,7506,8918,1662,9187,3278,3890,514,18,9305,93,5508};
-        int[] A2 = {1,2,0,1};
-        test(m, A1);
-        test(m, A2);
-    }
+    //---- if we want more space saving, we could process col-by-col -------//
+    // 2 columns:   dp[k][2]
+    // maxBase col: maxBase[k]
 }
 

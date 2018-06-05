@@ -13,47 +13,40 @@ public class FourSum {
 
         // remember to sort before 
         Arrays.sort(num);
+
+        // fix the 1st number as the samllest number is each result bag
         for (int i = 0; i < num.length; i++) {
             // skip all duplicate for the 1st num
             if (i != 0 && num[i] == num[i - 1]) {
                 continue;
             }
+
+            // fix the 2nd number as the second samllest number is each result bag
             for (int j = i + 1; j < num.length; j++) {
                 // skip all duplicates for the 2nd num
                 if (j != i + 1 && num[j] == num[j - 1]) {
                     continue;
                 }
-                // start -> 3rd num; end -> 4th num
-                for(int start = j + 1, end = num.length - 1; start < end; ) {
-                    int sum = num[i] + num[j] + num[start] + num[end];
+
+                // lo -> 3rd num; hi -> 4th num
+                int lo = j + 1, hi = num.length - 1; 
+                while (lo < hi) {
+                    int sum = num[i] + num[j] + num[lo] + num[hi];
                     if (sum == target) {
-                        List<Integer> quad = Arrays.asList(num[i], num[j], num[start], num[end]);
+                        List<Integer> quad = Arrays.asList(num[i], num[j], num[lo], num[hi]);
                         res.add(quad);
-                        start++;
-                        end--;
-                        while (start < end && num[start] == num[start - 1]) {
-                            start++;
-                        }
-                        while (start < end && num[end] == num[end + 1]) {
-                            end--;
-                        }
+                        lo++; hi--;
+                        while (lo < hi && num[lo] == num[lo - 1]) lo++; // skip dupes from lo side
+                        while (lo < hi && num[hi] == num[hi + 1]) hi--; // skip dupes from hi side
                     } else if (sum < target) {
-                        start++;
-                    } else {
-                        end--;
+                        lo++;
+                    } else { //sum > target
+                        hi--;
                     }
                 }
             }
         }
         return res;
-    }
-
-    ///////////// TEST ////////////
-    public static void main(String[] args) {
-        FourSum solution = new FourSum();
-        int[] nums = {1, 2, 5, -3, 4, 2, 1, 1, 3, 6, 5, 7, 1, -3};
-        List<List<Integer>> res = solution.fourSum(nums, 0);
-        PrettyPrinter.print2DIntList(res);
     }
 }
 

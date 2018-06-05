@@ -2,8 +2,8 @@ package com.meganlee;
 
 public class Sqrt {
     //-----------  Binary Search --------------//
-    public int sqrt(int x) {
-        if (x < 0)  return -1; // discuss this case with interviewer
+    public int sqrt(int x) throws ArithmeticException {
+        if (x < 0)  throw new ArithmeticException("Sqrt of negative number!"); // discuss this case with interviewer
         if (x == 0) return 0;
 
         int lo = 1, hi = x / 2 + 1;

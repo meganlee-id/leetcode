@@ -13,14 +13,14 @@ public class LengthOfLongestSubstringTest {
 
     @Test
     public void testS1() {
-        Assert.assertEquals(calculate(s1), 5);
+        Assert.assertEquals(5, calculate(s1));
     }
     @Test
     public void testS2() {
-        Assert.assertEquals(calculate(s2), 12);
+        Assert.assertEquals(12, calculate(s2));
     }
     @Test
     public void testS3() {
-        Assert.assertEquals(calculate(s3), 6);
+        Assert.assertEquals(6, calculate(s3));
     }
 }

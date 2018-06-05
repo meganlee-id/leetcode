@@ -2,68 +2,60 @@ package com.meganlee;
 
 import java.util.*;
 
+/****** 1 transaction ******/
+
 public class BestTimeBuyAndSellStock {
     //--------------  Solution 1 -------------------//
     // brute force (Time Limit Exceeded)
     public int maxProfit(int[] prices) {
+        // input validation
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        // two pointers
         int N = prices.length;
-        int res = 0;  // min, buy and sell on the same day
-        for (int i = 0; i < N; i++) {
-            for (int j = i; j < N; j++) {
-                res = Math.max(res, prices[j] - prices[i]);
+        int res = 0;  // 0: buy n sell on the same day
+        for (int start = 0; start < N; start++) {
+            for (int end = start; end < N; end++) {
+                res = Math.max(res, prices[end] - prices[start]);
             }
         }
         return res;
     }
 
     //--------------  Solution 2  -------------------//
-    // most intuitive solution
+    // one-pass scan. keep min updated
     public int maxProfit2(int[] prices) {
         // input validation
         if (prices == null || prices.length <= 1) {
             return 0;
         }
-
         // record the min up util now
         int min = Integer.MAX_VALUE;
         int res = 0;
-        for (int i : prices) {
-            min = Math.min(min, i);
-            res = Math.max(res, i - min);
+        for (int p : prices) {
+            min = Math.min(min, p);
+            res = Math.max(res, p - min);
         }
         return res;
     }
 
     //--------------  Solution 3  -----------------//
-    // == maximal sub-array problem (diff)
+    // diff[]: MaximumSubArray.java solution3
     public int maxProfit3(int[] prices) {
         // input validation
-        if (prices == null || prices.length == 0) {
+        if (prices == null || prices.length <= 1) {
             return 0;
         }
 
         // calculate the result
         int sum = 0;
         int res = 0;
-        for (int i = 0; i < prices.length; i++) {
-            int diff = prices[i + 1] - prices[i];  // get the diff
-            sum = Math.max(0, sum + diff);  // local
+        for (int i = 1; i < prices.length; i++) {
+            int diff = prices[i] - prices[i - 1];  // get the diff
+            sum = Math.max(sum, 0) + diff;  // local
             res = Math.max(res, sum);       // global
         }
         return res;
-    }
-
-
-    ////////////////////  TEST ////////////////////
-    private static void test(BestTimeBuyAndSellStock m, int[] A) {
-        System.out.println(Arrays.toString(A));
-        System.out.println(m.maxProfit(A) + "\n");
-    }
-    public static void main(String[] args) {
-        BestTimeBuyAndSellStock solution = new BestTimeBuyAndSellStock();
-        int[] prices1 = {1, 2, 5, 3, 4, 6, 2, 8};
-        int[] prices2 = {7, 1, 5, 3, 6, 4};
-        test(solution, prices1);
-        test(solution, prices2);
     }
 }

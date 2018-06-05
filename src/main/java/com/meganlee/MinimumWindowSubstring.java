@@ -10,33 +10,32 @@ public class MinimumWindowSubstring {
             return res;
         }
         // char frequency
-        Map<Character, Integer> dict = new HashMap();
+        Map<Character, Integer> freq = new HashMap();
         for (char ch: t.toCharArray()) {
-            dict.put(ch, dict.containsKey(ch) ? dict.get(ch) + 1 : 1);
+            freq.put(ch, freq.getOrDefault(ch, 0) + 1);
         }
         // sliding window
         int count = 0; // use count to determine how many chars we've seen for solution collecting
-        Map<Character, Integer> chsLeft = new HashMap(dict);
-        for (int start = 0, end = start; end < s.length(); end++) {
+        Map<Character, Integer> chsLeft = new HashMap(freq);
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            // we only update everything when next ch is valid
             char ch = s.charAt(end);
-            if (chsLeft.containsKey(ch)) { // ch valid
-                chsLeft.put(ch, chsLeft.get(ch) - 1); // count it
-                if (chsLeft.get(ch) >= 0) { // was available
-                    count++;
-                } 
-                if (count == t.length()) { // found a valid window
-                    // shrink start
-                    // DO NOT PUT char sChar = s.charAt(start) HERE at line 29, START IS CHANGING
-                    while (!chsLeft.containsKey(s.charAt(start)) || chsLeft.get(s.charAt(start)) < 0) {
+            if (freq.containsKey(ch)) {
+                // 1. update cache
+                chsLeft.put(ch, chsLeft.get(ch) - 1);
+                count += (chsLeft.get(ch) >= 0) ? 1 : 0; // count towards one char in t
+                if (count == t.length()) {
+                    // 2. adjust start to mim size, when we find a valid window
+                    while (chsLeft.getOrDefault(s.charAt(start), -1) < 0) { // extra valid char OR non-valid char
                         if (chsLeft.containsKey(s.charAt(start))) { // update chsLeft
                             chsLeft.put(s.charAt(start), chsLeft.get(s.charAt(start)) + 1);
                         }
                         start++;
                     }
-                    // update solution
-                    res = ("".equals(res) || res.length() > end - start + 1) ? s.substring(start, end + 1) : res;
+                    // 3. update res
+                    res = ("".equals(res) || res.length() > end - start + 1) ? s.substring(start, end + 1) : res; 
                 }
-            } 
+           } 
         }    
         return res;
     }

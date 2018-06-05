@@ -18,7 +18,7 @@ public class GroupAnagrams {
             Arrays.sort(chs);
             String key = new String(chs);
             // put current string into group
-            List<String> group = map.containsKey(key) ? map.get(key) : new ArrayList();
+            List<String> group = map.getOrDefault(key, new ArrayList());
             group.add(s);
             map.put(key, group); // do NOT do map.put(key, group.add(s))!! group.add(s) return value is a boolean!!!
         }
@@ -42,7 +42,7 @@ public class GroupAnagrams {
                 key *= prime[ch - 'a'];
             }
             // put current string into group
-            List<String> group = map.containsKey(key) ? map.get(key) : new ArrayList();
+            List<String> group = map.getOrDefault(key, new ArrayList());
             group.add(s);
             map.put(key, group); // do NOT do map.put(key, group.add(s))!! group.add(s) return value is a boolean!!!
         } 

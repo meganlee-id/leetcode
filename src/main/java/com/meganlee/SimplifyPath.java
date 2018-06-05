@@ -4,11 +4,11 @@ import java.util.*;
 
 public class SimplifyPath {
     public String simplifyPath(String path) {
-        // input validation: assume that the path is a valid path
-        if (path == null || path.length() == 0) {
+        // input validation: a valid abs path
+        if (path == null || path.length() == 0 || path.charAt(0) != '/') {
             return "";
         }
-        // simplify the path first
+        // 1. simplify path
         String[] dirs = path.split("/");
         Stack<String> stack = new Stack();
         List<String> skippable = Arrays.asList("..", ".", "");
@@ -19,7 +19,7 @@ public class SimplifyPath {
                 stack.push(dir);
             }
         }
-        // build the path string
+        // 2. build path string
         StringBuilder sb = new StringBuilder();
         for (String dir : stack) {
             sb.append("/" + dir);

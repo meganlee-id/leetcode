@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <url>http://maven.apache.org</url>
-    <name>LeetCode Solution</name>
+    <name>LeetCode Solutions</name>
 
     <groupId>com.meganlee</groupId>
     <artifactId>leetcode</artifactId>
@@ -13,6 +13,7 @@
 
     <dependencies>
         <dependency>
+            <!-- mvn test -Dtest=AggregatedProfileSidBidTest -->
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
@@ -30,6 +31,29 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <!-- The following plugin is for execute a paticular class -->
+            <!-- mvn exec:java -Dexec.mainClass="com.meganlee.PowXN" -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!--  If you want to pass in some parameters:
+                <configuration>
+                    <mainClass>com.example.Main</mainClass>
+                    <arguments>
+                        <argument>foo</argument>
+                        <argument>bar</argument>
+                    </arguments>
+                </configuration>
+                -->
             </plugin>
         </plugins>
     </build>

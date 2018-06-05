@@ -3,7 +3,6 @@ package com.meganlee;
 import java.util.*;
 
 public class MergeKSortedLists {
-
     /*------------------- Solution 1 ------------------------*/
     // O(nklg(k))
     public ListNode mergeKLists(ListNode[] lists) {
@@ -11,7 +10,6 @@ public class MergeKSortedLists {
         if (lists == null || lists.length == 0) {
             return null;
         }
-
         // create a min heap for mergeing
         //------ OPTION 1 ------
         // HAVE TO INCLUDE <TYPE> IN PriorityQueue<ListNode>
@@ -29,8 +27,8 @@ public class MergeKSortedLists {
 
         // put fist node of each list in to the queue
         ListNode dummy = new ListNode(0), tail = dummy;
-        for (ListNode node : lists) {
-            if (node != null) {
+        for (ListNode node: lists) {
+            if (node != null) { // must check non-null
                 q.offer(node);
             }
         }
@@ -69,6 +67,7 @@ public class MergeKSortedLists {
         }
     }
 
+    // merge 2 Lists
     private ListNode merge(ListNode n1, ListNode n2) {
         ListNode dummy = new ListNode(0), tail = dummy;
         while (n1 != null && n2 != null) {
