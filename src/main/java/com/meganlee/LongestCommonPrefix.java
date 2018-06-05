@@ -4,7 +4,7 @@ import java.util.*;
 
 public class LongestCommonPrefix {
     //------------------ Solution 1 -----------------------//
-    // sort and solve
+    // Horizontal Scan: sort and solve
     public String longestCommonPrefix(String[] strs) {
         // input checking
         if (strs == null || strs.length == 0) {
@@ -25,7 +25,7 @@ public class LongestCommonPrefix {
     }
 
     //------------------ Solution 2 -----------------------//
-    // char-by-char: faster to terminate that solution 1
+    // Vertical Scan: faster than solution 1
     public String longestCommonPrefix2(String[] strs) {
         // input checking
         if (strs == null || strs.length == 0) {
@@ -33,8 +33,8 @@ public class LongestCommonPrefix {
         }
         for (int i = 0; i < strs[0].length(); i++) {   // for each char/colum
             for (int j = 1; j < strs.length; j++) {    // for each string
-                // no more char for strs[j] || strs[j]'s current char is different
-                if (strs[j].length() <= i || strs[j].charAt(i) != strs[0].charAt(i)) {
+                //---no more char in str_j-||------str_j cur char is diff----------||
+                if (strs[j].length() <= i || strs[0].charAt(i) != strs[j].charAt(i)) {
                     return strs[0].substring(0, i);
                 }
             }

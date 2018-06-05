@@ -6,19 +6,17 @@ public class PathSum {
     //------------------- Solution 1 --------------------//
     // Back-tracking
     public boolean hasPathSum(TreeNode root, int sum) {
-        // base case: either root itself is null or it's a leave's child node
-        if (root == null) {
+        if (root == null) { //----- base case 1: null
             return false;
-        }
-        // leaf node: path has to end with a leaf node
-        if (root.left == null && root.right == null) {
-            return sum == root.val;
-        }
-        // general case
+        } 
         int leftover = sum - root.val;
-        return hasPathSum(root.left, leftover) || hasPathSum(root.right, leftover);
+        if (root.left == null && root.right == null) { ////----- base case 2
+            return leftover == 0;
+        } else {   ////----- general case
+            return hasPathSum(root.left, leftover) || 
+                   hasPathSum(root.right, leftover);
+        }
     }
-
 
     //------------------- Solution 2 --------------------//
     // Classic Stack: stack + cur + lastVisited
@@ -33,18 +31,16 @@ public class PathSum {
                 cur = cur.left;
             } else {            //--- GOING UP   ---
                 TreeNode node = s.peek();
-                // case 1: haven't visited right part
-                if (node.right != null && node.right != lastVisited) {
-                    cur = node.right;
-                // case 2. leaf node || returned from right subtree
-                } else {
-                    // leaf, mark the end of a path, see if it's a valid path
-                    if (node.left == null && node.right == null && curSum == sum) {
+                // case 1: right subtree visited already
+                if (node.right == null || node.right == lastVisited) {
+                    if (node.left == null && node.right == null && curSum == sum) { // leaf and right sum
                         return true;
                     }
-                    // return from right sub tree
                     lastVisited = s.pop();      // pop && -cur.val
                     curSum -= lastVisited.val;
+                // case 2: haven't visited right subtree
+                } else {
+                    cur = node.right;
                 }
             }
         }

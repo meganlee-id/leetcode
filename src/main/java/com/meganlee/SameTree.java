@@ -7,10 +7,10 @@ public class SameTree {
     // classic recursion
     public boolean isSameTree(TreeNode p, TreeNode q) {
         // base case: deal with nulls
-        if (p == null && q == null) {
+        if (p == null && q == null) { // both null
             return true;
         }
-        if (p == null || q == null) {
+        if (p == null || q == null) { // only one null
             return false;
         }
         // general case: both non-null
@@ -28,14 +28,14 @@ public class SameTree {
             // pull one node from head of queue
             TreeNode pNode = levelP.poll();
             TreeNode qNode = levelQ.poll();
-            // compare
+            // get str representation
             String pNodeStr = (pNode == null) ? "#" : String.valueOf(pNode.val);
             String qNodeStr = (qNode == null) ? "#" : String.valueOf(qNode.val);
-            // if anything differs, will return here
+            // compare
             if (!pNodeStr.equals(qNodeStr)) {
                 return false;
             }
-            // add to next level: here we're guaranteed that this level is same
+            // add to next level
             if (pNode != null) {
                 levelP.offer(pNode.left);
                 levelP.offer(pNode.right);
@@ -45,7 +45,4 @@ public class SameTree {
         }
         return true;
     }
-
 }
-
-// NOTE : Alternatively: we could compute a pair of (in-order string,  and pre/post/level-order string) to compare

@@ -13,11 +13,11 @@ public class SingleNumber2Test {
 
     @Test
     public void testArray1() {
-        Assert.assertEquals(calculate(arr1), Integer.MAX_VALUE);
+        Assert.assertEquals(Integer.MAX_VALUE, calculate(arr1));
     }
 
     @Test
     public void testArray2() {
-        Assert.assertEquals(calculate(arr2), 3435);
+        Assert.assertEquals(3435, calculate(arr2));
     }
 }

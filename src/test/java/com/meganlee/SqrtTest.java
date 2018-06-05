@@ -7,9 +7,9 @@ public class SqrtTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(solution.sqrt(0), 0);
-        Assert.assertEquals(solution.sqrt(32), 5);
-        Assert.assertEquals(solution.sqrt(64), 8);
+        Assert.assertEquals(0, solution.sqrt(0));
+        Assert.assertEquals(5, solution.sqrt(32));
+        Assert.assertEquals(8, solution.sqrt(64));
     }
 
     @Test(expected = ArithmeticException.class) 

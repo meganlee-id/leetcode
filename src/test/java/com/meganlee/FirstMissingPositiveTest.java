@@ -18,7 +18,7 @@ public class FirstMissingPositiveTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(arr1), 2);
-        Assert.assertEquals(calculate(arr2), 6);
+        Assert.assertEquals(2, calculate(arr1));
+        Assert.assertEquals(6, calculate(arr2));
     }
 }

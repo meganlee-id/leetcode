@@ -7,6 +7,11 @@ public class Permutations2 {
     // use int[] as solution builder
     // use swap smartly
     // permutations returned is not in a natural order because of swap
+    //--------------------
+    // index null: []
+    // index 0:    ["1"], ["2"], ["3"]
+    // index 1:    for [1]: [1 "2"], [1 "3"], for [2]: [2 "1"], [2 "3"] for [3]: [3 "1"] [3 "2"]
+    // ...
     public List<List<Integer>> permuteUnique(int[] num) {
         // input checking
         List<List<Integer>> res = new ArrayList();
@@ -51,8 +56,8 @@ public class Permutations2 {
 
 
     //------------------ Solution 2 ------------------//
-    // the classic solution
-    public List<List<Integer>> permuteUnique2(int[] num) {
+    // use List<Integer> as solution builder
+     public List<List<Integer>> permuteUnique2(int[] num) {
         // input checking
         List<List<Integer>> res = new ArrayList();
         if (num == null || num.length == 0) {
@@ -93,7 +98,11 @@ public class Permutations2 {
     }
 
     //------------------- Solution 3 -------------------//
-    // iterative
+    // iterative: 
+    // level1: { [#] }                      <-- #: positions to put next elem: 1
+    // level2: { [# 1 #] }                  <-- #: positions to put next elem: 2
+    // level3: { [# 1 # 2 #], [# 2 # 1 #] } <-- #: positions to put next elem: 2
+    // ...
     public List<List<Integer>> permuteUnique3(int[] num) {
         // input checking
         List<List<Integer>> res = new ArrayList();

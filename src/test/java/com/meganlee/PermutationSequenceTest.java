@@ -11,7 +11,8 @@ public class PermutationSequenceTest {
     }
 
     @Test
-    public void testEmptyArray() {
-        Assert.assertEquals(calculate(9, 12363), "146325879");
+    public void test() {
+        Assert.assertEquals("3142", calculate(4, 14));
+        Assert.assertEquals("146325879", calculate(9, 12363));
     }
 }

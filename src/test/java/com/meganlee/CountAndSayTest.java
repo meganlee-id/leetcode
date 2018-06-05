@@ -14,9 +14,9 @@ public class CountAndSayTest {
 
     public void test(int i) {
         if (i < 0) {
-            Assert.assertEquals(calculate(i), "");
+            Assert.assertEquals("", calculate(i));
         } else {
-            Assert.assertEquals(calculate(i), expected[i]);
+            Assert.assertEquals(expected[i], calculate(i));
         }
     }
 

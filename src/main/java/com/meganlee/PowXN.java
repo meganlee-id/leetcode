@@ -42,41 +42,5 @@ public class PowXN {
         }
         return n < 0 ?  1 / res : res; // check n sign
     }
-
-
-    ////////////////////  TEST  /////////////////////
-    public static void main(String[] args) {
-        try {
-            PowXN p = new PowXN();
-
-            // n > 0
-            System.out.println(p.myPow(-3, 2));
-            System.out.println(p.myPow(1, 2));
-            System.out.println(p.myPow(0.5, 3));
-            System.out.println(p.myPow(-0.5, 3));
-
-            // n < 0
-            System.out.println(p.myPow(-3, -1));
-            System.out.println(p.myPow(3, -2));
-            System.out.println(p.myPow(0.5, -3));
-            System.out.println(p.myPow(-0.5, -3));
-
-            // n == 0
-            System.out.println(p.myPow(1, 0));
-            System.out.println(p.myPow(-0.5, 0));
-
-            // x == 0
-            System.out.println(p.myPow(0, 0));
-            System.out.println(p.myPow(0, 1));
-            System.out.println(p.myPow(0, -1));
-
-            // x == 1
-            System.out.println(p.myPow(1, Integer.MIN_VALUE));
-
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 }
 

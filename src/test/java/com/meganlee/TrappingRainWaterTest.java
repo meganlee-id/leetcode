@@ -20,21 +20,21 @@ public class TrappingRainWaterTest {
 
     @Test
     public void testRandomHeights() {
-        Assert.assertEquals(calculate(bars1), 3);
+        Assert.assertEquals(3, calculate(bars1));
     }
 
     @Test
     public void testSameHeights() {
-        Assert.assertEquals(calculate(bars2), 0);
+        Assert.assertEquals(0, calculate(bars2));
     }
 
     @Test
     public void testAscendingHeights() {
-        Assert.assertEquals(calculate(bars3), 0);
+        Assert.assertEquals(0, calculate(bars3));
     }
 
     @Test
     public void testZeroHeights() {
-        Assert.assertEquals(calculate(bars4), 0);
+        Assert.assertEquals(0, calculate(bars4));
     }
 }

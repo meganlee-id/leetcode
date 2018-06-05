@@ -3,40 +3,31 @@ package com.meganlee;
 import java.util.*;
 
 public class LinkedListCycle {
-    //------------------ Solution 1 ------------------//
-    // Two-pointers (walker & runner)
-    // NOTE: this is a very basic template for using slow and fast walker!!
-    // Time: O(n)  Space: O(1)
+    //------------ Solution 1 ---------------//
+    // HashSet, S = O(N)
     public boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return false;
-        }
-        ListNode walker = head, runner = head;
-        while (runner != null && runner.next != null) {
-            // try to first move
-            walker = walker.next;
-            runner = runner.next.next;
-
-            // then compare (other wise, will stop on initial enter!!)
-            if (runner == walker) {
+        Set<ListNode> visited = new HashSet();
+        ListNode node = head;
+        while (node != null) { 
+            if (!visited.add(node)) { // Set.add() returns boolean
                 return true;
             }
+            node = node.next;
         }
         return false;
     }
 
     //------------------ Solution 2 ------------------//
-    // HashTable
-    // Time/Space: O(n)
+    // Two-pointers (walker & runner)
+    // Time: O(n)  Space: O(1)
     public boolean hasCycle2(ListNode head) {
-        Set<ListNode> nodesSeen = new HashSet();
-        while (head != null) {
-            if (nodesSeen.contains(head)) {
+        ListNode runner = head, walker = head;
+        while (runner != null && runner.next != null) { // check runner != null first
+            runner = runner.next.next;
+            walker = walker.next;
+            if (runner == walker) {
                 return true;
-            } else {
-                nodesSeen.add(head);
             }
-            head = head.next;
         }
         return false;
     }

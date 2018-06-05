@@ -18,8 +18,8 @@ public class PlusOneTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(digits1), "[1, 0, 0, 0, 0]");
-        Assert.assertEquals(calculate(digits2), "[1, 4, 0, 0, 0]");
-        Assert.assertEquals(calculate(digits3), "[1]");
+        Assert.assertEquals("[1, 0, 0, 0, 0]", calculate(digits1));
+        Assert.assertEquals("[1, 4, 0, 0, 0]", calculate(digits2));
+        Assert.assertEquals("[1]", calculate(digits3));
     }
 }

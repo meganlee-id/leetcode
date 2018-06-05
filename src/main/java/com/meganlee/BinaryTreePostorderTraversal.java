@@ -33,17 +33,17 @@ public class BinaryTreePostorderTraversal {
         TreeNode cur = root, lastVisited = null;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
-                s.push(cur);        // add to call stack
-                cur = cur.left;     // travel to each node's left child, till reach the left leaf
+                s.push(cur);        // push
+                cur = cur.left;     // left
             } else {            //--- GOING UP   ---
                 TreeNode node = s.peek();
                 // case 1: right subtree visited already
                 if (node.right == null || node.right == lastVisited) {
-                    lastVisited = s.pop();    // backtrack to higher level
-                    res.add(lastVisited.val); // visit
+                    lastVisited = s.pop();    // pop
+                    res.add(lastVisited.val); // VISIT
                 // case 2: haven't visited right subtree
                 } else {
-                    cur = node.right;          // switch to right branch
+                    cur = node.right;          // right
                 }
             }
         }

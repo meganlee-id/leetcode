@@ -12,11 +12,11 @@ public class MinimumWindowSubstringTest {
 
     @Test
     public void testCase1() {
-        Assert.assertEquals(calculate(s1, t1), "ab");
+        Assert.assertEquals("ab", calculate(s1, t1));
     }
 
     @Test
     public void testCase2() {
-        Assert.assertEquals(calculate(s2, t2), "ba");
+        Assert.assertEquals("ba", calculate(s2, t2));
     }
 }

@@ -10,25 +10,23 @@ public class UniqueBST2 {
         if (n <= 0) {
             return new ArrayList();
         }
-
-        return helper(1, n);   // pay attention to the range 1 - n
+        // build a tree inrange
+        return treesInRange(1, n);   // pay attention to the range [1, n]
     }
     
-    private List<TreeNode> helper(int start, int end) {
+    private List<TreeNode> treesInRange(int start, int end) {
         // base case
-        List<TreeNode> trees = new ArrayList();
         if (start > end) {
-            trees.add(null); // ATTENTION! must have this!
-            return trees;
-        } 
-        
+            return Arrays.asList((TreeNode) null); // ATTENTION! must have this as empty subtree
+        }
         // general case: the trees are sharing the same sub-structure!!!
-        for (int val = start; val <= end; val++) {
-            List<TreeNode> leftTrees = helper(start, val - 1);
-            List<TreeNode> rightTrees = helper(val + 1, end);
+        List<TreeNode> trees = new ArrayList();
+        for (int i = start; i <= end; i++) {
+            List<TreeNode> leftTrees = treesInRange(start, i - 1);
+            List<TreeNode> rightTrees = treesInRange(i + 1, end);
             for (TreeNode l: leftTrees) {
                 for (TreeNode r: rightTrees) {
-                    TreeNode root = new TreeNode(val);
+                    TreeNode root = new TreeNode(i);
                     root.left = l;
                     root.right = r;
                     trees.add(root);
@@ -45,23 +43,19 @@ public class UniqueBST2 {
         if (n <= 0) {
             return new ArrayList();
         }
-
-        List[][] cache = new List[n + 1][n + 1]; // each cell restore a list, refered as cache[start][end]
+        List[][] cache = new List[n + 1][n + 1]; // dp[start][end], each cell is a list
         return helper(1, n, cache);
     }
 
     private List<TreeNode> helper(int start, int end, List[][] cache) {
-        List<TreeNode> trees = new ArrayList();
-
         // base case
         if (start > end) {
-            trees.add(null);
-            return trees;
+            return Arrays.asList((TreeNode) null);
         }
-
         // general case
         // --- 1) update cache
         if (cache[start][end] == null) {
+            List<TreeNode> trees = new ArrayList();
             for (int val = start; val <= end; val++) {
                 List<TreeNode> leftTrees = helper(start, val - 1, cache);
                 List<TreeNode> rightTrees = helper(val + 1, end, cache);
@@ -86,31 +80,24 @@ public class UniqueBST2 {
     // dp[start][len] --> really tricky, not recommended, but good practice for dp thoughts
     public List<TreeNode> generateTrees3(int n) {
         // input validation
-        List<TreeNode> trees = new ArrayList();
         if (n <= 0) {
-            return trees;
+            return new ArrayList();
         }
-        trees.add(null); // trees in not mutated later, used for null sub trees
-
+        
         // create the dp table and initialize
-        List[][] dp = new List[n + 1][n + 1];  // dp[start][end], each cell store a list of trees
+        List[][] dp = new List[n + 1][n + 1];  // dp[start][end], each cell is a list
+        List<TreeNode> nullTree = Arrays.asList((TreeNode) null); // type cast. otherwise will be NullException
 
-        // 1) create all 1-len trees
-        for (int i = 1; i <= n; i++) {
-            dp[i][i] = new ArrayList();
-            dp[i][i].add(new TreeNode(i));
-        }
-        // 2) create all 2, 3, ... n-len trees
-        for (int len = 2; len <= n; len++) {
+        for (int len = 1; len <= n; len++) {
             for (int start = 1; start <= n - len + 1; start++) {
                 int end = start + len - 1;
                 dp[start][end] = new ArrayList();
-                for (int val = start; val <= end; val++) {
-                    List<TreeNode> leftTrees = (val == start) ? trees : dp[start][val - 1];
-                    List<TreeNode> rightTrees = (val == end)  ? trees : dp[val + 1][end];
+                for (int i = start; i <= end; i++) {
+                    List<TreeNode> leftTrees = (i == start) ? nullTree : dp[start][i - 1];
+                    List<TreeNode> rightTrees = (i == end)  ? nullTree : dp[i + 1][end];
                     for (TreeNode l : leftTrees) {
                         for (TreeNode r : rightTrees) {
-                            TreeNode root = new TreeNode(val);
+                            TreeNode root = new TreeNode(i);
                             root.left = l;
                             root.right = r;
                             dp[start][end].add(root);

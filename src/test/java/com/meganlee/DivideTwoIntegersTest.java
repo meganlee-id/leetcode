@@ -18,36 +18,36 @@ public class DivideTwoIntegersTest {
 
     @Test
     public void testDivingZero() {
-       Assert.assertEquals(calculate(0, min), 0);
+       Assert.assertEquals(0, calculate(0, min));
     }
 
     @Test
     public void testPosDividedByZero() {
-       Assert.assertEquals(calculate(max, 0), max);
+       Assert.assertEquals(max, calculate(max, 0));
     }
 
     @Test
     public void testNegDividedByZero() {
-       Assert.assertEquals(calculate(min, 0), max);
+       Assert.assertEquals(max, calculate(min, 0));
     }
 
     @Test
     public void testOverflow() {
-       Assert.assertEquals(calculate(min, -1), max);
+       Assert.assertEquals(max, calculate(min, -1));
     }
 
     @Test
     public void testNegDividedByPos1() {
-       Assert.assertEquals(calculate(-10, 3), -3);
+       Assert.assertEquals(-3, calculate(-10, 3));
     }
 
     @Test
     public void testNegDividedByPos2() {
-       Assert.assertEquals(calculate(min, max), -1);
+       Assert.assertEquals(-1, calculate(min, max));
     }
 
     @Test
     public void testPosDividedByNeg() {
-       Assert.assertEquals(calculate(max, min), 0);
+       Assert.assertEquals(0, calculate(max, min));
     }
 }

@@ -17,6 +17,6 @@ public class SetMatrixZerosTest {
         // [0, 0, 0]
         // [0, 0, 0]
         // [0, 0, 9]
-        Assert.assertEquals(calculate(matrix), "[0, 0, 0]\n[0, 0, 0]\n[0, 0, 9]");
+        Assert.assertEquals("[0, 0, 0]\n[0, 0, 0]\n[0, 0, 9]", calculate(matrix));
     }
 }

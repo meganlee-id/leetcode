@@ -14,15 +14,15 @@ public class RomanToIntegerTest {
     @Test
     public void testEmpty() {
         // empty
-        Assert.assertEquals(calculate(null), 0);
-        Assert.assertEquals(calculate(""), 0);
+        Assert.assertEquals(0, calculate(null));
+        Assert.assertEquals(0, calculate(""));
      }
 
     @Test
     public void test() {
         // empty
-        Assert.assertEquals(calculate("MMMCMXCIX"), 3999);
-        Assert.assertEquals(calculate("VIII"), 8);
-        Assert.assertEquals(calculate("XXVII"), 27);
+        Assert.assertEquals(3999, calculate("MMMCMXCIX"));
+        Assert.assertEquals(8, calculate("VIII"));
+        Assert.assertEquals(27, calculate("XXVII"));
      }
 }

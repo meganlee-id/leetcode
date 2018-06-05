@@ -3,86 +3,57 @@ package com.meganlee;
 import java.util.*;
 
 public class MaximumSubArray {
-    //-------------- Solution 1 ------------------//
-    // sliding window
-    public int maxSubArray(int[] A) {
-        int max = Integer.MIN_VALUE;
-        if (A == null || A.length == 0) {
-            return max;
+    //----------------- Solution 1 ---------------------//
+    // convert to BestTimeBuyAndSellStock.java + can't trade on same day
+    public int maxSubArray(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return Integer.MIN_VALUE;
         }
-        int sum = 0;
-        for (int i = 0; i < A.length; i++) {
-            sum += A[i];
-            max = Math.max(max, sum);
-            if (sum <= 0) {
-                sum = 0; // clear content
-            }
+        // add up
+        int[] sums = Arrays.copyOf(nums, nums.length); // Arrays.copyOf(source, lenOfTarget)
+        for (int i = 1; i < nums.length; i++) {
+            sums[i] = sums[i - 1] + nums[i];
         }
-        return max;
+        // BestTimeBuyAndSellStock.java solution 2
+        int min = 0;       // sums[end]-0 = sum_range[0, end];  sums[end]-sums[start] = sum_range[start+1, end]
+        int res = sums[0]; // best is the first elem
+        for (int s: sums) {
+            res = Math.max(res, s - min); // can't trade on the same day, update res first
+            min = Math.min(min, s);
+        }
+        return res;
     }
 
     //----------------- Solution 2 ---------------------//
-    // convert the problem "Best Time to Buy and Sell Stock" (TIME OUT)
+    // dp[] Space=O(N)
     public int maxSubArray2(int[] nums) {
         if (nums == null || nums.length == 0) {
             return Integer.MIN_VALUE;
         }
-        int N = nums.length;
-        int[] sum = Arrays.copyOf(nums, N);
-        for (int i = 1; i < N; i++) {
-            sum[i] = sum[i - 1] + nums[i];
-        }
 
-        int min = nums[0], global = min;
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int res = dp[0];
         for (int i = 1; i < nums.length; i++) {
-            int local = sum[i] - Math.min(min, 0);
-            global = Math.max(global, local);
-            min = Math.min(min, sum[i]);
+            dp[i] = Math.max(dp[i - 1], 0) + nums[i]; // local
+            res = Math.max(res, dp[i]);               // global
         }
-        return global;
+        return res;
     }
 
     //----------------- Solution 3 ---------------------//
-    // dp: space optimized dp[] --> one integer
-    public int maxSubArray3(int[] A) {
-        if (A == null || A.length == 0) {
+    // dp: Space=O(1)
+    public int maxSubArray3(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return Integer.MIN_VALUE;
         }
 
-        int[] dp = new int[A.length];
-        dp[0] = A[0];
-        int global = 0;
-        for (int i = 1; i < A.length; i++) {
-            dp[i]  = Math.max(dp[i - 1], 0) + A[i];
-            global = Math.max(global, dp[i]);
+        int sum = nums[0];
+        int res = sum;
+        for (int i = 1; i < nums.length; i++) {
+            sum = Math.max(sum, 0) + nums[i];   // local
+            res = Math.max(res, sum);           // global
         }
-        return global;
-    }
-
-    //----------------- Solution 4 ---------------------//
-    // dp: space optimized dp[] --> one integer
-    public int maxSubArray4(int[] A) {
-        if (A == null || A.length == 0) {
-            return Integer.MIN_VALUE;
-        }
-
-        int local = A[0], global = local;
-        for (int i = 1; i < A.length; i++) {
-            local  = Math.max(local, 0) + A[i];
-            global = Math.max(global, local);
-        }
-        return global;
-    }
-
-
-    ////////////////////   TEST   /////////////////////
-    private static void test(MaximumSubArray m, int[] A) {
-        System.out.println(Arrays.toString(A));
-        System.out.println(m.maxSubArray4(A) + "\n");
-    }
-    public static void main(String[] args) {
-        int[] A = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-        MaximumSubArray m = new MaximumSubArray();
-        test(m, A);
+        return res;
     }
 }

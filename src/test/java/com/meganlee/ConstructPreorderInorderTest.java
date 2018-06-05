@@ -16,6 +16,6 @@ public class ConstructPreorderInorderTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(preorder, inorder), "[4, 10, 3, 1, 7, 11, 8, 2]");
+        Assert.assertEquals("[4, 10, 3, 1, 7, 11, 8, 2]", calculate(preorder, inorder));
     }
 }

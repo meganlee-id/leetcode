@@ -1,39 +1,40 @@
 package com.meganlee;
 
+import java.util.*;
+
 public class LinkedListCycle2 {
+    //------------ Solution 1 ---------------//
+    // HashSet, S = O(N)
     public ListNode detectCycle(ListNode head) {
-        if (head == null || head.next == null) {
-            return null;
+        Set<ListNode> visited = new HashSet();
+        ListNode node = head;
+        while (node != null) { 
+            if (!visited.add(node)) { // Set.add() returns boolean
+                return node;
+            }
+            node = node.next;
         }
+        return null;
+    }
 
-        ListNode walker = head, runner = head;
-        boolean foundCycle = false;
-        while (runner != null && runner.next != null) {
-            // try to first move
-            walker = walker.next;
+    //------------ Solution 2 ---------------//
+    // runner + walker, S = O(1)
+    public ListNode detectCycle2(ListNode head) {
+        ListNode runner = head, walker = head;
+        while (runner != null && runner.next != null) { // check runner != null first
+            // step 1: find meet point
             runner = runner.next.next;
-
-            // then compare (other wise, will stop on initial enter!!)
-            if (runner == walker) {
-                foundCycle = true;
-                break;
+            walker = walker.next;
+            // step 2: if meet point find, another walker from start point
+            if (runner == walker){
+                ListNode walker2 = head; 
+                while (walker2 != walker) {
+                    walker = walker.next;
+                    walker2 = walker2.next;
+                }
+                return walker;
             }
         }
-        if (!foundCycle) {
-            return null;
-        }
-
-        runner = head;
-        while (runner != walker) {
-            runner = runner.next;
-            walker = walker.next;
-        }
-        return runner;
+        return null; // if there is not cycle, return null
     }
 }
-
-// ERROR : in the loop
-//          while (runner != null && runner.next != null) {...}
-//          need to update first and then compare
-//          otherwise when we first enter the loop, runner == walker satisfied!! Bug!!
-//

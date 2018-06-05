@@ -4,73 +4,68 @@ import java.util.*;
 import java.util.stream.*;
 
 public class WordLadders2 {
-    public List<List<String>> findLadders(String start, String end, Set<String> dict) {
-        // Assume 1) begin/endWord non-empty 2) all words same len/unique 3) only a-z chars
-        // result collector
+    //----------------------- SOLUTION 1 -----------------------//
+    // 1-end BFS + DFS
+    // Assumption: 1) all words, including begin/end non-null/non-empty/same-len/unique 
+    //             2) only a-z lowerletter chars
+    //             3) end SHOULD be in dict, start NO NEED to be in list
+    public List<List<String>> findLadders2(String start, String end, List<String> dict) {
+        // Fast return
+        if (!dict.contains(end)) {
+            return new ArrayList();
+        }
+        
+        // STEP 1: BFS - WHETHER there is an anwser
+        Set<String> dictSet = new HashSet(dict); // convert dict into a set for quick lookup, otherwise "Time Limit Exceeded" 
+        Set<String> visited = new HashSet();     // visited in previous level
+        Map<String, List<String>> graph = new HashMap();  // node's all "neighbors" exists in dict
+        boolean foundEnd = bfs2(start, end, dictSet, visited, graph);
+
+        // STEP 2: DFS - COLLECT all paths from TREE: {start + graph}
         List<List<String>> res = new ArrayList();
-
-        // {start + nodeNeighbors, nodeLevel} defines the TREE that contains the answer   
-        Map<String, List<String>> nodeNeighbors = new HashMap();  // node's all "neighbors" exists in dict
-        Map<String, Integer> nodeLevel = new HashMap();           // which level a node belongs to in the BFS traversed TREE
-
-        // STEP 1: use bfs to construct the TREE that conatins the answer {start + nodeNeighbors, nodeLevel}
-        // the original wordList is a graph, we use BFS for the solution TREE, where last level has 'endWord'
-        boolean foundEnd = bfs(start, end, dict, nodeNeighbors, nodeLevel);
-
-        // STEP 2: use DFS TREE to collect all paths from TREE: {start + nodeNeighbors, nodeLevel}, 
         if (foundEnd) {
-            dfs(res, new ArrayList(), start, nodeNeighbors, nodeLevel, end);
+            dfs2(res, new ArrayList(), start, end, graph);
         }
         return res;
     }
 
     // BFS: use level-by-level traversal
-    private boolean bfs(String start, String end, Set<String> dict, Map<String, List<String>> nodeNeighbors, Map<String, Integer> nodeLevel) {
-        // initialize dict
-        dict.add(end);
-        List<String> level = Arrays.asList(start); // first level
-        int distance = 1; 
+    private boolean bfs2(String start, String end, Set<String> dict, Set<String> visited, Map<String, List<String>> graph) {
+        Set<String> level = new HashSet(Arrays.asList(start)); // first level
+        visited.add(start); // add to visited. avoid loop when start also appears in dict. e.g hit (start) -> hot (in dict) -> hit (in dict)...
         while (!level.isEmpty() && !level.contains(end)) {
-            List<String> nextLevel = new ArrayList();
-            for (String word : level) {
-                // find all reachable words in dict
-                List<String> neighbors = new ArrayList();
-                for (int i = 0; i < word.length(); i++) {
-                    char[] chars = word.toCharArray();
-                    for (char ch = 'a'; ch <= 'z'; ch++) {
+            Set<String> nextLevel = new HashSet();
+            // for each word in previous level
+            for (String word: level) {
+                List<String> neighbors = new ArrayList();  // store next level neighbors (neighbor depth = word depth + 1)
+                for (int i = 0; i < word.length(); i++) {  // for each position
+                    char[] chars = word.toCharArray();     // use a char array to help
+                    for (char ch = 'a'; ch <= 'z'; ch++) { // replace it with a diff 'char' (might be myself)
                         chars[i] = ch;
                         String mutation = new String(chars);
-                        if (dict.contains(mutation)) {
+                        //-- has mutation in dict ---|--- NOT visited yet ---------|------- NOT in cur level ----|
+                        if (dict.contains(mutation) && !visited.contains(mutation) && !level.contains(mutation)) {
                             neighbors.add(mutation);
                         }
                     }
                 }
-                // update {nodeNeighbors, nodeLevel, nextLevel}
-                nodeNeighbors.put(word, neighbors);
-                for (String n: neighbors) {
-                    if (!nodeLevel.containsKey(n)) { // haven't visited in previous level || current level
-                        nodeLevel.put(n, distance + 1);
-                        nextLevel.add(n); // nextLevel should contain unique words
-                    }
-                }
+                graph.put(word, neighbors);
+                nextLevel.addAll(neighbors);
             }
+            visited.addAll(nextLevel);
             level = nextLevel;
-            distance++;
         }
         return level.contains(end);
-      }
+    }
 
     // DFS: output all paths with the shortest distance.
-    // ------------- 1) res: collector  -------  2) path: builder  -------- 3) {cur + nodeNeighbors, nodeLevel}: element pool  ------- 4) end: end condition
-    private void dfs(List<List<String>> res, List<String> path, String cur, Map<String, List<String>> nodeNeighbors, Map<String, Integer> nodeLevel, String end) {
+    private void dfs2(List<List<String>> res, List<String> path, String cur, String end, Map<String, List<String>> graph) {
         path.add(cur);
         if (cur.equals(end)) {
             res.add(new ArrayList(path));
         } else {
-            for (String n: nodeNeighbors.get(cur)) {
-                if (nodeLevel.get(n) == nodeLevel.get(cur) + 1) {
-                    dfs(res, path, n, nodeNeighbors, nodeLevel, end);
-                }
+            for (String n: graph.getOrDefault(cur, Arrays.asList())) { // cur might not have neighbors, use getOrDefault
+                dfs2(res, path, n, end, graph);
             }
         }
         path.remove(path.size() - 1); // remove(Obj o); no duplicates in dict

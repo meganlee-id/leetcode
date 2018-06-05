@@ -37,7 +37,7 @@ public class PrettyPrinter {
         java> Arrays.toString(x);
         java.lang.String res4 = "[1, 2, 3]"
 
-    ///////////////////////////////
+    /////////////////////////////////////
 
         java> int[] x = null;
 

@@ -4,18 +4,17 @@ import java.util.*;
 
 public class EvaluateReversePolishNotation {
     public int evalRPN(String[] tokens) {
-        // validate the arguments
+        // validate input (assume input is a valid reverse polish string)
         if (tokens == null || tokens.length == 0) {
             return 0;
         }
-        // use a stack to facilitate calculation
         String operators = "+-*/";
         Stack<Integer> stack = new Stack();
         for (String token: tokens) {
-            // numbers: convert string into integer and push to stack
+            // NUMBERS: convert string into integer and push to stack
             if (!operators.contains(token)) { // str.contains(anotherStr)
                 stack.push(Integer.valueOf(token));
-            // operators: pop operands, calculate and store result back to stack
+            // OPS: 1) pop operands 2) calculate 3) store res back to stack
             } else {
                 int b = stack.pop(); // b is the number AFTER  the operand
                 int a = stack.pop(); // a is the number BEFORE the operand

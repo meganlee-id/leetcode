@@ -10,24 +10,20 @@ public class PathSum2 {
         helper(res, new ArrayList(), root, sum);
         return res;
     }
+
     private void helper(List<List<Integer>> result, List<Integer> path, TreeNode root, int sum) {
-        // base cases
-        if (root == null) {
+        if (root == null) { //----- base case 1: null
             return;
         }
-        // leaf node: path has to end with a leaf node
-        if (root.left == null && root.right == null) {
-            if (root.val == sum) {
-                List<Integer> newPath = new ArrayList(path);
-                newPath.add(root.val);
-                result.add(newPath);
-            }
-            return;  // remember to return here
-        }
-        // general case
         path.add(root.val);             // add current value
-        helper(result, path, root.left, sum - root.val);
-        helper(result, path, root.right, sum - root.val);
+        if (root.left == null && root.right == null) { //----- base case 2: leaf
+            if (root.val == sum) {
+                result.add(new ArrayList(path));
+            }
+        } else { //----- general case
+            helper(result, path, root.left, sum - root.val);
+            helper(result, path, root.right, sum - root.val);
+        }
         path.remove(path.size() - 1);   // remove current value  
     }
 
@@ -45,22 +41,16 @@ public class PathSum2 {
                 cur = cur.left;
             } else {            //--- GOING UP   ---
                 TreeNode node = s.peek();
-                // case 1: haven't visited right part
-                if (node.right != null && node.right != lastVisited) {
-                    cur = node.right;
-                // case 2. leaf node || returned from right subtree
-                } else {
-                    // leaf, mark the end of a path, see if it's a valid path
-                    if (node.left == null && node.right == null && curSum == sum) {
-                        List<Integer> item = new ArrayList();
-                        for (TreeNode n : s) {
-                            item.add(n.val);
-                        }
-                        res.add(item);
+                // case 1: right subtree visited already
+                if (node.right == null || node.right == lastVisited) {
+                    if (node.left == null && node.right == null && curSum == sum) { // leaf and right sum
+                        res.add(new ArrayList(s));
                     }
-                    // return from right sub tree
-                    lastVisited = s.pop();       // pop && -cur.val
+                    lastVisited = s.pop();
                     curSum -= lastVisited.val;
+                // case 2: haven't visited right subtree
+                } else {
+                    cur = node.right;
                 }
             }
         }

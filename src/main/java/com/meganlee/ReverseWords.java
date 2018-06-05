@@ -4,41 +4,40 @@ import java.util.*;
 
 public class ReverseWords {
     //-------------------  Solution 1 ------------------------//
-    // use String's build-in methods
+    // sliding window (backwards)
     public String reverseWords(String s) {
         // validate input
-        if (s == null || s.length() == 0) {
+        if (s == null || s.trim().length() == 0) { //---- also works without trim: s.length() == 0
+            return "";
+        }
+        // iterate backwards and append words one-by-one
+        StringBuilder sb = new StringBuilder();
+        for (int end = s.length() - 1, start = end; start >= 0; start--) {
+            // if it's space, decrement both start and end
+            if (Character.isWhitespace(s.charAt(start))) {
+                end--;
+            // if it's letter decrement only start
+            // if it's letter and start of cur word, collect cur word
+            } else if (start == 0 || Character.isWhitespace(s.charAt(start - 1))) {
+                sb.append(s.substring(start, end + 1) + " ");
+                end = start - 1;
+            }
+        }
+        return sb.toString().trim(); 
+        //---- alternative without trim() ----//
+        // return sb.length() == 0 ? "" : sb.substring(0, sb.length() - 1);
+    }
+
+    //-------------------  Solution 2 ------------------------//
+    // String's build-in methods
+    public String reverseWords2(String s) {
+        // validate input
+        if (s == null || s.trim().length() == 0) { //---- also works without trim: s.length() == 0
             return "";
         }
         // use built-in methods
         String[] words = s.trim().split("\\s+");
         Collections.reverse(Arrays.asList(words));
         return String.join(" ", words);
-    }
-    
-    
-    //-------------------  Solution 2 ------------------------//
-    // split the string by hand (same algorithm as above 2)
-    public String reverseWords2(String s) {
-        // validate input
-        if (s == null || s.length() == 0) {
-            return "";
-        }
-        // iterate backwards and append words one-by-one
-        StringBuilder sb = new StringBuilder();
-        boolean trimable = false; // whether to trim a final " " in sb
-        for (int i = s.length() - 1, start = i, end = i; i >= 0; i--) {
-            if (!Character.isSpace(s.charAt(i))) { // do NOT use Character.isLetter, test case: "Hello World!!"
-                if (i == s.length() - 1 || Character.isSpace(s.charAt(i + 1))) {
-                    end = i;   // identify the end of a word
-                }
-                if (i == 0 || Character.isSpace(s.charAt(i - 1))) {
-                    start = i; // identify the start of a word
-                    sb.append(s.substring(start, end + 1) + " ");
-                    trimable = true;
-                }
-            }
-        }
-        return trimable ? sb.substring(0, sb.length() - 1) : sb.toString();
     }
 }

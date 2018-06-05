@@ -3,7 +3,6 @@ package com.meganlee;
 import java.util.*;
 
 public class ClimbStairs {
-    
     //----------------  Solution 1 --------------------//
     // Pure Recursion - Fibonacci (Time Limit Exceeded)
     public int climbStairs(int n) {
@@ -114,13 +113,5 @@ public class ClimbStairs {
             numSteps[i % 3] = numSteps[(i - 1) % 3] + numSteps[(i - 2) % 3];
         }
         return numSteps[n % 3];
-    }
-    
-    //////////////////////// TEST /////////////////////////
-    public static void main(String[] args) {
-        ClimbStairs cs = new ClimbStairs();
-        System.out.println(cs.climbStairs(44));
-        System.out.println(cs.climbStairs2(44));
-        System.out.println(cs.climbStairs3(44));
     }
 }

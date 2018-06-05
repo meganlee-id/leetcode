@@ -1,5 +1,7 @@
 package com.meganlee;
 
+// Also checkout "GreatestCommonDenominator.java"
+
 public class BinominalCoefficient {
     //------------ Solution works fine for small num ---------------//
     // when there is no overflow, the solution works fine
@@ -17,20 +19,5 @@ public class BinominalCoefficient {
             res /= i;
         }
         return res;
-    }
-
-    //////////////////  TEST  /////////////////////
-    private static void test(BinominalCoefficient solution, int n, int k) {
-        System.out.println(solution.binomialCoeff(n, k));
-    }
-
-    public static void main(String[] args) {
-        BinominalCoefficient solution = new BinominalCoefficient();
-        test(solution, 6, 3);
-        test(solution, 6, 4);
-        test(solution, 6, 1);
-        test(solution, 10, 3);
-        test(solution, 10, 6);
-        test(solution, 10, 5);
     }
 }

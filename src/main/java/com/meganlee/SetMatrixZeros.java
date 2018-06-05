@@ -11,9 +11,8 @@ public class SetMatrixZeros {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return;
         }
-        
-        int M = matrix.length, N = matrix[0].length;
         // set the flags
+        int M = matrix.length, N = matrix[0].length;
         boolean[] rowFlag = new boolean[M]; // a vertical flag array,   indicate each row
         boolean[] colFlag = new boolean[N]; // a horizontal flga array, indicate each col
         for (int r = 0; r < M; r++) {
@@ -24,7 +23,6 @@ public class SetMatrixZeros {
                 }
             }
         }
-        
         // set matrix zero
         for (int r = 0; r < M; r++) {
             for (int c = 0; c < N; c++) {
@@ -43,7 +41,6 @@ public class SetMatrixZeros {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return;
         }
-
         // step 1: set clear flags
         boolean clearFirstRow = false, clearFirstCol = false;
         int M = matrix.length, N = matrix[0].length;

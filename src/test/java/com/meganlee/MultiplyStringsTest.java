@@ -12,21 +12,21 @@ public class MultiplyStringsTest {
 
     @Test
     public void testNormal() {
-        Assert.assertEquals(calculate("8", "9"), "72");
+        Assert.assertEquals("72", calculate("8", "9"));
     }
 
     @Test
     public void testZero1() {
-        Assert.assertEquals(calculate("0", "123"), "0");
+        Assert.assertEquals("0", calculate("0", "123"));
     }
 
         @Test
     public void testZero2() {
-        Assert.assertEquals(calculate("0", "000"), "0");
+        Assert.assertEquals("0", calculate("0", "000"));
     }
 
     @Test
     public void testLeadingZero() {
-        Assert.assertEquals(calculate("009", "013456"), "121104");
+        Assert.assertEquals("121104", calculate("009", "013456"));
     }
 }

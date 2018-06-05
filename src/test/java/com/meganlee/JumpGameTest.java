@@ -18,8 +18,8 @@ public class JumpGameTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(A1), true);
-        Assert.assertEquals(calculate(A2), true);
-        Assert.assertEquals(calculate(A3), false);
+        Assert.assertEquals(true, calculate(A1));
+        Assert.assertEquals(true, calculate(A2));
+        Assert.assertEquals(false, calculate(A3));
     }
 }

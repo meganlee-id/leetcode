@@ -41,11 +41,6 @@ public class WordBreak {
         }
         return res[s.length()];
     }
-
-    ////////////////  TEST  /////////////////////
-    public static void main(String[] args) {
-
-    }
 }
 
 // 1. Discuss about what should be returned when s == null s is empty string

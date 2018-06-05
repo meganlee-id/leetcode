@@ -11,7 +11,7 @@ public class LongestPalindromicSubstring {
         }
 
         int N = s.length();
-        int start = 0, end = 0; // inclusive
+        int start = 0, end = 0; // both inclusive, needed after for loop
         for (int i = 0; i < N; i++) {
             for (int j = i; j < N; j++) {
                 if (isPalindrome(s, i, j) && j - i > end - start) {
@@ -24,14 +24,11 @@ public class LongestPalindromicSubstring {
     }
 
     private boolean isPalindrome(String s, int start, int end) {
-        while (start <= end) {
-            if (s.charAt(start) != s.charAt(end)) {
-                return false;
-            }
+        while (start <= end && s.charAt(start) == s.charAt(end)) {
             start++;
             end--;
         }
-        return true;
+        return start > end;
     }
 
     //-------------------- Solution 2 ----------------------//
@@ -51,24 +48,26 @@ public class LongestPalindromicSubstring {
         return s.substring(borders[0], borders[1] + 1);
     }
 
-    private void expand(String s, int i, int j, int[] borders) {
-        while (i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)) {
-            i--;
-            j++;
-        }
-        if ((j - 1) - (i + 1) > borders[1] - borders[0]) {
-            borders[0] = i + 1;
-            borders[1] = j - 1;
+    private void expand(String s, int start, int end, int[] borders) {
+        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
+            start--;
+            end++;
+        } // start and end will fall off valid palindrome borders
+        
+        // update result
+        if (end - start - 2 > borders[1] - borders[0]) {
+            borders[0] = start + 1;
+            borders[1] = end - 1;
         }
     }
 
 
     //-------------------- Solution 3 ----------------------//
-    //  Dynamic Time/Space: O(n^2)
+    //  DP: Time/Space: O(n^2)
     public String longestPalindrome3(String s) {
         // Define:   dp[i][j] = whether substring(i, j + 1) is a palindrome
         // Function: dp[i][j] == (char.i == char.j) &&
-        //            (j - i == [0,1] || dp[i+1][j-1] == true)
+        //            (j - i == 0 or 1 || dp[i+1][j-1] == true)
         // Initial:  dp[0][0] = true;
         // Return:   global best
 
@@ -76,30 +75,21 @@ public class LongestPalindromicSubstring {
         if (s == null || s.length() == 0) {
             return s;
         }
-        boolean[][] dp = new boolean[s.length()][s.length()];
-        int bestStart = 0, bestEnd = 0; // inclusive
-        for (int end = 0; end < s.length(); end++) {
-            for (int start = 0; start <= end; start++) {
+        int N = s.length();
+        boolean[][] dp = new boolean[N][N];
+        int bestStart = 0, bestEnd = 0;         // inclusive
+        for (int len = 1; len <= N; len++) {    // len 1, 2, 3 ... 
+            for (int start = 0; start + len - 1 < N; start++) {
+                int end = start + len - 1;
                 // the most clever statement in the solution:
-                if (s.charAt(start) == s.charAt(end) && (end - start <= 1 || dp[start + 1][end - 1])) {
+                if (s.charAt(start) == s.charAt(end) && (len <= 2 || dp[start + 1][end - 1])) {
                     dp[start][end] = true;
-                    // update global best
-                    if (end - start > bestEnd - bestStart) {
-                        bestStart = start;
-                        bestEnd = end;
-                    }
+                    bestStart = start;
+                    bestEnd = end;
                 }
             }
         }
         return s.substring(bestStart, bestEnd + 1);
-    }
-
-
-    ////////////////// TEST ///////////////////////
-    public static void main(String[] args) {
-        LongestPalindromicSubstring solution = new LongestPalindromicSubstring();
-        String result = solution.longestPalindrome("sdjfeirusdhhdskj");
-        System.out.println(result);
     }
 }
 

@@ -16,11 +16,11 @@ public class KMPTest {
 
     @Test
     public void test1() {
-        Assert.assertEquals(calculate(hay1, needle1), 15);
+        Assert.assertEquals(15, calculate(hay1, needle1));
     }
 
     @Test
     public void test2() {
-        Assert.assertEquals(calculate(hay2, needle2), 4);
+        Assert.assertEquals(4, calculate(hay2, needle2));
     }
 }

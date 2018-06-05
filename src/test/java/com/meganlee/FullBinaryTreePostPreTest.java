@@ -17,6 +17,6 @@ public class FullBinaryTreePostPreTest {
 
     @Test
     public void test() {
-       Assert.assertEquals(calculate(pre, post), "8 4 9 2 5 1 6 3 7 ");
+       Assert.assertEquals("8 4 9 2 5 1 6 3 7 ", calculate(pre, post));
     }
 }

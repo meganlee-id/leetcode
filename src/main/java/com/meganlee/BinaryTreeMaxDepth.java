@@ -10,7 +10,6 @@ public class BinaryTreeMaxDepth {
         if (root == null) {
             return 0;
         }
-
         // general case
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);

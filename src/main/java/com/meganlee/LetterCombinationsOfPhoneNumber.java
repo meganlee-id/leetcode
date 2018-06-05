@@ -4,72 +4,54 @@ import java.util.*;
 
 public class LetterCombinationsOfPhoneNumber {
     //-------------- Solution 1 --------------//
-    // iterative:
+    // recursive:
+    // could also use a char[] instead of a StringBuilder!
+    // char[] --> String: String.valueOf(char[])
     public List<String> letterCombinations(String digits) {
         // input checking
         if (digits == null || digits.length() == 0) {
             return new ArrayList();
         }
-
-        // normal cases
-        String[] buttons = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        // normal case: (starts from index 2, pls see the phone keyboard)
+        String[] buttons = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz", };
         List<String> res = new ArrayList();
-        List<String> resLast = new ArrayList(); // last level
-        resLast.add("");
-        for (char digit: digits.toCharArray()) {  // NOTE: illegal to write --> for (char c: string)
-            for (char letter: buttons[digit - '0'].toCharArray()) {
-                for (String s: resLast) {
-                    res.add(s + letter);   // it's ok to do "String" + 'x' <-- char
-                }
+        helper(res, new StringBuilder(), digits, buttons, 0);
+        return res;
+    }
+
+    private void helper(List<String> results, StringBuilder builder, String digits, String[] buttons, int start) {
+        if (start == digits.length()) {      // base case
+            results.add(builder.toString());
+        } else {                             // general case
+            int i = digits.charAt(start) - '0';
+            for (char ch: buttons[i].toCharArray()) {
+                builder.append(ch);
+                helper(results, builder, digits, buttons, start + 1);
+                builder.deleteCharAt(builder.length() - 1); // delete last char
             }
-            resLast = res;
-            res = new ArrayList();
         }
-        return resLast;
     }
 
     //-------------- Solution 2 --------------//
-    // recursive:
-    // could also use a char[] instead of a StringBuilder!
-    // char[] --> String: String.valueOf(char[])
+    // iterative
     public List<String> letterCombinations2(String digits) {
         // input checking
-        List<String> results = new ArrayList();
         if (digits == null || digits.length() == 0) {
-            results.add("");
-            return results;
+            return new ArrayList();
         }
-
-        // normal case: (starts from index 2, pls see the phone keyboard)
-        String[] buttons = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz", };
-        helper(results, new StringBuilder(), digits, buttons, 0);
-        return results;
-    }
-
-    public void helper(List<String> results, StringBuilder prefix,
-                       String digits, String[] table, int curIndex) {
-        if (curIndex == digits.length()) {      // base case
-            results.add(prefix.toString());
-        } else {                                // general case
-            int i = digits.charAt(curIndex) - '0';
-            for (char letter : table[i].toCharArray()) {
-                prefix.append(letter);
-                helper(results, prefix, digits, table, curIndex + 1);
-                prefix.deleteCharAt(prefix.length() - 1); // delete last char
+        // {key: index, val: string}
+        String[] buttons = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        List<String> res = new ArrayList(Arrays.asList("")); // beginning level
+        for (char digit: digits.toCharArray()) {  // each digit increment the level
+            List<String> newRes = new ArrayList();
+            for (String s: res) {
+                int i = digit - '0';
+                for (char ch: buttons[i].toCharArray()) { // WRONG: for (char c: string)
+                    newRes.add(s + ch);   // it's ok to do "String" + 'x' <-- char
+                }
             }
+            res = newRes;
         }
-    }
-
-    ///////////////////  TEST ///////////////////
-    public static void test(LetterCombinationsOfPhoneNumber solution, String digits) {
-        System.out.println(digits);
-        for (String s: solution.letterCombinations2(digits)) {
-            System.out.print(String.format("\"%s\"  ", s));
-        }
-        System.out.println();
-    }
-    public static void main(String[] args) {
-        LetterCombinationsOfPhoneNumber solution = new LetterCombinationsOfPhoneNumber();
-        test(solution, "23");
+        return res;
     }
 }

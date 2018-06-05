@@ -97,24 +97,4 @@ public class StringToInteger {
         // if no digit sequence detected, res remains 0 here, comply to the requirement
         return (int)(absRes * sign); // remember to cast
     }
-
-    ////////////////// TEST ///////////////////////
-    public static void test(StringToInteger solution, String s) {
-        System.out.println(solution.myAtoi(s));
-    }
-
-    public static void main(String[] args) {
-        StringToInteger solution = new StringToInteger();
-        test(solution, "");
-        test(solution, "   ");
-        test(solution, null);
-        test(solution, " a-00de ");
-
-        test(solution, "  -0000123");
-        test(solution, "  +0000123");
-        test(solution, "  0000123abc");
-
-        test(solution, "2147483659");
-        test(solution, "-2147483648");
-    }
 }

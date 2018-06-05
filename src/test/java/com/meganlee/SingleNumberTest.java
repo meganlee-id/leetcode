@@ -13,11 +13,11 @@ public class SingleNumberTest {
 
     @Test
     public void testBigNumbers() {
-        Assert.assertEquals(calculate(arr1), 0);
+        Assert.assertEquals(0, calculate(arr1));
     }
 
     @Test
     public void testNormalNumbers() {
-        Assert.assertEquals(calculate(arr2), 3435);
+        Assert.assertEquals(3435, calculate(arr2));
     }
 }

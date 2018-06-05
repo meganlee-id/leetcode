@@ -30,7 +30,7 @@ public class ValidParensTest {
     @Test
     public void testAllStrings() {
         for (int i = 0; i < strs.length; i++) {
-            Assert.assertEquals(calculate(strs[i]), res[i]);         
+            Assert.assertEquals(res[i], calculate(strs[i]));         
         }
     }
 }

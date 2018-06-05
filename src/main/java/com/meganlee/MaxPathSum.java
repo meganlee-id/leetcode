@@ -1,6 +1,5 @@
 package com.meganlee;
 
-
 public class MaxPathSum {
     public int maxPathSum(TreeNode root) {
         int[] max = new int[1]; // global max path sum

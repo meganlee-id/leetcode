@@ -6,7 +6,7 @@ public class SymmetricTree {
 	//----------------  Solution 1 --------------------//
     // classic recursion
     public boolean isSymmetric(TreeNode root) {
-        if (root  == null) {
+        if (root == null) {
             return true;
         }
         return mirrorTree(root.left, root.right);
@@ -14,10 +14,10 @@ public class SymmetricTree {
     
     private boolean mirrorTree(TreeNode n1, TreeNode n2) {
         // base case: deal with nulls
-        if (n1 == null && n2 == null) {
+        if (n1 == null && n2 == null) { // both null
             return true;
         }
-        if (n1 == null || n2 == null) {
+        if (n1 == null || n2 == null) { // only one null
             return false;
         }
         // general case: both non-null
@@ -34,16 +34,16 @@ public class SymmetricTree {
         if (root == null) {
             return true;
         }
-
         Queue<TreeNode> left = new LinkedList(Arrays.asList(root.left));
         Queue<TreeNode> right = new LinkedList(Arrays.asList(root.right));
-        while (left.size() == right.size() && !left.isEmpty()) {
+        while (!left.isEmpty()) {
             // pull one node
             TreeNode l = left.poll();
             TreeNode r = right.poll();
-            // compare
+            // get str representation
             String lval = (l == null) ? "#" : String.valueOf(l.val);
             String rval = (r == null) ? "#" : String.valueOf(r.val);
+            // compare
             if (!lval.equals(rval)) {
                 return false;
             }
@@ -51,13 +51,11 @@ public class SymmetricTree {
             if (l != null) {
                 left.offer(l.left);
                 left.offer(l.right);
-            }
-            if (r != null) {
                 right.offer(r.right);  // attention: add right first and then left
                 right.offer(r.left);
             }
         }
-        return left.isEmpty() && right.isEmpty();
+        return true;
     }
 }
 

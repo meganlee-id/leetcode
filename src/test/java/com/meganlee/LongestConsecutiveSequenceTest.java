@@ -20,9 +20,9 @@ public class LongestConsecutiveSequenceTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(nums1), 0);
-        Assert.assertEquals(calculate(nums2), 0);
-        Assert.assertEquals(calculate(nums3), 2);
-        Assert.assertEquals(calculate(nums4), 4);
+        Assert.assertEquals(0, calculate(nums1));
+        Assert.assertEquals(0, calculate(nums2));
+        Assert.assertEquals(2, calculate(nums3));
+        Assert.assertEquals(4, calculate(nums4));
     }
 }

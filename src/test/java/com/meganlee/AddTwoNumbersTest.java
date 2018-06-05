@@ -25,8 +25,8 @@ public class AddTwoNumbersTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(arr1, arr2), "8->0->1->1->null");
-        Assert.assertEquals(calculate(arr1, arr3), "8->1->3->null");
-        Assert.assertEquals(calculate(arr3, arr4), "1->0->0->1->null");
+        Assert.assertEquals("8->0->1->1->null", calculate(arr1, arr2));
+        Assert.assertEquals("8->1->3->null", calculate(arr1, arr3));
+        Assert.assertEquals("1->0->0->1->null", calculate(arr3, arr4));
     }
 }

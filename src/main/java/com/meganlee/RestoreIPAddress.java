@@ -5,10 +5,11 @@ import java.util.*;
 public class RestoreIPAddress {
     public List<String> restoreIpAddresses(String s) {
         // input checking
-        List<String> res = new ArrayList();
         if (s == null || s.length() < 4 || s.length() > 12) {
-            return res;
+            return new ArrayList();
         }
+        // recursive call
+        List<String> res = new ArrayList();
         helper(res, new ArrayList(), s);
         return res;
     }
@@ -17,12 +18,11 @@ public class RestoreIPAddress {
         //---- base case: stop condition
         // 4 nums collected
         if (nums.size() == 4) {
-            if (s.length() == 0) { // no more chars in s
+            if (s.length() == 0) { // MAKE SURE no more chars in s left
                 res.add(nums.get(0) + "." + nums.get(1) + "." + nums.get(2) + "." + nums.get(3));
             }
             return;
         }
-
         //---- general case
         // condition: there are <= 3 nums and there cur < s.length()
         for (int i = 1; i <= Math.min(3, s.length()); i++) {
@@ -34,13 +34,5 @@ public class RestoreIPAddress {
                 nums.remove(nums.size() - 1);
             }
         }
-    }
-
-    //////////////////////  TEST  /////////////////////////////
-    public static void main(String[] args) {
-        RestoreIPAddress solution = new RestoreIPAddress();
-        List<String> result = solution.restoreIpAddresses("25525511135");
-        for (String s: result)
-            System.out.println(s);
     }
 }

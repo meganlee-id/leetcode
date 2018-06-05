@@ -14,38 +14,36 @@ public class ValidateBinarySearchTree {
         if (cur == null) {
             return true;
         }
-        
         // General Case
-        // --1. check if cur value is in range
-        if ((min != null && min.val >= cur.val) || (max != null && max.val <= cur.val)) {
+        if ((min != null && min.val >= cur.val) || 
+            (max != null && max.val <= cur.val)) { // --1. check if cur value is in range
             return false;
+        } else {                                   // --2. check two subtrees
+            return helper(cur.left, min, cur) && helper(cur.right, cur, max);
         }
-        
-        // --2. check two subtrees
-        return helper(cur.left, min, cur) && helper(cur.right, cur, max);
     }
 
 
     //------------------- Solution 2 -----------------------//
-    // in-order traversal: stack + cur
+    // in-order traversal: cur + stack
     public boolean isValidBST2(TreeNode root) {
         Stack<TreeNode> s = new Stack();
-        TreeNode pre = null;      // use a preNode
+        TreeNode pre = null;        // use a preNode
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
-            while (cur != null) { // travel to each node's left child, till reach the left leaf
-                s.push(cur);
-                cur = cur.left;
-            } 
-            cur = s.pop();        // backtrack to higher level node A
-            // ------ VISIT ------
-            if (pre != null && pre.val >= cur.val) {
-                return false;
-            } else {
-                pre = cur;
+            if (cur != null) { //------ GOING DOWN
+                s.push(cur);     // push
+                cur = cur.left;  // left
+            } else {           //------ GOING up
+                TreeNode node = s.pop(); // pop
+                // VISIT
+                if (pre != null && pre.val >= node.val) {
+                    return false; // pre >= cur
+                } else {
+                    pre = node; // update pre
+                } 
+                cur = node.right;   // right
             }
-            //--------------------
-            cur = cur.right;      // switch to A'right branch
         }
         return true;
     }

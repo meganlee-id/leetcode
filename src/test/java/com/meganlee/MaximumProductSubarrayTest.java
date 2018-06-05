@@ -15,6 +15,6 @@ public class MaximumProductSubarrayTest {
 
     @Test
     public void test() {
-       Assert.assertEquals(calculate(nums), 20);
+       Assert.assertEquals(20, calculate(nums));
     }
 }

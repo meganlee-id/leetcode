@@ -4,82 +4,62 @@ import java.util.*;
 
 public class Subsets2 {
     //--------------  Solution 1 ---------------------//
-    // incremental
-    public List<List<Integer>> subsetsWithDup(int[] num) {
-        // input checking
-        List<List<Integer>> result = new ArrayList();
-        if (num == null || num.length == 0) {
-            return result;
-        }
-
-        Arrays.sort(num); // sort first!
-        result.add(new ArrayList());  // add the empty set
-
-        for (int i = 0; i < num.length; i++) {
-            // step 1: count duplicates && move to the last same num
-            int counter = 1;
-            while (i < num.length - 1 && num[i] == num[i + 1]) {
-                i++;
-                counter++;
-            }
-            // step 2: add new number to set,
-            // add current number zero, once, then twice...
-            int size = result.size();
-            for (int j = 1; j <= counter; j++) {
-                for (int k = (j - 1) * size; k < j * size; k++) {
-                    List<Integer> item = new ArrayList(result.get(k));
-                    item.add(num[i]);
-                    result.add(item);
-                }
-            }
-        }
-        return result;
-    }
-
-    //--------------  Solution 2 ---------------------//
     // classic recursion (DFS + backtrack)
-    public List<List<Integer>> subsetsWithDup2(int[] num) {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
         // input checking
-        List<List<Integer>> res = new ArrayList();
-        if (num == null || num.length == 0) {
-            return res;
+        if (nums == null || nums.length == 0) {
+            return new ArrayList();
         }
-
-        Arrays.sort(num);  // remember to sort!!
-        populateResult(res, new ArrayList(), num, 0);
+        Arrays.sort(nums);  // remember to sort!!
+        List<List<Integer>> res = new ArrayList();
+        helper(res, new ArrayList(), nums, 0);
         return res;
     }
     
-    private void populateResult(List<List<Integer>> result,  List<Integer> subset, int[] num, int pos) {
+    private void helper(List<List<Integer>> res,  List<Integer> subset, int[] nums, int cur) {
         // base case
-        if (pos >= num.length) {
-            result.add(new ArrayList(subset));
+        if (cur >= nums.length) {
+            res.add(new ArrayList(subset));
             return;
         }
-        
-        // general case
-        // 1. count duplicates, move index to the last num of a sequence of duplicates
-        int count = 1;
-        while (pos < num.length - 1 && num[pos] == num[pos + 1]) {
-            count++;
-            pos++;
+        // GENERAL CASE
+        // case 1: exclude cur elem ONLY WHEN the cur elem not in set (nums needs t be sorted)
+        if (subset.isEmpty() || subset.get(subset.size() - 1) != nums[cur]) {
+            helper(res, subset, nums, cur + 1);
         }
-        // 2. add the current number to subset once, then twice ... until 'count' times
-        populateResult(result, subset, num, pos + 1);
-        for (int k = 1; k <= count; k++) {
-            subset.add(num[pos]);
-            populateResult(result, subset, num, pos + 1);
-        }
-        while (count-- > 0) {
-            subset.remove(subset.size() - 1);
-        }
+        // case 2: ixclude cur elem
+        subset.add(nums[cur]);
+        helper(res, subset, nums, cur + 1);
+        subset.remove(subset.size() - 1);
     }
-    
-    ///////////////////     TEST     //////////////////////
-    public static void main(String[] args) {
-        Subsets2 solution = new Subsets2();
-        int[] s = {1,4,4};
-        List<List<Integer>> result = solution.subsetsWithDup(s);
-        PrettyPrinter.print2DIntList(result);
+
+    //--------------  Solution 2 ---------------------//
+    // incremental
+    public List<List<Integer>> subsetsWithDup2(int[] nums) {
+        // input checking
+        if (nums == null || nums.length == 0) {
+            return new ArrayList();
+        }
+        // num freq
+        Map<Integer, Integer> freq = new HashMap();
+        for (int num: nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+        List<List<Integer>> res = new ArrayList();
+        res.add(new ArrayList());  // add the empty set
+        for (int num: freq.keySet()) { // level by level
+            int count = freq.get(num);
+            // step 2: add new number to set,
+            // add current number zero, once, then twice...
+            int size = res.size();
+            for (int i = 1; i <= count; i++) {
+                for (int k = (i - 1) * size; k < i * size; k++) {
+                    List<Integer> item = new ArrayList(res.get(k));
+                    item.add(num);
+                    res.add(item);
+                }
+            }
+        }
+        return res;
     }
 }

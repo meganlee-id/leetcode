@@ -20,21 +20,21 @@ public class ContainerWithMostWaterTest {
 
     @Test
     public void testRandomHeights() {
-        Assert.assertEquals(calculate(bars1), 30);
+        Assert.assertEquals(30, calculate(bars1));
     }
 
     @Test
     public void testSameHeights() {
-        Assert.assertEquals(calculate(bars2), 16);
+        Assert.assertEquals(16, calculate(bars2));
     }
 
     @Test
     public void testAscendingHeights() {
-        Assert.assertEquals(calculate(bars3), 225);
+        Assert.assertEquals(225, calculate(bars3));
     }
 
     @Test
     public void testZeroHeights() {
-        Assert.assertEquals(calculate(bars4), 0);
+        Assert.assertEquals(0, calculate(bars4));
     }
 }

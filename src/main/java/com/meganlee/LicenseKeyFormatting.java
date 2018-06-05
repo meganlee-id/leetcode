@@ -6,7 +6,9 @@ class LicenseKeyFormatting {
     //--------------- Solution  ----------------//
     /////////   Character related methods  //////////
     //
-    // 1) char is alphanumeric  Character.isLetter(ch) || Character.isDigit(ch)
+    // 1) char is alphanumeric  
+    //      Character.isLetter(ch) || Character.isDigit(ch)
+    //      Character.isLetterOrDigit(ch)
     //      ('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z') || ('0' <= ch && ch <= '9')
     // 2) char is uppercase     Character.isUpperCase(ch)
     //        java> Character.isUpperCase('.')

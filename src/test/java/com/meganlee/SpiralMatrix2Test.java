@@ -16,24 +16,24 @@ public class SpiralMatrix2Test {
 
     @Test
     public void testMinusOne() {
-        Assert.assertEquals(calculate(-1), "");
+        Assert.assertEquals("", calculate(-1));
     }
 
     @Test
     public void testZero() {
-        Assert.assertEquals(calculate(0), "[]");
+        Assert.assertEquals("[]", calculate(0));
     }
 
     @Test
     public void testOne() {
-        Assert.assertEquals(calculate(1), "[1]");
+        Assert.assertEquals("[1]", calculate(1));
     }
 
     @Test
     public void testTwo() {
         // [1, 2]
         // [4, 3]
-        Assert.assertEquals(calculate(2), "[1, 2]\n[4, 3]");
+        Assert.assertEquals("[1, 2]\n[4, 3]", calculate(2));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class SpiralMatrix2Test {
         // [1, 2, 3]
         // [8, 9, 4]
         // [7, 6, 5]
-        Assert.assertEquals(calculate(3), "[1, 2, 3]\n[8, 9, 4]\n[7, 6, 5]");
+        Assert.assertEquals("[1, 2, 3]\n[8, 9, 4]\n[7, 6, 5]", calculate(3));
     }
 
     @Test
@@ -50,6 +50,6 @@ public class SpiralMatrix2Test {
         // [12, 13, 14, 5]
         // [11, 16, 15, 6]
         // [10,  9,  8, 7]
-        Assert.assertEquals(calculate(4), "[1, 2, 3, 4]\n[12, 13, 14, 5]\n[11, 16, 15, 6]\n[10, 9, 8, 7]");
+        Assert.assertEquals("[1, 2, 3, 4]\n[12, 13, 14, 5]\n[11, 16, 15, 6]\n[10, 9, 8, 7]", calculate(4));
     }
 }

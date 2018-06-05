@@ -14,37 +14,15 @@ public class RotateList {
             num++;
             iter = iter.next;
         }
-        // make the list a cycle and find the new tail
-        iter.next = head;
+        // make the list a cycle, and find new tail
+        iter.next = head; // cycle it up
         for (int i = 0; i < num - n % num; i++) {
             iter = iter.next;
         }
+        // make cycle back to a list
         head = iter.next;
         iter.next = null;
         return head;
-    }
-    
-    
-    ///////////////////  TEST  ///////////////////
-    public static void test(RotateList solution, int[] x, int k) {
-        ListNode n = ListNode.fromArray(x);
-        System.out.println(solution.rotateRight(n, k));
-
-    }
-    public static void main(String[] args) {
-        RotateList solution = new RotateList();
-        int[] x = {1, 2, 3, 4, 5};
-        // k <= 0
-        test(solution, x, -1);
-        test(solution, x, 0);
-        // k = 1
-        test(solution, x, 1);
-        // k < len
-        test(solution, x, 3);
-        // k == len
-        test(solution, x, 5);
-        // k > len
-        test(solution, x, 8);
     }
 }
 

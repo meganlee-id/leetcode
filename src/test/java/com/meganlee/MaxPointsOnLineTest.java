@@ -14,8 +14,8 @@ public class MaxPointsOnLineTest {
 
     @Test
     public void test() {
-        Assert.assertEquals(calculate(xys1), 6);
-        Assert.assertEquals(calculate(xys2), 12);
-        Assert.assertEquals(calculate(xys3), 4);
+        Assert.assertEquals(6, calculate(xys1));
+        Assert.assertEquals(12, calculate(xys2));
+        Assert.assertEquals(4, calculate(xys3));
     }
 }

@@ -80,7 +80,7 @@ public class UniquePath {
         }
 
         // initial row
-        int[] dp = new int[m + 1];
+        int[] dp = new int[m + 1]; // one row
         Arrays.fill(dp, 1);
         for (int i = 2; i <= n; i++) {
             for (int j = 2; j <= m; j++) {
@@ -92,6 +92,7 @@ public class UniquePath {
 
     
     //------------ Solution 5: Combination Formula -----------------//
+    // checkout: BinominalCoefficient.java
     public int uniquePaths5(int m, int n) {
         // input validation
         if (m <= 0 || n <= 0) {
@@ -104,41 +105,8 @@ public class UniquePath {
         }
 
         // calculate C(m+n-2, n-1)
-        int denominator = 1, numerator = 1;
-        for (int i = n - 1; i >= 1; i--) {
-            numerator *= (m - 1) + i;   // starting from (m - 1) + (n - 1)   -->   (m - 1) + 1
-            denominator *= i;           // starting form           (n - 1)   -->             1
-            int factor = gcd(numerator, denominator);
-            denominator /= factor;
-            numerator /= factor;
-        }
-        return numerator / denominator;
-    }
-
-    // call gcd(Math.max(a, b), Math.min(a, b))
-    // a >= b && a > 0 && b > 0
-    private int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
-        }
-        return gcd(b, a % b);
-    }
-    
-    
-    /////////////////////////////     TEST     //////////////////////////////////
-    private static void test(UniquePath solution, int m, int n, int expected) {
-        int actual = solution.uniquePaths(m, n);
-        System.out.println(String.format("%-6d %-6d %-10d %-10d", m, n, expected, actual));
-        System.out.println(actual == expected ? "PASS\n" : "ERROR!!\n");
-    }
-    public static void main(String[] args) {
-        System.out.println(String.format("%-6s %-6s %-10s %-10s", "m", "n", "expected", "actual"));
-        System.out.println("--------------------------------------");
-        UniquePath solution = new UniquePath();
-        test(solution, 0, 0, 0);
-        test(solution, 1, 0, 0);
-        test(solution, 12, 8, 31824);
-        test(solution, 23, 12, 193536720);
+        BinominalCoefficient util = new BinominalCoefficient();
+        return util.binomialCoeff(m + n - 2, n - 1);
     }
 }
 

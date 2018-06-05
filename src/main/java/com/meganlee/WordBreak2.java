@@ -42,7 +42,7 @@ public class WordBreak2 {
     }
 
     //---------------------  Solution 1 ----------------------//
-//  normal recursion
+    //  normal recursion
     public List<String> wordBreak2(String s, Set<String> dict) {
         // input validation
         if (s == null || s.length() == 0) {
@@ -89,7 +89,6 @@ public class WordBreak2 {
     }
 
 }
-
 
 // 1 NOTE:  for the cache part in solution 1, we could either use the prefix as Key
 //          or we could use the index as key (as we did in word break)

@@ -15,76 +15,76 @@ public class StringToIntegerTest {
     // Emptys and null
     @Test
     public void testNull() {
-        Assert.assertEquals(calculate(null), 0);
+        Assert.assertEquals(0, calculate(null));
     }
 
     @Test
     public void testEmpty() {
-        Assert.assertEquals(calculate(""), 0);
+        Assert.assertEquals(0, calculate(""));
     }
 
     @Test
     public void testSpaces() {
-        Assert.assertEquals(calculate("   "), 0);
+        Assert.assertEquals(0, calculate("   "));
     }
 
     // Invalids
     @Test
     public void testInvalidNoSign() {
-        Assert.assertEquals(calculate("  d-fl03 "), 0);
+        Assert.assertEquals(0, calculate("  d-fl03 "));
     }
 
     @Test
     public void testInvalidWithSign() {
-        Assert.assertEquals(calculate("  +d-fl03 "), 0);
+        Assert.assertEquals(0, calculate("  +d-fl03 "));
     }
 
     @Test
     public void testSpecialString() {
-        Assert.assertEquals(calculate("Integer.MAX_VALUE"), 0);
+        Assert.assertEquals(0, calculate("Integer.MAX_VALUE"));
     }
 
     // Zeros and leading zeros
     @Test
     public void testZero() {
-        Assert.assertEquals(calculate("  +00d-fl03 "), 0);
+        Assert.assertEquals(0, calculate("  +00d-fl03 "));
     }
 
     @Test
     public void testNoSignLeadingZero() {
-        Assert.assertEquals(calculate("  0000123 "), 123);
+        Assert.assertEquals(123, calculate("  0000123 "));
     }
 
     @Test
     public void testPosLeadingZero() {
-        Assert.assertEquals(calculate("  +0000123 "), 123);
+        Assert.assertEquals(123, calculate("  +0000123 "));
     }
 
     @Test
     public void testNegLeadingZero() {
-        Assert.assertEquals(calculate("  -0000123 "), -123);
+        Assert.assertEquals(-123, calculate("  -0000123 "));
     }
 
     // extreme values
     @Test
     public void testMax() {
-        Assert.assertEquals(calculate("2147483657"), Integer.MAX_VALUE);
+        Assert.assertEquals(Integer.MAX_VALUE, calculate("2147483657"));
     }
 
     @Test
     public void testMin() {
-        Assert.assertEquals(calculate("-2147483648"), Integer.MIN_VALUE);
+        Assert.assertEquals(Integer.MIN_VALUE, calculate("-2147483648"));
     }
 
     // overflows
     @Test
     public void testPosOverflow() {
-        Assert.assertEquals(calculate("2147483658"), Integer.MAX_VALUE);
+        Assert.assertEquals(Integer.MAX_VALUE, calculate("2147483658"));
     }
 
     // overflows
     @Test
     public void testNegOverflow() {
-        Assert.assertEquals(calculate("-2147483649"), Integer.MIN_VALUE);
+        Assert.assertEquals(Integer.MIN_VALUE, calculate("-2147483649"));
     }
 }

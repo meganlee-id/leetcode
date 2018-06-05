@@ -17,7 +17,7 @@ public class ReverseIntegerTest {
     @Test
     public void test() {
         for (int i = 0; i < numbers.length; i++) {
-            Assert.assertEquals(calculate(numbers[i]), expected[i]);
+            Assert.assertEquals(expected[i], calculate(numbers[i]));
         } 
     }
 }

@@ -19,15 +19,17 @@ public class SimplifyPathTest {
     String[] inputs = { "///./../a///b/k///",
                         "/..",
                         "",
-                        "/..///a/./../b/c//" };
+                        "/..///a/./../b/c//",
+                        "a/c"};
     String[] outputs = {"/a/b/k",
                         "/",
                         "",
-                        "/b/c"};
+                        "/b/c",
+                        ""};
     @Test
     public void testLoop() {
         for (int i = 0; i < inputs.length; i++) {
-            Assert.assertEquals(calculate(inputs[i]), outputs[i]);
+            Assert.assertEquals(outputs[i], calculate(inputs[i]));
         }
     }
 }

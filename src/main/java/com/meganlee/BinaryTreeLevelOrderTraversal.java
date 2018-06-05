@@ -29,7 +29,6 @@ public class BinaryTreeLevelOrderTraversal {
             res.add(vals);
             level = nextLevel;
         }
-        
         return res;
     }
 

@@ -75,8 +75,6 @@ public class ValidNumber {
         return hasNum;
     }
 
-
-
     //------------------- Solution 3 ------------------//
     // DFA: automator
     public boolean isNumber3(String s) {

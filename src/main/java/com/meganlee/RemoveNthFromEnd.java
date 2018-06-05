@@ -4,41 +4,48 @@ package com.meganlee;
 public class RemoveNthFromEnd {
     //------------------- Solution 1 --------------------//
     // 1-pass, 2-pointers, same speed, one is k steps ahead of the other
-    public ListNode removeNthFromEnd2(ListNode head, int n) {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        // input validation
         if (n <= 0 || head == null) {
             return head;
         }
-
-        // move the first pointer n steps into the list
-        ListNode iter1 = head;
-        while (iter1 != null && n > 0) {
-            iter1 = iter1.next;
+        // dummyHead to get the the node PREVIOUS to the target node
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode fast = dummy, slow = dummy;
+        // move fast pointer n+1 steps into the list
+        while (fast != null && n >= 0) { // n >= 0, move n+1 steps
+            fast = fast.next;
             n--;
         }
-        if (n > 0) {
-            return head; // invalid n: n > len
+        // check invalidity, invalid n: n > len
+        if (n >= 0) {
+            return head;
         }
-
-        // move both pointer until iter1 points to null
-        ListNode dummy = new ListNode(0); // have to use a dummy to get the the node PREVIOUS to the target node
-        dummy.next = head;
-        ListNode iter2 = dummy;
-        while (iter1 != null) {
-            iter2 = iter2.next;
-            iter1 = iter1.next;
+        // move slow/fast pointer until fast points to null
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
         }
-
-        iter2.next = iter2.next.next;
+        // delete
+        slow.next = slow.next.next;
         return dummy.next;
     }
 
     //------------------- Solution 2 --------------------//
     // 2-pass, first count len, then move to the node PREVIOUS to the node to be delete
-    public ListNode removeNthFromEnd(ListNode head, int n) {
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
+        // input validation
+        if (n <= 0 || head == null) {
+            return head;
+        }
+        // create dummy
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode iter = dummy;
         // count the len
-        ListNode iter = head;
         int len = 0;
-        while (iter != null) {
+        while (iter.next != null) {
             iter = iter.next;
             len++;
         }
@@ -47,9 +54,7 @@ public class RemoveNthFromEnd {
             return head;
         }
         // move to the node previous to the target node
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        iter = dummy;
+        iter = dummy; // reset iter to dummy
         int steps = len - n;
         while (steps > 0) {
             steps--;

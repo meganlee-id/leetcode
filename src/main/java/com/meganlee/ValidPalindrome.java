@@ -8,28 +8,20 @@ public class ValidPalindrome {
         if (s == null || s.length() == 0) {
             return true;
         }
-        String str = s.toLowerCase();
-        for (int i = 0, j = s.length() - 1; i <= j; i++, j--) {
-            while (i <= j && !isValid(str.charAt(i))) {
-                i++;
-            }
-            while (i <= j && !isValid(str.charAt(j))) {
-                j--;
-            }
-            if (i <= j && str.charAt(i) != str.charAt(j)) {
-                return false;
-            }
+        char[] chs = s.toLowerCase().toCharArray(); // convert to ALL LOWERCASE
+        for (int start = 0, end = chs.length - 1; start <= end; ) {
+            // each time we move any pointer, need to check condition: start <= end
+            char s_ch = chs[start], e_ch = chs[end];
+            if      (!Character.isLetterOrDigit(s_ch)) start++;
+            else if (!Character.isLetterOrDigit(e_ch)) end--;
+            else if (s_ch == e_ch)                   { start++; end--; } // need {} to form a block
+            else return false;                                       
         }
         return true;
     }
 
-    private boolean isValid(char ch) {
-        return Character.isLetter(ch) || Character.isDigit(ch);
-    }
-
-
     //------------------- Solution 2 ------------------------//
-    // equals its reverse
+    // StringBuilder: equals its reverse
     public boolean isPalindrome2(String s) {
         // input validation
         if (s == null || s.length() == 0) {
@@ -37,7 +29,7 @@ public class ValidPalindrome {
         }
         StringBuilder strBuilder = new StringBuilder();
         for (char ch : s.toLowerCase().toCharArray()) {
-            if (isValid(ch)) {
+            if (Character.isLetterOrDigit(ch)) {
                 strBuilder.append(ch);
             }
         }
@@ -65,8 +57,3 @@ public class ValidPalindrome {
         return c1 == c2;
     }
 }
-
-// ERROR:
-//    First check the index range, then access it
-//    if (str.charAt(i) != str.charAt(j) && i <= j) {  <--- Wrong
-//    if (i <= j && str.charAt(i) != str.charAt(j)) {  <--- right
