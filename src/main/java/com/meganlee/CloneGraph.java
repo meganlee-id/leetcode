@@ -9,22 +9,22 @@ public class CloneGraph {
         if (node == null) {
             return null;
         }
-        Map<UndirectedGraphNode, UndirectedGraphNode> visited = new HashMap();
         Queue<UndirectedGraphNode> q  = new LinkedList(Arrays.asList(node));
+        Map<UndirectedGraphNode, UndirectedGraphNode> visited = new HashMap();
         UndirectedGraphNode nodeClone = new UndirectedGraphNode(node.label);
-        visited.put(node, nodeClone);
-
+        visited.put(node, nodeClone); // put original node -> nodeClone into visitedMapTable
         while (!q.isEmpty()) {
             UndirectedGraphNode cur = q.poll();
-            UndirectedGraphNode curClone = visited.get(cur);
             for (UndirectedGraphNode n : cur.neighbors) {
                 // create new NODES if not visited
                 if (!visited.containsKey(n)) {
-                    q.offer(n);
-                    visited.put(n, new UndirectedGraphNode(n.label));
+                    q.offer(n); // put in queue
+                    visited.put(n, new UndirectedGraphNode(n.label)); // create new node
                 }
                 // create new EDGES
-                curClone.neighbors.add(visited.get(n));
+                UndirectedGraphNode curClone = visited.get(cur);
+                UndirectedGraphNode neighborClone = visited.get(n);
+                curClone.neighbors.add(neighborClone);
             }
         }
         return nodeClone;
