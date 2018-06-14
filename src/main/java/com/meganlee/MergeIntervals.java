@@ -26,6 +26,8 @@ public class MergeIntervals {
         //     }
         // }); // ADD A ';'!
 
+        // another option, could also use PriorityQueue and poll one-by-one
+
         // merge one by one
         List<Interval> res = new ArrayList();
         Interval cur = intervals.get(0);
@@ -81,4 +83,8 @@ public class MergeIntervals {
         }
         return res;
     }
+
+    //----------------- Solution 3 ----------------//
+    // Sort starts/ends together, linesweeping. balance++/--
+    // https://leetcode.com/problems/employee-free-time/solution/
 }

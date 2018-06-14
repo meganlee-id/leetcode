@@ -6,7 +6,6 @@ public class FirstMissingPositive {
         if (A == null || A.length == 0) {
             return 1;
         }
-
         // put num at index i = num - 1
         for (int i = 0; i < A.length; ) {
             int targetIndex = A[i] - 1;
@@ -16,7 +15,6 @@ public class FirstMissingPositive {
                 swap(A, i, targetIndex); // swap, no i++
             }
         }
-
         // find the first number that is not the same with the index
         for (int i = 0; i < A.length; i++) {
             if (A[i] != i + 1) {
