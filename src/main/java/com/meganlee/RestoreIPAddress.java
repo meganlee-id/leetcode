@@ -3,35 +3,31 @@ package com.meganlee;
 import java.util.*;
 
 public class RestoreIPAddress {
+    static final int NumParts = 4;
     public List<String> restoreIpAddresses(String s) {
-        // input checking
-        if (s == null || s.length() < 4 || s.length() > 12) {
-            return new ArrayList();
-        }
-        // recursive call
         List<String> res = new ArrayList();
-        helper(res, new ArrayList(), s);
+        List<String> parts = new ArrayList();
+        collect(res, parts, s);
         return res;
     }
-
-    private void helper(List<String> res, List<Integer> nums, String s) {
-        //---- base case: stop condition
-        // 4 nums collected
-        if (nums.size() == 4) {
-            if (s.length() == 0) { // MAKE SURE no more chars in s left
-                res.add(nums.get(0) + "." + nums.get(1) + "." + nums.get(2) + "." + nums.get(3));
-            }
+    
+    private void collect(List<String> res, List<String> parts, String s) {
+        // base case
+        if (s.length() == 0 && parts.size() == NumParts) {
+            res.add(String.join(".", parts));
+        }
+        // fast prune according to length
+        if (s.length() < NumParts - parts.size() || s.length() > (NumParts - parts.size()) * 3)  {
             return;
         }
-        //---- general case
-        // condition: there are <= 3 nums and there cur < s.length()
-        for (int i = 1; i <= Math.min(3, s.length()); i++) {
-            String valStr = s.substring(0, i);
-            int val = Integer.valueOf(valStr);
-            if (0 <= val && val <= 255 && valStr.equals(val + "")) { // no heading zeros
-                nums.add(val);
-                helper(res, nums, s.substring(i));
-                nums.remove(nums.size() - 1);
+        // chunk the first part, and call next part recursively
+        for (int end = 1; end <= Math.min(3, s.length()); end++) {
+            String fstChunk = s.substring(0, end);
+            int fstChunkVal = Integer.valueOf(fstChunk);
+            if (0 <= fstChunkVal && fstChunkVal <= 255 && (fstChunkVal + "").equals(fstChunk)) {
+                parts.add(fstChunk);
+                collect(res, parts, s.substring(end));
+                parts.remove(parts.size() - 1);
             }
         }
     }
