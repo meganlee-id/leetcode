@@ -19,5 +19,11 @@ public class BinominalCoefficient {
             res /= i;
         }
         return res;
+        // n  /  1
+        // n*(n-1) / 1*2
+        // n*(n-1)*(n-2) / 1*2*3
+        // n*(n-1)*(n-2)*(n-3) / 1*2*3*4
+        // n*(n-1)*(n-2)*(n-3)*(n-4) / 1*2*3*4*5
+        // ...
     }
 }

@@ -9,7 +9,6 @@ public class WordBreak2 {
         if (s == null || s.length() == 0) {
             return new ArrayList();
         }
-
         return wordBreakHelper(s, dict, new HashMap());
     }
 
@@ -17,7 +16,6 @@ public class WordBreak2 {
         if(cache.containsKey(s)) {
             return cache.get(s);
         }
-
         ArrayList<String> result = new ArrayList();
         for(int len = 1; len <= s.length(); ++len){
             String word = s.substring(0,len);
@@ -25,7 +23,6 @@ public class WordBreak2 {
                 // base case, last word
                 if(len == s.length()){
                     result.add(word);
-
                 // general case, recursive call
                 } else {
                     String suffix = s.substring(len);
@@ -41,8 +38,8 @@ public class WordBreak2 {
         return result;
     }
 
-    //---------------------  Solution 1 ----------------------//
-    //  normal recursion
+    //---------------------  Solution 2 ----------------------//
+    //  DP
     public List<String> wordBreak2(String s, Set<String> dict) {
         // input validation
         if (s == null || s.length() == 0) {
@@ -70,7 +67,6 @@ public class WordBreak2 {
             cache.put(i, new ArrayList());
         }
         cache.get(0).add("");
-
         // start calculating
         for (int i = 1; i <= s.length(); i++) {
             List<String> results = new ArrayList();
@@ -84,7 +80,6 @@ public class WordBreak2 {
             }
             cache.put(i, results);
         }
-
         return cache.get(s.length());
     }
 

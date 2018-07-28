@@ -4,7 +4,9 @@ import java.util.*;
 import java.util.stream.*;
 
 public class WordBreak {
-    //---------- A very dynamic solution -------------//
+    //---------- DP -------------//
+    // more solutions, pls check here: 
+    // https://leetcode.com/problems/word-break/solution/
     public boolean wordBreak(String s, Set<String> dict) {
         // input validation
         if (s == null || s.length() == 0) {
@@ -15,7 +17,6 @@ public class WordBreak {
         }
 
         // get max and min len of the words
-        // prepare for the calculation
         int minLen = Integer.MAX_VALUE;
         int maxLen = Integer.MIN_VALUE;
         for (String word: dict) {
@@ -23,10 +24,6 @@ public class WordBreak {
             minLen = Math.min(minLen, wordLen);
             maxLen = Math.max(maxLen, wordLen);
         }
-        // // Stream.max() returns Optional[String]
-        // int maxLen = dict.stream().max(Comparator.comparingInt(String::length)).get().length(); 
-        // int minLen = dict.stream().min(Comparator.comparingInt(String::length)).get().length();
-
         // start calculation
         boolean[] res = new boolean[s.length() + 1]; // res[len], can prefix with len i be segmented
         res[0] = true;

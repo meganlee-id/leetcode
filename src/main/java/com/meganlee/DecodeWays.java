@@ -11,14 +11,13 @@ public class DecodeWays {
 
         int N = s.length();
         int[] counts = new int[N + 1];  // index indicates len
-        counts[0] = 1;  // num of decodes s.substring(0,1) <- first 0 char(s) of s
-        counts[1] = 1;  // num of decodes s.substring(0,2) <- first 1 char(s) of s
+        counts[0] = 1;  // num of decodes s.substring(0,1) <- first 0 char(s) of s, eg ""
+        counts[1] = 1;  // num of decodes s.substring(0,2) <- first 1 char(s) of s, eg "1"
         for (int i = 1; i < N; i++) {
             // case 1. use a single digit to decode
             if (s.charAt(i) != '0') {
                 counts[i + 1] += counts[i];  // i'th char in s, stored in i + 1's place in counts
             }
-                
             // case 2. use two digits to decode
             if (s.charAt(i - 1) == '1' || (s.charAt(i - 1) == '2' && s.charAt(i) <= '6')) {
                 counts[i + 1] += counts[i - 1];
