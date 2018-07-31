@@ -14,10 +14,9 @@ public class LengthOfLastWord {
         // use a start and a end pointer to point to the last seen word
         int res = 0;
         for (int start = 0, end = 0; end < s.length(); end++) {
-            // if it's space, increment both start and end
+            // if it's space, adjust start
             if (Character.isWhitespace(s.charAt(end))) { // do NOT use Character.isLetter, test case: "Hello World!!"
-                start++;
-            // if it's letter increment only end
+                start = end + 1;
             // if it's letter and end of cur word, calculate the word length
             } else if (end == s.length() - 1 || Character.isWhitespace(s.charAt(end + 1))) {
                 res = end - start + 1;
@@ -28,7 +27,7 @@ public class LengthOfLastWord {
     }
 
     //--------------------  Solution 2 ------------------------//
-    // Pure for loop: from end to front
+    // Pure for loop: end to front
     public int lengthOfLastWord2(String s) {
         // input validation
         if (s == null || s.length() == 0) {
@@ -80,7 +79,8 @@ public class LengthOfLastWord {
     //---------------------- Solution 5 ----------------------//
     // sb.reverse() and matcher.find() && matcher.group();
     public int lengthOfLastWord5(String s) {
-        if (s == null) {
+        // input validation
+        if (s == null || s.length() == 0) {
             return 0;
         }
         s = new StringBuilder(s).reverse().toString();

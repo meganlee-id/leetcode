@@ -24,7 +24,8 @@ public class RestoreIPAddress {
         for (int end = 1; end <= Math.min(3, s.length()); end++) {
             String fstChunk = s.substring(0, end);
             int fstChunkVal = Integer.valueOf(fstChunk);
-            if (0 <= fstChunkVal && fstChunkVal <= 255 && (fstChunkVal + "").equals(fstChunk)) {
+            //---- "-0" ------------------||------- 0 <= val <= 255 ----------------||------- no leading '0' --------------//
+            if (!fstChunk.startsWith("-") && 0 <= fstChunkVal && fstChunkVal <= 255 && (fstChunkVal + "").equals(fstChunk)) {
                 parts.add(fstChunk);
                 collect(res, parts, s.substring(end));
                 parts.remove(parts.size() - 1);

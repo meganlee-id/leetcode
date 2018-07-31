@@ -13,11 +13,8 @@ public class ReverseWords {
         // iterate backwards and append words one-by-one
         StringBuilder sb = new StringBuilder();
         for (int end = s.length() - 1, start = end; start >= 0; start--) {
-            // if it's space, decrement both start and end
             if (Character.isWhitespace(s.charAt(start))) {
-                end--;
-            // if it's letter decrement only start
-            // if it's letter and start of cur word, collect cur word
+                end = start - 1;
             } else if (start == 0 || Character.isWhitespace(s.charAt(start - 1))) {
                 sb.append(s.substring(start, end + 1) + " ");
                 end = start - 1;
