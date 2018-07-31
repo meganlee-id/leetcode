@@ -10,19 +10,18 @@ public class ReverseWords {
         if (s == null || s.trim().length() == 0) { //---- also works without trim: s.length() == 0
             return "";
         }
-        // iterate backwards and append words one-by-one
-        StringBuilder sb = new StringBuilder();
+        // invariant: in range [start, end] there is no whitespace
+        List<String> res = new ArrayList();
         for (int end = s.length() - 1, start = end; start >= 0; start--) {
+            // invariant broken, adjust start
             if (Character.isWhitespace(s.charAt(start))) {
                 end = start - 1;
+            // invariant hold, only update res if it's last char
             } else if (start == 0 || Character.isWhitespace(s.charAt(start - 1))) {
-                sb.append(s.substring(start, end + 1) + " ");
-                end = start - 1;
+                res.add(s.substring(start, end + 1));
             }
         }
-        return sb.toString().trim(); 
-        //---- alternative without trim() ----//
-        // return sb.length() == 0 ? "" : sb.substring(0, sb.length() - 1);
+        return String.join(" ", res);
     }
 
     //-------------------  Solution 2 ------------------------//

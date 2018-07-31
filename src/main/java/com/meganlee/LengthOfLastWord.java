@@ -11,16 +11,15 @@ public class LengthOfLastWord {
         if (s == null || s.length() == 0) {
             return 0;
         }
-        // use a start and a end pointer to point to the last seen word
+        // invariant: [start, end] contains no space
         int res = 0;
         for (int start = 0, end = 0; end < s.length(); end++) {
-            // if it's space, adjust start
+            // invariant broken, adjust start
             if (Character.isWhitespace(s.charAt(end))) { // do NOT use Character.isLetter, test case: "Hello World!!"
                 start = end + 1;
-            // if it's letter and end of cur word, calculate the word length
+            // invariant satisfied, only update res when it's last char
             } else if (end == s.length() - 1 || Character.isWhitespace(s.charAt(end + 1))) {
                 res = end - start + 1;
-                start = end + 1;
             }
         }
         return res;
@@ -53,7 +52,6 @@ public class LengthOfLastWord {
         if (s == null || s.trim().length() == 0) {  // s.trim().length() == 0
             return 0;
         }
-
         // at lease one word exists
         String sTrim = s.trim();
         String[] words = sTrim.split("\\s+");
@@ -75,7 +73,6 @@ public class LengthOfLastWord {
         return end - start;
     }
 
-    
     //---------------------- Solution 5 ----------------------//
     // sb.reverse() and matcher.find() && matcher.group();
     public int lengthOfLastWord5(String s) {

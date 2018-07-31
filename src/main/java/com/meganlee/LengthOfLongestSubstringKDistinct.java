@@ -6,7 +6,7 @@ public class LengthOfLongestSubstringKDistinct {
     //--------------- Solution 1 ----------------//
     // a typical sliding window problem
     // int[256] + count:  char freq
-    public int lengthOfLongestSubstringKDistinct2(String s, int k) {
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
         // input vlidation
         if (s == null || s.length() == 0 || k < 1) { // must check k invalidaty
             return 0;
@@ -17,14 +17,13 @@ public class LengthOfLongestSubstringKDistinct {
         for(int start = 0, end = 0; end < s.length(); end++) {
             // get end char
             char eChar = s.charAt(end);
-            // invariant not satisfied, try to move start one-by-one
-            // could also use while here, here we use (if with end--) a trick
+            // adding end will break invariant, move start one pos forward
             if (freq.size() == k && !freq.containsKey(eChar)) {
                 char sChar = s.charAt(start);
                 freq.put(sChar, freq.get(sChar) - 1);
                 freq.remove(sChar, 0); //~~~~  freq.remove(key, val)
                 start++;
-                end--;
+                end--; // the trick
             // invariant satisfied, update cache, update res
             } else {
                 freq.put(eChar, freq.getOrDefault(eChar, 0) + 1);
@@ -37,7 +36,7 @@ public class LengthOfLongestSubstringKDistinct {
     //--------------- Solution 2 ----------------//
     // a typical sliding window problem
     // int[256] + count:  char freq
-    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+    public int lengthOfLongestSubstringKDistinct1(String s, int k) {
         // input vlidation
         if (s == null || s.length() == 0 || k <= 0) {
             return 0;
