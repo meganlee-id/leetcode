@@ -27,27 +27,27 @@ public class RemoveListDupes2 {
     }
 
     //--------------  Solution 2 ------------------//
-    // two pointers: p1 PREDECESSOR of 1st of dupe seq, p2 last of dupe seq
-    // dupes: [p1.next --> p2]
+    // two pointers: "pre" tail of previoud gropu, "iter" iterator travel within dupes
     public ListNode deleteDuplicates2(ListNode head) {
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode p1 = dummy; // new tail
-        while (p1 != null) {
-            // move p2 to the furthest duplicate node
-            ListNode p2 = p1.next;
-            if (p2 != null) { // make sure to have this!
-                while (p2.next != null && p2.next.val == p2.val) {
-                    p2 = p2.next;
-                }
-                // if next seq has dupes
-                if (p1.next != p2) {
-                    p1.next = p2.next; // skip dupes
-                }
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode pre = dummyHead;
+        ListNode iter = pre.next;
+        // each time iter will be 1) null 2) start from 1st value travel to end of duplicates
+        while (iter != null) {
+            // move iter to end of dupes
+            while (iter.next != null && iter.val == iter.next.val) {
+                iter = iter.next;
             }
-            // update p1
-            p1 = p1.next;
+            // if there iter is null || only one value
+            if (pre.next == iter) {
+                pre = pre.next;      // pre move to next group
+            // multiple nodes
+            } else {
+                pre.next = iter.next; // pre stays the same
+            }
+            iter = iter.next;
         }
-        return dummy.next;
+        return dummyHead.next;
     }
 }
