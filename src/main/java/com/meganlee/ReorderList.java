@@ -41,9 +41,9 @@ public class ReorderList {
     }
 
     private ListNode findMiddle(ListNode head) {
-        // assume head != null
+        // assume at least 2 nodes
         ListNode walker = head, runner = head;
-        while (runner != null && runner.next != null) {
+        while (runner.next != null && runner.next.next != null) {
             walker = walker.next;
             runner = runner.next.next;
         }
