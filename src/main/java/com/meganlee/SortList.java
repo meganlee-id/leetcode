@@ -49,7 +49,7 @@ public class SortList {
     }
 
     //--------------- Solution 2 ----------------//
-    // Arrays.sort()
+    // Arrays.sort(), modify the values
     public ListNode sortList2(ListNode head) {
         // input validation
         if (head == null || head.next == null) {

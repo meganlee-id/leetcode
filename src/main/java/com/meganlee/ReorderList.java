@@ -3,11 +3,10 @@ package com.meganlee;
 
 public class ReorderList {
     //------------------ Solution 1 ---------------------//
-    // this is O(N^2)
-    // Time Limit Exceed
-    // But this is the most obvious solution
+    // Brute-force O(N^2) this is the most obvious solution
     public void reorderList(ListNode head) {
         ListNode cur = head;
+        // while cur.next.next is valid
         while (cur != null && cur.next != null) {
             // step 1: find the node previous to the tail node
             ListNode beforeTail = cur;
@@ -17,9 +16,8 @@ public class ReorderList {
             // step 2: insert the tail node after cur
             ListNode tail = beforeTail.next;
             beforeTail.next = tail.next;
-            ListNode afterCur = cur.next;
+            tail.next = cur.next;
             cur.next = tail;
-            tail.next = afterCur;
             // step 3: update cur
             cur = cur.next.next;
         }
@@ -43,24 +41,24 @@ public class ReorderList {
     }
 
     private ListNode findMiddle(ListNode head) {
-        // assume that there are at least 2 nodes
+        // assume head != null
         ListNode walker = head, runner = head;
-        while (runner.next != null && runner.next.next != null) {
+        while (runner != null && runner.next != null) {
             walker = walker.next;
             runner = runner.next.next;
         }
         return walker;
     }
 
-    private ListNode reverse(ListNode head) {
-        ListNode newHead = null;
-        while (head != null) {
-            ListNode next = head.next;
-            head.next = newHead;
-            newHead = head;
-            head = next;
+    private ListNode reverse(ListNode cur) {
+        ListNode pre = null;
+        while (cur != null) {
+            ListNode post = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = post;
         }
-        return newHead;
+        return pre;
     }
 
     private void merge(ListNode head1, ListNode head2) {
