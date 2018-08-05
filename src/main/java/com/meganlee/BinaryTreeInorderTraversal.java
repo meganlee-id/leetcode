@@ -3,7 +3,6 @@ package com.meganlee;
 import java.util.*;
 
 public class BinaryTreeInorderTraversal {
-
     //----------------- Solution 1 ------------------//
     // recursion
     public List<Integer> inorderTraversal(TreeNode root) {

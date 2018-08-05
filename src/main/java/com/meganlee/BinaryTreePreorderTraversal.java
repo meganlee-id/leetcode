@@ -3,7 +3,6 @@ package com.meganlee;
 import java.util.*;
 
 public class BinaryTreePreorderTraversal {
-
     //----------------- Solution 1 --------------------//
     // recursion
     public List<Integer> preorderTraversal(TreeNode root) {
@@ -52,7 +51,6 @@ public class BinaryTreePreorderTraversal {
             return res;
         }
         s.push(root);
-        
         while (!s.isEmpty()) {
             TreeNode cur = s.pop();
             res.add(cur.val);
@@ -66,7 +64,6 @@ public class BinaryTreePreorderTraversal {
         }
         return res;
     }
-
 
     //----------------- Solution 4 --------------------//
     // Morris traversal
@@ -100,4 +97,3 @@ public class BinaryTreePreorderTraversal {
         return res;
     }
 }
-
