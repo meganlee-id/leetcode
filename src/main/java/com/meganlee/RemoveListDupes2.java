@@ -39,7 +39,7 @@ public class RemoveListDupes2 {
             while (iter.next != null && iter.val == iter.next.val) {
                 iter = iter.next;
             }
-            // if there iter is null || only one value
+            // if iter is null || only one value
             if (pre.next == iter) {
                 pre = pre.next;      // pre move to next group
             // multiple nodes

@@ -22,7 +22,7 @@ public class SortList {
     }
 
     // findMiddle has to divide list into SMALLER SIZE!!!
-    // otherwise will STACKOVERFLOW
+    // otherwise will STACKOVERFLOW!
     private ListNode findMiddle(ListNode head) {
         // assume at least 2 nodes
         ListNode walker = head, runner = head;
