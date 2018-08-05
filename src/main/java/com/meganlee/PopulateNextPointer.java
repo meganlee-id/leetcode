@@ -50,8 +50,8 @@ public class PopulateNextPointer {
     public void connect3(TreeLinkNode root) {
         TreeLinkNode preHead = root; // head of previous level
         while (preHead != null) {
-            TreeLinkNode newHead = new TreeLinkNode(0);
-            TreeLinkNode tail = newHead; // pre is the tail of new level
+            TreeLinkNode newDummy = new TreeLinkNode(0); // newHead is dummyHead of new level
+            TreeLinkNode tail = newDummy; // pre is the tail of new level
             TreeLinkNode cur  = preHead; // cur will traverse node of previous level
             while (cur != null) {
                 if (cur.left != null) {
@@ -65,7 +65,7 @@ public class PopulateNextPointer {
                 cur = cur.next;
             }
             // 2. update head for level
-            preHead = newHead.next;
+            preHead = newDummy.next;
         }
     }
 }
