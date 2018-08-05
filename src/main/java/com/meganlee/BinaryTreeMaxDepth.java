@@ -3,7 +3,7 @@ package com.meganlee;
 import java.util.*;
 
 public class BinaryTreeMaxDepth {
-	//-------------------  Solution 1 --------------------------//
+    //-------------------  Solution 1 --------------------------//
     // Use classic recursion
     public int maxDepth(TreeNode root) {
         // base case
