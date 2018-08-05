@@ -25,31 +25,10 @@ public class PopulateNextPointer {
     }
 
     //------------------- Solution 2 ----------------//
-    // level-by-level traversal (use next pointer)
-    public void connect2(TreeLinkNode root) {
-        TreeLinkNode levelHead = root;
-        while (levelHead != null) {
-            // 1. link this level
-            TreeLinkNode cur = levelHead;
-            while (cur != null) {
-                if (cur.left != null) {
-                    cur.left.next = cur.right;
-                }
-                if (cur.right != null && cur.next != null) {
-                    cur.right.next = cur.next.left;
-                }
-                cur = cur.next;
-            }
-            // 2. update head for level
-            levelHead = levelHead.left;
-        }
-    }
-
-    //------------------- Solution 3 ----------------//
     // level-by-level traversal (use a dummyHead)
-    public void connect3(TreeLinkNode root) {
+    public void connect2(TreeLinkNode root) {
         TreeLinkNode preHead = root; // head of previous level
-        while (preHead != null) {
+        while (preHead != null) { // whilc last level not null, we still need to connect it's next level
             TreeLinkNode newDummy = new TreeLinkNode(0); // newHead is dummyHead of new level
             TreeLinkNode tail = newDummy; // pre is the tail of new level
             TreeLinkNode cur  = preHead; // cur will traverse node of previous level
@@ -69,4 +48,3 @@ public class PopulateNextPointer {
         }
     }
 }
-
