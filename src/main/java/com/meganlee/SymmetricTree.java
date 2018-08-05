@@ -3,7 +3,7 @@ package com.meganlee;
 import java.util.*;
 
 public class SymmetricTree {
-	//----------------  Solution 1 --------------------//
+    //----------------  Solution 1 --------------------//
     // classic recursion
     public boolean isSymmetric(TreeNode root) {
         if (root == null) {
@@ -21,10 +21,7 @@ public class SymmetricTree {
             return false;
         }
         // general case: both non-null
-        if (n1.val != n2.val) {
-            return false;
-        }
-        return mirrorTree(n1.left, n2.right) && mirrorTree(n1.right, n2.left);
+        return n1.val == n2.val && mirrorTree(n1.left, n2.right) && mirrorTree(n1.right, n2.left);
     }
 
     //-------------------- Solution 2 -----------------------//
@@ -34,7 +31,7 @@ public class SymmetricTree {
         if (root == null) {
             return true;
         }
-        Queue<TreeNode> left = new LinkedList(Arrays.asList(root.left));
+        Queue<TreeNode> left  = new LinkedList(Arrays.asList(root.left));
         Queue<TreeNode> right = new LinkedList(Arrays.asList(root.right));
         while (!left.isEmpty()) {
             // pull one node

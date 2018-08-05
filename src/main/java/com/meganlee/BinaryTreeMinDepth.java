@@ -11,9 +11,11 @@ public class BinaryTreeMinDepth {
             return 0;
         }
         // general case
-        int left = minDepth(root.left);
+        int left  = minDepth(root.left);
         int right = minDepth(root.right);
-        return (left == 0 || right == 0) ? Math.max(left, right) + 1 : Math.min(left,right) + 1;
+        return (left == 0 || right == 0) ? 
+                Math.max(left, right) + 1 : 
+                Math.min(left, right) + 1;
     }
     
 

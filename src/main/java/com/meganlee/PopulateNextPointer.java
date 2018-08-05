@@ -9,7 +9,6 @@ public class PopulateNextPointer {
         if (root == null) {
             return;
         }
-
         // 2. General case: divide and conquer
         // divide
         connect(root.left);
@@ -49,27 +48,24 @@ public class PopulateNextPointer {
     //------------------- Solution 3 ----------------//
     // level-by-level traversal (use a dummyHead)
     public void connect3(TreeLinkNode root) {
-        TreeLinkNode levelHead = root;
-        TreeLinkNode dummyHead = new TreeLinkNode(0);
-        TreeLinkNode pre = dummyHead;
-        while (levelHead != null) {
-            // 1. link this level
-            TreeLinkNode cur = levelHead;
+        TreeLinkNode preHead = root; // head of previous level
+        while (preHead != null) {
+            TreeLinkNode newHead = new TreeLinkNode(0);
+            TreeLinkNode tail = newHead; // pre is the tail of new level
+            TreeLinkNode cur  = preHead; // cur will traverse node of previous level
             while (cur != null) {
                 if (cur.left != null) {
-                    pre.next = cur.left;
-                    pre = pre.next;
+                    tail.next = cur.left;
+                    tail = tail.next;
                 }
                 if (cur.right != null) {
-                    pre.next = cur.right;
-                    pre = pre.next;
+                    tail.next = cur.right;
+                    tail = tail.next;
                 }
                 cur = cur.next;
             }
             // 2. update head for level
-            levelHead = dummyHead.next;
-            dummyHead.next = null;
-            pre = dummyHead;
+            preHead = newHead.next;
         }
     }
 }
