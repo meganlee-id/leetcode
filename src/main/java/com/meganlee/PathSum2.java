@@ -12,15 +12,18 @@ public class PathSum2 {
     }
 
     private void helper(List<List<Integer>> result, List<Integer> path, TreeNode root, int sum) {
-        if (root == null) { //----- base case 1: null
+        // base case 1: null
+        if (root == null) {
             return;
         }
         path.add(root.val);             // add current value
+        // base case 2: leaf
         if (root.left == null && root.right == null) { //----- base case 2: leaf
             if (root.val == sum) {
                 result.add(new ArrayList(path));
             }
-        } else { //----- general case
+        // general case
+        } else {
             helper(result, path, root.left, sum - root.val);
             helper(result, path, root.right, sum - root.val);
         }
