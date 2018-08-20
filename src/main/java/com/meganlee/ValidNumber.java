@@ -1,5 +1,7 @@
 package com.meganlee;
 
+import java.util.*;
+
 public class ValidNumber {
     //------------------- Solution 1 ------------------//
     // use regular expression
@@ -27,10 +29,6 @@ public class ValidNumber {
     // REGEX = A(eB)? 
     //       = [+-]?([0-9]+\.?|[0-9]*\.[0-9]+)([eE][+-]?[0-9]+)?
     public boolean isNumber(String s) {
-        // input validation
-        if (s == null) {
-            return false;
-        }
         // String.matches("regex_string")
         return s.trim().matches("[+-]?([0-9]+\\.?|[0-9]*\\.[0-9]+)([eE][+-]?[0-9]+)?");
     }
@@ -39,86 +37,64 @@ public class ValidNumber {
     //------------------- Solution 2 ------------------//
     // check string one-by-one, using flag
     public boolean isNumber2(String s) {
-        // input validation
-        if (s == null) {
-            return false;
-        }
-        s = s.trim().toLowerCase();
-        // check char one-by-one
-        boolean hasNum = false;
-        boolean hasE = false;
-        boolean hasDot = false;
+        s = s.toLowerCase().trim();
+        boolean dotSeen = false;
+        boolean eSeen   = false;
+        boolean numberBeforeE = false;
+        boolean numberAfterE  = false;
         for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            if (Character.isDigit(ch)) {
-                hasNum = true;
-            } else if (ch == '.') {
-                if (hasE || hasDot) {
-                    return false;
-                }
-                hasDot = true;
-            } else if (ch == '+' || ch == '-') {
-                if (i != 0 && s.charAt(i - 1) != 'e') {
-                    return false;
-                }
-                hasNum = false;  // have to have number after
-            } else if (ch == 'e') {
-                if (!hasNum || hasE) {
-                    return false;
-                }
-                hasE = true;
-                hasNum = false;  // have to have number after
-            } else {
+            char cur = s.charAt(i); 
+            if ('0' <= cur && cur <= '9') {
+                if (!eSeen) numberBeforeE = true;
+                if (eSeen)  numberAfterE  = true;
+            } else if (cur == '-' || cur == '+') {
+                if (i != 0 && s.charAt(i - 1) != 'e') return false;
+            } else if (cur == '.') {
+                if (eSeen || dotSeen) return false;
+                dotSeen = true;
+            } else if (cur == 'e' ) {
+                if (eSeen) return false;
+                eSeen = true;
+            } else { // invalid chars
                 return false;
             }
         }
-        return hasNum;
+        return eSeen ? (numberBeforeE && numberAfterE) : numberBeforeE;
     }
 
     //------------------- Solution 3 ------------------//
     // DFA: automator
     public boolean isNumber3(String s) {
-        // input validation
-        if (s == null) {
-            return false;
-        }
         s = s.trim().toLowerCase();
         // use a flag for deciding on dot
-        boolean hasNum = false;
+        boolean numBeforeE = false;
+        boolean numAfterE  = false;
         int state = 0;
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             if (Character.isDigit(ch)) {
-                hasNum = true;
-                if (state <= 2) {
-                    state = 2;
-                } else if (state <=4) {
-                    state = 4;
-                } else {
-                    state = 7;
-                }
+                // state transition
+                if      (state <= 2) state = 2;
+                else if (state <= 4) state = 4;
+                else if (state <= 7) state = 7;
+                else return false;
+                // update num flag
+                if (state <= 4) numBeforeE = true;
+                if (state >  4) numAfterE  = true;
             } else if (ch == '+' || ch == '-') {
-                if (state == 0 || state == 5) {
-                    state++;
-                } else {
-                    return false;
-                }
+                // state transition
+                if (state == 0 || state == 5) state++;
+                else return false;
             } else if (ch == '.') {
-                if (state <= 2) {
-                    state = 3;
-                } else {
-                    return false;
-                }
+                if (state <= 2) state = 3;
+                else return false;
             } else if (ch == 'e') {
-                if (hasNum && 2 <= state && state <= 4) {
-                    state = 5;
-                } else {
-                    return false;
-                }
+                if (2 <= state && state <= 4) state = 5;
+                else return false;
             } else {
                 return false;
             }
         }
-        return (state == 2) || (state == 3 && hasNum) || (state == 4) || (state == 7);
+        return (numBeforeE && Arrays.asList(2, 3, 4).contains(state)) || (numBeforeE && numAfterE && state == 7);
     }
 }

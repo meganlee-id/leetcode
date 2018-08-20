@@ -11,7 +11,6 @@ public class UniquePath {
         if (m <= 0 || n <= 0) {
             return 0;
         }
-
         if (m == 1 || n == 1) { // base cases
             return 1;
         } else {                // general cases
@@ -26,7 +25,6 @@ public class UniquePath {
         if (m <= 0 || n <= 0) {
             return 0;
         }
-
         // create a table for cache repeated used value
         int[][] cache = new int[m + 1][n + 1]; // cell's default value is 0
         return helper(m, n, cache);
@@ -41,7 +39,6 @@ public class UniquePath {
                 cache[m][n] = helper(m - 1, n, cache) + helper(m, n - 1, cache);
             }
         }
-
         // step 2: return cached value
         return cache[m][n];
     }
@@ -54,10 +51,8 @@ public class UniquePath {
         if (m <= 0 || n <= 0) {
             return 0;
         }
-
         // create a 2D table for storing intermediate results
         int[][] dp = new int[m + 1][n + 1];
-
         for (int i = 1; i <= m; i++){
             for (int j = 1; j <= n; j++) {
                 if (i == 1 || j == 1) { // -- base cases
@@ -78,7 +73,6 @@ public class UniquePath {
         if (m <= 0 || n <= 0) {
             return 0;
         }
-
         // initial row
         int[] dp = new int[m + 1]; // one row
         Arrays.fill(dp, 1);
@@ -98,12 +92,10 @@ public class UniquePath {
         if (m <= 0 || n <= 0) {
             return 0;
         }
-
         // base case
         if (m == 1 || n == 1) {
             return 1;
         }
-
         // calculate C(m+n-2, n-1)
         BinominalCoefficient util = new BinominalCoefficient();
         return util.binomialCoeff(m + n - 2, n - 1);

@@ -1,4 +1,3 @@
-package com.meganlee;
 
 import java.util.function.*; // Function
 
@@ -9,7 +8,6 @@ public class SearchA2DMatrix {
         if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
             return false;
         }
-
         int M = matrix.length, N = matrix[0].length;
         int lo = 0, hi = M * N - 1;
         while (lo <= hi) {
