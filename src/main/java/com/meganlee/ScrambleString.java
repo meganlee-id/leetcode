@@ -52,7 +52,7 @@ public class ScrambleString {
             if (len == 1) {      // BASE CASE:    len == 1, initilization
                 cache[i][j][len] = (s1.charAt(i) == s2.charAt(j)) ? 1 : -1;
             } else {             // GENERAL CASE: len 2 --> N
-                    for (int l = 1; l <= len - 1; l++) { // l is the split, len of first part prefix
+                for (int l = 1; l <= len - 1; l++) { // l is the split, len of first part prefix
                     boolean isScramble = (helper(s1, i, s2, j, l, cache) == 1 && helper(s1, i + l, s2, j + l, len - l, cache) == 1) ||     // no swap
                                          (helper(s1, i, s2, j + len - l, l, cache) == 1 && helper(s1, i + l, s2, j, len - l, cache) == 1); // swap
                     cache[i][j][len] = isScramble ? 1 : -1;
