@@ -27,7 +27,7 @@ public class Subsets2 {
         if (subset.isEmpty() || subset.get(subset.size() - 1) != nums[cur]) {
             helper(res, subset, nums, cur + 1);
         }
-        // case 2: ixclude cur elem
+        // case 2: include cur elem
         subset.add(nums[cur]);
         helper(res, subset, nums, cur + 1);
         subset.remove(subset.size() - 1);
@@ -50,7 +50,7 @@ public class Subsets2 {
         // Map<Integer, Integer> freq = Arrays.stream(nums).mapToObj(i -> i).collect(Collectors.toMap(i -> i, i -> 1, Integer::sum));
         
         List<List<Integer>> res = new ArrayList();
-        res.add(new ArrayList());  // add the empty set
+        res.add(new ArrayList());  // step 1: add the empty set
         for (int num: freq.keySet()) { // level by level
             int count = freq.get(num);
             // step 2: add new number to set,
