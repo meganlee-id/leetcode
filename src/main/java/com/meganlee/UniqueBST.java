@@ -10,12 +10,10 @@ public class UniqueBST {
         if (n < 0) {
             return 0;
         }
-
         // base case
         if (n <= 1) {
             return 1;
         }
-
         // general case
         int res = 0;
         for (int i = 0; i < n; i++) {
@@ -32,7 +30,6 @@ public class UniqueBST {
         if (n < 0) {
             return 0;
         }
-        
         // for non-negative n
         int[] dp = new int[n + 1];  // n + 1 spaces
         dp[0] = 1;
@@ -54,7 +51,6 @@ public class UniqueBST {
         if (n < 0) {
             return 0;
         }
-        
         // for non-negative n
         int result = 1;
         for (int i = 1; i <= n; i++) {

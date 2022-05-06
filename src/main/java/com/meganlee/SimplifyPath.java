@@ -20,10 +20,6 @@ public class SimplifyPath {
             }
         }
         // 2. build path string
-        StringBuilder sb = new StringBuilder();
-        for (String dir : stack) {
-            sb.append("/" + dir);
-        }
-        return sb.length() == 0 ? "/" : sb.toString(); // remember to check whether sb is empty
+        return "/" + String.join("/", stack);
     }
 }

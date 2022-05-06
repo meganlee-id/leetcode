@@ -6,9 +6,8 @@ public class SearchInRotatedSortedArray2 {
         if (nums == null || nums.length == 0) {
             return false;
         }
-
         // binary search
-        int lo = 0, hi = nums.length - 1;  // hi = len - 1
+        int lo = 0, hi = nums.length - 1;
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
             if (target == nums[mid]) {           // find the target
@@ -25,8 +24,7 @@ public class SearchInRotatedSortedArray2 {
                 } else {
                     hi = mid - 1;
                 }
-
-            } else {                       // not sure adjust lo              
+            } else {                            // not sure adjust lo
                 while (lo <= mid && nums[lo] == nums[mid]) {
                     lo++;
                 }

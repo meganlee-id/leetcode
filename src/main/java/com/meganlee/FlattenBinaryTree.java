@@ -5,7 +5,7 @@ import java.util.*;
 public class FlattenBinaryTree {
     //--------------- Solution 1 ---------------//
     // Pre-Order recursion: Head to tail
-    private TreeNode newTail = null;
+    private TreeNode newTail = new TreeNode(0);
     public void flatten(TreeNode root) {
         // Base Case
         if (root == null) {
@@ -15,12 +15,10 @@ public class FlattenBinaryTree {
         // save subtrees
         TreeNode left = root.left;
         TreeNode right = root.right;
-        // 1. visit root
-        if (newTail != null) { // connect tail to cur
-            newTail.left = null;
-            newTail.right = root;
-        }
-        newTail = root; // update newTail
+        // 1. visit root && update newTail
+        newTail.left = null;
+        newTail.right = root;
+        newTail = newTail.right;
         // 2. left
         flatten(left);
         // 3. right
@@ -49,17 +47,17 @@ public class FlattenBinaryTree {
     //--------------- Solution 3 ---------------//
     // Iterative Pre-Order cur+stack
     public void flatten3(TreeNode root) {
-        TreeNode newTail = null;
+        TreeNode newTail = new TreeNode(0);
         Stack<TreeNode> s = new Stack();
         TreeNode cur = root;
         while (cur != null || !s.isEmpty()) {
             if (cur != null) {  //--- GOING DOWN ---
                 s.push(cur.right);      // original: push(cur)
-                if (newTail != null) {  // VISIT cur
-                    newTail.left = null;
-                    newTail.right = cur;
-                }
-                newTail = cur;          // update newTail
+                // VISIT cur
+                newTail.left = null;
+                newTail.right = cur;
+                // update newTail
+                newTail = cur;
                 cur = cur.left;         // left
             } else {            //--- GOING UP   ---
                 cur = s.pop();          //  original: cur = s.pop(); cur = cur.right

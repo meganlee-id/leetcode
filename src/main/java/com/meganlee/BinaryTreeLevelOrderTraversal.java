@@ -4,38 +4,8 @@ import java.util.*;
 
 public class BinaryTreeLevelOrderTraversal {
     //------------------- Solution 1 -------------------//
-    // BFS: level + nextLevel (most recommended)
+    // iterative BFS: size + queue
     public List<List<Integer>> levelOrder(TreeNode root) {
-        // input validation
-        List<List<Integer>> res = new ArrayList();
-        if (root == null) {
-            return res;
-        }
-        // define the first level
-        List<TreeNode> level = Arrays.asList(root);
-        // level by level traversal
-        while (!level.isEmpty()) { // also valid: level.size() != 0
-            List<Integer> vals = new ArrayList();
-            List<TreeNode> nextLevel = new ArrayList();
-            for (TreeNode n: level) {
-                vals.add(n.val);
-                if (n.left != null) {
-                    nextLevel.add(n.left);
-                }
-                if (n.right != null) {
-                    nextLevel.add(n.right);
-                }
-            }
-            res.add(vals);
-            level = nextLevel;
-        }
-        return res;
-    }
-
-
-    //------------------- Solution 2 -------------------//
-    // BFS: size + queue  (ok for most time)
-    public List<List<Integer>> levelOrder2(TreeNode root) {
         // input validation
         List<List<Integer>> res = new ArrayList();
         if (root == null) {
@@ -59,5 +29,29 @@ public class BinaryTreeLevelOrderTraversal {
             res.add(vals);
         }
         return res;
+    }
+
+    //------------------- Solution 2 -------------------//
+    // recursive DFS: size + queue
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> res = new ArrayList();
+        dfs(root, res, 0);
+        return res;
+    }
+    
+    private void dfs(TreeNode curr, List<List<Integer>> res, int level) {
+        // base case
+        if (curr == null) return;
+        // general case
+        // 1. reach a new level, create the row holder
+        if (res.size() <= level) {
+            res.add( new LinkedList());  // better use LinkedList, add a new level
+        }
+        // 2. get row of current root
+        List<Integer> row  = res.get(level);
+        row.add(curr.val);             // odd row, add to head
+        // 3. recurive calls
+        dfs(curr.left, res, level + 1);
+        dfs(curr.right, res, level + 1);
     }
 }

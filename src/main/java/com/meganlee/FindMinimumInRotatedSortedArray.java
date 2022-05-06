@@ -13,7 +13,6 @@ public class FindMinimumInRotatedSortedArray {
         if (num == null || num.length == 0) {
             return 0;
         }
-
         int lo = 0, hi = num.length - 1;
         int min = Integer.MAX_VALUE;
         // go to the split side
@@ -21,11 +20,11 @@ public class FindMinimumInRotatedSortedArray {
             int mid = lo + (hi - lo) / 2;
             // [lo ~ mid] strictly sorted
             if (num[lo] <= num[mid]) {
-                min = Math.min(min, num[lo]);
+                min = Math.min(min, num[lo]);  // if there is no split, num[lo] might be the answer
                 lo = mid + 1;
             // [mid ~ hi] strictly sorted
             } else {
-                min = Math.min(min, num[mid]);
+                min = Math.min(min, num[mid]); // if there is no split, num[mid] might be the answer
                 hi = mid - 1;
             }
         }

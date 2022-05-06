@@ -32,22 +32,22 @@ public class ReverseNodesInKGroup {
         if (head == null || k <= 1) {
             return head;
         }
-        // reverse
+        // reverse in k group
         ListNode dummy = new ListNode(0), pre = dummy;
         dummy.next = head;
         while (pre.next != null) {
             // count # of nodes in next group
             ListNode tail = pre.next;
-            int n = k;
-            while (tail != null && n > 0) {
+            int cnt = 0;
+            while (tail != null && cnt < k) {
+                cnt++;
                 tail = tail.next;
-                n--;
             }
             // 1. not enough nodes, break
-            if (n > 0) {
+            if (cnt < k) {
                 break;
             }
-            // 2. enough nodes, reverse
+            // 2. enough nodes, reverse next group of k nodes
             tail = pre.next;
             for (int i = 0; i < k - 1; i++) {
                 ListNode cur = tail.next;

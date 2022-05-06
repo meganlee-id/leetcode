@@ -11,7 +11,6 @@ public class FindMinimumInRotatedSortedArray2 {
         if (num == null || num.length == 0) {
             return 0;
         }
-
         int lo = 0, hi = num.length - 1;
         int min = Integer.MAX_VALUE;
         // go to the split side

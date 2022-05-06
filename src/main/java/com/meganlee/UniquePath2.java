@@ -18,7 +18,6 @@ public class UniquePath2 {
             obstacleGrid[0] == null || obstacleGrid[0].length == 0) {
             return 0;
         }
-
         int m = obstacleGrid.length, n = obstacleGrid[0].length;
         return helper(obstacleGrid, m, n);
     }
@@ -44,7 +43,6 @@ public class UniquePath2 {
             obstacleGrid[0] == null || obstacleGrid[0].length == 0) {
             return 0;
         }
-
         int m = obstacleGrid.length, n = obstacleGrid[0].length;
         // REMEMBER TO FILL CACHE WITH DEFAULT VALUE -1, IF THE DEFAULT 0 IS A POSSIBLE CELL VALUE
         int[][] cache = new int[m + 1][n + 1];
@@ -68,7 +66,6 @@ public class UniquePath2 {
                               numOfpaths(grid, m, n - 1, cache);
             }
         }
-
         // step 2: return cached value
         return cache[m][n];
     }
@@ -81,11 +78,9 @@ public class UniquePath2 {
             obstacleGrid[0] == null || obstacleGrid[0].length == 0) {
             return 0;
         }
-
         // create a 2D table for storing intermediate results
         int m = obstacleGrid.length, n = obstacleGrid[0].length;
         int[][] dp = new int[m + 1][n + 1];
-
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
                 if (obstacleGrid[i - 1][j - 1] == 0) { //----- non-blocker
@@ -109,24 +104,18 @@ public class UniquePath2 {
             obstacleGrid[0] == null || obstacleGrid[0].length == 0) {
             return 0;
         }
-
         // use a 1D array to record intermediate result
-        int m = obstacleGrid.length, n = obstacleGrid[0].length;
-        int[] dp = new int[n + 1];
-
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (obstacleGrid[i - 1][j - 1] == 1) { //----- blocker, set 0 as value
-                    dp[j] = 0; // !!! need to CLEAR the value here from pre row!!
-                } else {  //----- non-blocker
-                    if (i == 1 && j == 1) {  // intial cell
-                        dp[j] = 1;
-                    } else {                 // other cells
-                        dp[j] += dp[j - 1];
-                    }
-                } 
+        int width = obstacleGrid[0].length;
+        int[] dp = new int[width]; // an extra row at index -1
+        dp[0] = 1;                 // dp[-1][0] = 1, all dp[x][-1] is 0 (initialized state)
+        for (int[] row : obstacleGrid) {
+            for (int col = 0; col < width; col++) {
+                if (row[col] == 1) // if it's a wall
+                    dp[col] = 0;
+                else if (col > 0)  // if not first col up + left (if it's first row. notice that left is 0)
+                    dp[col] += dp[col - 1];
             }
         }
-        return dp[n];
+        return dp[width - 1];
     }
 }

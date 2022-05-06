@@ -6,16 +6,17 @@ public class PathSum {
     //------------------- Solution 1 --------------------//
     // Back-tracking
     public boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null) { //----- base case 1: null
+        // base case 1: null
+        if (root == null) {
             return false;
         } 
-        int leftover = sum - root.val;
-        if (root.left == null && root.right == null) { ////----- base case 2
-            return leftover == 0;
-        } else {   ////----- general case
-            return hasPathSum(root.left, leftover) || 
-                   hasPathSum(root.right, leftover);
+        // base case 2: leaf
+        if (root.left == null && root.right == null) {
+            return root.val == sum;
         }
+        // general case
+        return hasPathSum(root.left,  sum - root.val) || 
+               hasPathSum(root.right, sum - root.val);
     }
 
     //------------------- Solution 2 --------------------//

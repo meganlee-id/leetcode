@@ -18,10 +18,8 @@ public class GenerateParens {
     private void backtrace(List<String> res, char[] str, int pos) {
         // base case: condition met
         if (pos == str.length) {
-            if (isValid(str)) {
-                res.add(String.valueOf(str));
-            }
-            return;     // remember to return
+            if (isValid(str)) res.add(String.valueOf(str));
+            return; // remember to return
         }
         // general case:
         str[pos] = '(';
@@ -34,9 +32,7 @@ public class GenerateParens {
         int balance = 0;
         for (char ch: str) {
             balance += (ch == '(') ? 1 : -1;
-            if (balance < 0) {
-                return false;
-            }
+            if (balance < 0) return false;
         }
         return balance == 0;
     }
@@ -57,21 +53,22 @@ public class GenerateParens {
         // base case: condition met
         if (pos == str.length) { 
             res.add(String.valueOf(str));
-            return;     // remember to return
+            return; // remember to return
         }
         // general case:
         if (openLeft > 0) {
             str[pos] = '(';
             helper(res, str, openLeft - 1, closeLeft, pos + 1);
         }
-        if (closeLeft > 0 && closeLeft - 1 >= openLeft) {
+        if (closeLeft > 0 && closeLeft > openLeft) {
             str[pos] = ')';
             helper(res, str, openLeft, closeLeft - 1, pos + 1);
         }
     }
 
     //-------------------- Solution 3 -----------------//
-    // Catalan Simulation
+    // Catalan Simulation, iterative method
+    // Ci= C0*Ci-1 + C1*Ci-2 + ... + Ci-1*C0
     public List<String> generateParenthesis3(int n) {
         // input validation
         List<String> res = new ArrayList();
@@ -82,7 +79,6 @@ public class GenerateParens {
         Map<Integer, List<String>> map = new HashMap();
         map.put(0, Arrays.asList(""));
         for (int i = 1; i <= n; i++) {
-            // Ci= C0*Ci-1 + C1*Ci-2 + ... + Ci-1*C0
             List<String> level = new ArrayList();
             for (int j = 0; j <= i - 1; j++) {
                 for (String s1: map.get(j)) {

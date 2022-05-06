@@ -10,9 +10,8 @@ public class MedianOfTwoSortedArray {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         // calculate the two indices for median
         int N1 = nums1.length, N2 = nums2.length;
-        int mid1 = (N1 + N2 - 1) / 2; // index of median1
-        int mid2 = (N1 + N2) / 2;     // index of median2
-        
+        int mid1 = (N1 + N2 - 1) / 2;   // index of median1 0-based
+        int mid2 = (N1 + N2)     / 2;   // index of median2 0-based
         // create the merged array
         int[] nums3 = new int[N1 + N2];
         int i = 0, j = 0, k = 0; // k = num of elems merged || index to place next elem
@@ -30,8 +29,7 @@ public class MedianOfTwoSortedArray {
         while (j < N2) {
             nums3[k++] = nums2[j++];
         }
-        // divided by 2.0 (double) not 2 (int)
-        return (nums3[mid1] + nums3[mid2]) / 2.0;
+        return (nums3[mid1] + nums3[mid2]) / 2.0; // divided by 2.0 (double) not 2 (int)
     }
 
 
@@ -42,8 +40,8 @@ public class MedianOfTwoSortedArray {
     // NOTE: k is the length, starts from 1
     public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
         int N1 = nums1.length, N2 = nums2.length;
-        int k1 = (N1 + N2 + 1) / 2;   // median1 is k1_th elem
-        int k2 = (N1 + N2 + 2) / 2;   // median2 is k2_th elem
+        int k1 = (N1 + N2 - 1) / 2 + 1;   // median1 is k1_th elem, 1-based
+        int k2 = (N1 + N2)     / 2 + 1;   // median2 is k2_th elem, 1-based
         double median1 = findKth(nums1, 0, nums2, 0, k1);
         double median2 = findKth(nums1, 0, nums2, 0, k2);
         return (median1 + median2) / 2.0; // not divided by integer 2
@@ -62,7 +60,6 @@ public class MedianOfTwoSortedArray {
         if (k == 1) {
             return Math.min(nums1[p1], nums2[p2]);
         }
-        
         // general cases
         //----- if both arrays    has > k/2 elem, throw k/2 elem from the array with smaller max value
         //----- if only one array has > k/2 elem, throw k/2 elem from the array with longer length
@@ -85,16 +82,15 @@ public class MedianOfTwoSortedArray {
         // make sure nums1 is the array with smaller size, we'll binary search on it
         int N1 = nums1.length, N2 = nums2.length;
         if (N1 > N2) return findMedianSortedArrays(nums2, nums1);
-        
-        // binary search on nums1
+        // binary search on nums1, the array with smaller length
         int lo = 0, hi = N1; // the split point, hi is NOT N1-1, hi could be N1 too
         while (lo <= hi) {
             // k = mid1 + mid2: the kth elem is the smaller median
             int mid1 = lo + (hi - lo) / 2;       // size of left partition in nums1 to be checked
             int mid2 = (N1 + N2 + 1) / 2 - mid1; // size of left partition in nums2 to be checked
             // find 4 boundary numbers
-            double leftMax1 = (mid1 == 0) ? Integer.MIN_VALUE : nums1[mid1 - 1];
-            double leftMax2 = (mid2 == 0) ? Integer.MIN_VALUE : nums2[mid2 - 1];
+            double leftMax1  = (mid1 == 0)  ? Integer.MIN_VALUE : nums1[mid1 - 1];
+            double leftMax2  = (mid2 == 0)  ? Integer.MIN_VALUE : nums2[mid2 - 1];
             double rightMin1 = (mid1 == N1) ? Integer.MAX_VALUE : nums1[mid1];
             double rightMin2 = (mid2 == N2) ? Integer.MAX_VALUE : nums2[mid2];
             if (leftMax1 <= rightMin2 && leftMax2 <= rightMin1) { // find the right position

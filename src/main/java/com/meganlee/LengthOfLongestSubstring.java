@@ -9,26 +9,26 @@ public class LengthOfLongestSubstring {
         if (s == null || s.length() == 0) {
             return 0;
         }
-
         int maxLen = 0;
         for (int start = 0; start < s.length(); start++) {
             for (int end = start; end < s.length(); end++) {
-                Set<Character> seenChars = new HashSet();
-                // check dupes between range [start, end]
-                for (int i = start; i <= end; i++) {
-                    if (seenChars.contains(s.charAt(i))) { // contains dupes, break
-                        break;
-                    } else {
-                        seenChars.add(s.charAt(i));
-                    }
-                }
-                // if no dupes, update maxLen
-                if (seenChars.size() == end - start + 1) { // no access to i could not use (i == end + 1)
-                    maxLen = Math.max(maxLen, seenChars.size());
+                if (!hasDupes(s, start, end)) {
+                    maxLen = Math.max(maxLen, end - start + 1);
                 }
             }
         }
         return maxLen;
+    }
+
+    private boolean hasDupes(String s, int start, int end) {
+        // check dupes between range [start, end] both end inclusive
+        Set<Character> seenChars = new HashSet();
+        for (int i = start; i <= end; i++) {
+            char ch = s.charAt(i);
+            if (seenChars.contains(ch)) return true;
+            else seenChars.add(ch);
+        }
+        return false;
     }
 
 
@@ -38,20 +38,22 @@ public class LengthOfLongestSubstring {
         if (s == null || s.length() == 0) {
             return 0;
         }
-
         Set<Character> seenChars = new HashSet();
         int maxLen = 0;
+        // window [start, end] should also contains all distinct chars
         for (int start = 0, end = 0; end < s.length(); end++) {
-            // 1) adjust start, to keep the invariant
+            // get char at end
             char ch = s.charAt(end);
-            while (seenChars.contains(ch)) {
-                seenChars.remove(s.charAt(start));
-                start++;
+            // invariant not hold: try to adjust start one-by-one
+            if (seenChars.contains(ch)) {
+                seenChars.remove(s.charAt(start)); // update cache
+                start++;  // update start
+                end--;
+            // invariant satisfied, update cache, update res
+            } else {
+                seenChars.add(ch);  // update cache
+                maxLen = Math.max(maxLen, end - start + 1); // update res
             }
-            // 2) update cache
-            seenChars.add(ch);
-            // 3) invariant hold: update result
-            maxLen = Math.max(maxLen, end - start + 1);
         }
         return maxLen;
     }
@@ -63,21 +65,19 @@ public class LengthOfLongestSubstring {
         if (s == null || s.length() == 0) {
             return 0;
         }
-
-        int[] table = new int[256];
-        Arrays.fill(table, -1);
+        Map<Character, Integer> lastIndex = new HashMap();
         int maxLen = 0;
+        // window [start, end] should also contains all distinct chars
         for (int start = 0, end = 0; end < s.length(); end++) {
-            // 1) adjust start, to keep the invariant
+            // 1) get ch at end
             char ch = s.charAt(end);
-            int lastIndex = table[ch];  // ch could be auto converted to int
-            if (lastIndex >= start) {   // seen in cur substr, adjust start
-                start = lastIndex + 1;
-            } 
-            // 2) update cache (seen table)
-            table[ch] = end;
-            // 3) invariant hold: update result
-            maxLen = Math.max(maxLen, end - start + 1);
+            // 2) adjust start to keep invariant
+            if (lastIndex.containsKey(ch)) {
+                start =  Math.max(start, lastIndex.get(ch) + 1); // attention here
+            }
+            // 3) invariant satisfied, update cache, update res
+            lastIndex.put(ch, end);  // update cache
+            maxLen = Math.max(maxLen, end - start + 1); // update res
         }
         return maxLen;
     }

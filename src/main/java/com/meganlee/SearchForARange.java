@@ -31,11 +31,9 @@ public class SearchForARange {
         if (nums == null || nums.length == 0) {
             return new int[] {-1, -1};
         }
-        
         // find if target exist, if exists, get the low bound index
         int lo = ceiling(nums, target);
         int hi = floor(nums, target);
-
         // target exist: condition alternative hi >= 0 && nums[hi] == target
         if (lo <= nums.length - 1 && nums[lo] == target) { 
             return new int[] {lo, hi};
@@ -46,8 +44,7 @@ public class SearchForARange {
     }
     
 
-    //--------------------- Utils: ceiling and floor -----------------------//
-
+    //------------------- Utils: ceiling and floor ---------------------//
     // return:  if exist: position of 1st target
     //          if not:   position of 1st elem > target
     // ceiling range: [0, N], inclusive on both sides
@@ -63,7 +60,6 @@ public class SearchForARange {
         }
         return lo;  // pay attention
     }
-
 
     // return:  if exist: position of last target
     //          if not:   position of last elem < target

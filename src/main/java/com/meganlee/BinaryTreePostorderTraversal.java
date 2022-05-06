@@ -3,7 +3,6 @@ package com.meganlee;
 import java.util.*;
 
 public class BinaryTreePostorderTraversal {
-
     //--------------------- Solution 1 ----------------------//
     // recursion
     public List<Integer> postorderTraversal(TreeNode root) {
@@ -36,7 +35,7 @@ public class BinaryTreePostorderTraversal {
                 s.push(cur);        // push
                 cur = cur.left;     // left
             } else {            //--- GOING UP   ---
-                TreeNode node = s.peek();
+                TreeNode node = s.peek(); // PEEK
                 // case 1: right subtree visited already
                 if (node.right == null || node.right == lastVisited) {
                     lastVisited = s.pop();    // pop
@@ -59,7 +58,6 @@ public class BinaryTreePostorderTraversal {
             return res;
         }
         s.push(root);
-        
         while (!s.isEmpty()) {
             TreeNode cur = s.pop();
             res.add(cur.val);
@@ -75,7 +73,6 @@ public class BinaryTreePostorderTraversal {
         Collections.reverse(res);
         return res;
     }
-
 
     //--------------------- Solution 4 ----------------------//
     // Morris traversal

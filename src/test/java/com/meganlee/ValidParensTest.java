@@ -15,7 +15,7 @@ public class ValidParensTest {
     // bad ones
     String s1 = null;           // null
     String s2 = "";             // empty
-    String s3 = "({[[{";        // all open         
+    String s3 = "({[[{";        // all open
     String s4 = "({[[{";        // all close
     String s5 = "({}{][]}{}{";  // mixed
     // good ones
@@ -24,7 +24,7 @@ public class ValidParensTest {
     String s8 = "(){[]}";       // mixed
 
     String[] strs = {s1, s2, s3, s4, s5, s6, s7, s8};
-    boolean[] res = {false, false, false, false, false, true, true, true};
+    boolean[] res = {false, true, false, false, false, true, true, true};
 
 
     @Test

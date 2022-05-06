@@ -9,7 +9,6 @@ public class PopulateNextPointer {
         if (root == null) {
             return;
         }
-
         // 2. General case: divide and conquer
         // divide
         connect(root.left);
@@ -26,51 +25,26 @@ public class PopulateNextPointer {
     }
 
     //------------------- Solution 2 ----------------//
-    // level-by-level traversal (use next pointer)
-    public void connect2(TreeLinkNode root) {
-        TreeLinkNode levelHead = root;
-        while (levelHead != null) {
-            // 1. link this level
-            TreeLinkNode cur = levelHead;
-            while (cur != null) {
-                if (cur.left != null) {
-                    cur.left.next = cur.right;
-                }
-                if (cur.right != null && cur.next != null) {
-                    cur.right.next = cur.next.left;
-                }
-                cur = cur.next;
-            }
-            // 2. update head for level
-            levelHead = levelHead.left;
-        }
-    }
-
-    //------------------- Solution 3 ----------------//
     // level-by-level traversal (use a dummyHead)
-    public void connect3(TreeLinkNode root) {
-        TreeLinkNode levelHead = root;
-        TreeLinkNode dummyHead = new TreeLinkNode(0);
-        TreeLinkNode pre = dummyHead;
-        while (levelHead != null) {
-            // 1. link this level
-            TreeLinkNode cur = levelHead;
+    public void connect2(TreeLinkNode root) {
+        TreeLinkNode preHead = root; // head of previous level
+        while (preHead != null) { // whilc last level not null, we still need to connect it's next level
+            TreeLinkNode newDummy = new TreeLinkNode(0); // newHead is dummyHead of new level
+            TreeLinkNode tail = newDummy; // pre is the tail of new level
+            TreeLinkNode cur  = preHead; // cur will traverse node of previous level
             while (cur != null) {
                 if (cur.left != null) {
-                    pre.next = cur.left;
-                    pre = pre.next;
+                    tail.next = cur.left;
+                    tail = tail.next;
                 }
                 if (cur.right != null) {
-                    pre.next = cur.right;
-                    pre = pre.next;
+                    tail.next = cur.right;
+                    tail = tail.next;
                 }
                 cur = cur.next;
             }
             // 2. update head for level
-            levelHead = dummyHead.next;
-            dummyHead.next = null;
-            pre = dummyHead;
+            preHead = newDummy.next;
         }
     }
 }
-

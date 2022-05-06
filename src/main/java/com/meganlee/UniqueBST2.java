@@ -70,7 +70,6 @@ public class UniqueBST2 {
             }
             cache[start][end] = trees;
         }
-
         // --- 2) compute result
         return cache[start][end];
     }
@@ -83,11 +82,9 @@ public class UniqueBST2 {
         if (n <= 0) {
             return new ArrayList();
         }
-        
         // create the dp table and initialize
         List[][] dp = new List[n + 1][n + 1];  // dp[start][end], each cell is a list
         List<TreeNode> nullTree = Arrays.asList((TreeNode) null); // type cast. otherwise will be NullException
-
         for (int len = 1; len <= n; len++) {
             for (int start = 1; start <= n - len + 1; start++) {
                 int end = start + len - 1;

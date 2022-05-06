@@ -5,7 +5,7 @@ import java.util.*;
 public class ValidateBinarySearchTree {
     //------------------- Solution 1 -----------------------//
     // recursion + pass range down
-    public boolean isValidBST1(TreeNode root) {
+    public boolean isValidBST(TreeNode root) {
         return helper(root, null, null);
     }
     
@@ -15,14 +15,15 @@ public class ValidateBinarySearchTree {
             return true;
         }
         // General Case
+        // 1. check root
         if ((min != null && min.val >= cur.val) || 
-            (max != null && max.val <= cur.val)) { // --1. check if cur value is in range
+            (max != null && max.val <= cur.val)) {
             return false;
-        } else {                                   // --2. check two subtrees
+        // 2. check 2 subtrees
+        } else {
             return helper(cur.left, min, cur) && helper(cur.right, cur, max);
         }
     }
-
 
     //------------------- Solution 2 -----------------------//
     // in-order traversal: cur + stack

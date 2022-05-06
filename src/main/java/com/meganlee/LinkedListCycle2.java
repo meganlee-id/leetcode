@@ -9,7 +9,7 @@ public class LinkedListCycle2 {
         Set<ListNode> visited = new HashSet();
         ListNode node = head;
         while (node != null) { 
-            if (!visited.add(node)) { // Set.add() returns boolean
+            if (!visited.add(node)) { // set.add() returns boolean
                 return node;
             }
             node = node.next;
@@ -20,12 +20,13 @@ public class LinkedListCycle2 {
     //------------ Solution 2 ---------------//
     // runner + walker, S = O(1)
     public ListNode detectCycle2(ListNode head) {
-        ListNode runner = head, walker = head;
+        ListNode walker = head, runner = head;
+        // runner.next.next is valid
         while (runner != null && runner.next != null) { // check runner != null first
-            // step 1: find meet point
+            // move one step
             runner = runner.next.next;
             walker = walker.next;
-            // step 2: if meet point find, another walker from start point
+            // cycle detecteds
             if (runner == walker){
                 ListNode walker2 = head; 
                 while (walker2 != walker) {
@@ -35,6 +36,6 @@ public class LinkedListCycle2 {
                 return walker;
             }
         }
-        return null; // if there is not cycle, return null
+        return null;
     }
 }

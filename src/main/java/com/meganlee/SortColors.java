@@ -2,19 +2,17 @@ package com.meganlee;
 
 public class SortColors {
     //-------------  SOLUTION 1: 2 SCANs ----------------//
-    // count sort
+    // counting sort
     public void sortColors(int[] A) {
         // check input
         if (A == null || A.length == 0) {
             return;
         }
-
         // count
         int[] counts = new int[3];
         for (int i: A) {
             counts[i]++;
         }
-
         // fill
         for (int i = 0; i < A.length; i++) {
             if (i < counts[0]) {
@@ -28,53 +26,27 @@ public class SortColors {
     }
 
     //-------------  SOLUTION 2: 1 SCAN ----------------//
-    public void sortColors2(int[] A) {
+    public void sortColors2(int[] nums) {
         // check input
-        if (A == null || A.length == 0) {
+        if (nums == null || nums.length == 0) {
             return;
         }
-        
-        // Dijkstra 3-way partition
-        int i = 0, p = 0, j = A.length - 1; // i next to fill 0, p next to fill 1, j nexy to fill 2
-        while (p <= j) {   
-            switch (A[p]) {
-                case 0: swap(A, i++, p++); 
-                        break; 
-                case 1: p++; 
-                        break;
-                case 2: swap(A, p, j--); 
-                        break;
+        int lt = 0, i = 0, gt = nums.length - 1;
+        while (i <= gt) {
+            if (nums[i] == 0) {
+                swap(nums, lt++, i++);
+            } else if (nums[i] == 2) {
+                swap(nums, i, gt--);
+            } else { // nums[i] == 1
+                i++;
             }
         }
     }
     
-    public void swap(int[] A, int i, int j) {
-        int temp = A[i];
-        A[i] = A[j];
-        A[j] = temp;
-    }
-
-
-    //------------------ Solution 3 --------------------//
-    // Code Ganker
-    public void sortColors3(int[] A) {
-        if (A == null || A.length == 0) {
-            return;
-        }
-        int index0 = 0, index1 = 0;
-        for (int i = 0; i < A.length; i++) {
-            switch(A[i]) {
-                case 0:
-                    A[i] = 2;
-                    A[index1++] = 1;  // has to be BEFORE A[index0++] = 0;
-                    A[index0++] = 0;  // DON"T put A[index1++]=1 above current line
-                    break;
-                case 1:
-                    A[i] = 2;
-                    A[index1++] = 1;
-                    break;
-            }
-        }
+    private void swap(int[] nums, int p1, int p2) {
+        int temp = nums[p1];
+        nums[p1] = nums[p2];
+        nums[p2] = temp;
     }
 }
 

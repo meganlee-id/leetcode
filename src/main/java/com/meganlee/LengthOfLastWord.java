@@ -11,24 +11,22 @@ public class LengthOfLastWord {
         if (s == null || s.length() == 0) {
             return 0;
         }
-        // use a start and a end pointer to point to the last seen word
+        // invariant: [start, end] contains no space
         int res = 0;
         for (int start = 0, end = 0; end < s.length(); end++) {
-            // if it's space, increment both start and end
+            // invariant broken, adjust start
             if (Character.isWhitespace(s.charAt(end))) { // do NOT use Character.isLetter, test case: "Hello World!!"
-                start++;
-            // if it's letter increment only end
-            // if it's letter and end of cur word, calculate the word length
+                start = end + 1;
+            // invariant satisfied, only update res when it's last char
             } else if (end == s.length() - 1 || Character.isWhitespace(s.charAt(end + 1))) {
                 res = end - start + 1;
-                start = end + 1;
             }
         }
         return res;
     }
 
     //--------------------  Solution 2 ------------------------//
-    // Pure for loop: from end to front
+    // Pure for loop: end to front
     public int lengthOfLastWord2(String s) {
         // input validation
         if (s == null || s.length() == 0) {
@@ -54,7 +52,6 @@ public class LengthOfLastWord {
         if (s == null || s.trim().length() == 0) {  // s.trim().length() == 0
             return 0;
         }
-
         // at lease one word exists
         String sTrim = s.trim();
         String[] words = sTrim.split("\\s+");
@@ -76,11 +73,11 @@ public class LengthOfLastWord {
         return end - start;
     }
 
-    
     //---------------------- Solution 5 ----------------------//
     // sb.reverse() and matcher.find() && matcher.group();
     public int lengthOfLastWord5(String s) {
-        if (s == null) {
+        // input validation
+        if (s == null || s.length() == 0) {
             return 0;
         }
         s = new StringBuilder(s).reverse().toString();

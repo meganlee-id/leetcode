@@ -11,7 +11,7 @@ public class PalindromePartitioning2 {
             return 0;
         }
         int[] res = {s.length() - 1};
-        findResult(s, 0, -1, res);
+        findResult(s, 0, -1, res); // curCut is -1
         return res[0];
     }
 
@@ -79,7 +79,8 @@ public class PalindromePartitioning2 {
         // dp
         int N = s.length();
         int[] cuts = IntStream.range(0, N).toArray(); // initial value: cuts[i] = i
-        for (int mid = 1; mid <  N; mid++) { // iterate through all chars as mid point of palindrome
+        // iterate through all chars as mid point of palindrome
+        for (int mid = 1; mid <  N; mid++) {
             // CASE 1. odd len: center is at index mid, expand on both sides
             for (int start = mid, end = mid; start >= 0 && end < N && s.charAt(start) == s.charAt(end); start--, end++) {
                 int newCutAtEnd = (start == 0) ? 0 : cuts[start - 1] + 1;
@@ -87,7 +88,7 @@ public class PalindromePartitioning2 {
             }
             // CASE 2: even len: center is between [mid-1,mid], expand on both sides
             for (int start = mid - 1, end = mid; start >= 0 && end < N && s.charAt(start) == s.charAt(end); start--, end++) {
-                // exactly same as content of above for loop
+                // same as above loop
                 int newCutAtEnd = (start == 0) ? 0 : cuts[start - 1] + 1;
                 cuts[end] = Math.min(cuts[end], newCutAtEnd);
             }
