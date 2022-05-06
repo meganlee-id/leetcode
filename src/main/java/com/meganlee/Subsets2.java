@@ -17,7 +17,7 @@ public class Subsets2 {
     }
     
     private void helper(List<List<Integer>> res,  List<Integer> subset, int[] nums, int cur) {
-        // base case
+        // BASE CASE
         if (cur >= nums.length) {
             res.add(new ArrayList(subset));
             return;
@@ -36,16 +36,16 @@ public class Subsets2 {
     //--------------  Solution 2 ---------------------//
     // incremental
     public List<List<Integer>> subsetsWithDup2(int[] nums) {
-        // input checking
+        // Input checking
         if (nums == null || nums.length == 0) {
             return new ArrayList();
         }
-        // num freq
+        // Num freq
         Map<Integer, Integer> freq = new HashMap();
         for (int num: nums) {
             freq.put(num, freq.getOrDefault(num, 0) + 1);
         }
-        // another way to get freq
+        //-- another way to get freq
         // import java.util.stream.*;
         // Map<Integer, Integer> freq = Arrays.stream(nums).mapToObj(i -> i).collect(Collectors.toMap(i -> i, i -> 1, Integer::sum));
         
