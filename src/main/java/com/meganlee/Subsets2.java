@@ -45,6 +45,10 @@ public class Subsets2 {
         for (int num: nums) {
             freq.put(num, freq.getOrDefault(num, 0) + 1);
         }
+        // another way to get freq
+        // import java.util.stream.*;
+        // Map<Integer, Integer> freq = Arrays.stream(nums).mapToObj(i -> i).collect(Collectors.toMap(i -> i, i -> 1, Integer::sum));
+        
         List<List<Integer>> res = new ArrayList();
         res.add(new ArrayList());  // add the empty set
         for (int num: freq.keySet()) { // level by level
